@@ -3,6 +3,18 @@ from flask_login import UserMixin
 from datetime import datetime
 
 
+class Order(db.Model):
+    __tablename__ = 'orders'
+    orderID = db.Column(db.Integer, primary_key=True, index=True)
+    goodID = db.Column(db.Integer, db.ForeignKey('goods.goodID'))
+    sellerID = db.Column(db.Integer, db.ForeignKey('users.userID'))
+    buyerID = db.Column(db.Integer, db.ForeignKey('users.userID'))
+    createDate = db.Column(db.DateTime, index=True, default=datetime.utcnow())
+    confirmDate = db.Column(db.DateTime, index=True, nullable=False)
+    count = db.Column(db.Integer, nullable=False)
+    status = db.Column(db.Integer, nullable=False)
+
+
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     userID = db.Column(db.Integer, primary_key=True, index=True)
@@ -36,22 +48,10 @@ class Good(db.Model):
     comments = db.relationship('Comment', backref='good', lazy='dynamic')
 
 
-class Order(db.Model):
-    __tablename__ = 'orders'
-    orderID = db.Column(db.Integer, primary_key=True, index=True)
-    goodID = db.Column(db.Integer, db.ForeignKey('goods.goodID'))
-    sellerID = db.Column(db.Integer, db.ForeignKey('users.userID'))
-    buyerID = db.Column(db.Integer, db.ForeignKey('users.userID'))
-    createDate = db.Column(db.DateTime, index=True, default=datetime.utcnow())
-    confirmDate = db.Column(db.DateTime, index=True, nullable=False)
-    count = db.Column(db.Integer, nullable=False)
-    status = db.Column(db.Integer, nullable=False)
-
-
 class Comment(db.Model):
     __tablename__ = 'comments'
     commentID = db.Column(db.Integer, primary_key=True, index=True)
     goodID = db.Column(db.Integer, db.ForeignKey('goods.goodID'))
     commentatorID = db.Column(db.Integer, db.ForeignKey('users.userID'))
     context = db.Column(db.Text, nullable=False)
-    status = db.Column(db.Boolean, default=False)
+    status = db.Column(db.Integer, default=0)
