@@ -1,8 +1,8 @@
 
 # -*- coding: utf-8 -*-
 
-from . import db
-from flask_login import UserMixin
+from . import db, login_manager
+from flask_login import UserMixin, AnonymousUserMixin
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
@@ -20,6 +20,18 @@ class Order(db.Model):
     confirmDate = db.Column(db.DateTime, index=True, nullable=False)
     count = db.Column(db.Integer, nullable=False)
     status = db.Column(db.Integer, nullable=False)
+
+    def to_json(self):
+        json = {
+            'orderID': self.orderID,
+            'goodID': self.goodID,
+            'sellerID': self.sellerID,
+            'buyerID': self.buyerID,
+            'createDate': self.createDate,
+            'confirmDate': self.confirmDate,
+            'count': self.count,
+            'status': self.status
+        }
 
 
 class User(UserMixin, db.Model):
@@ -114,6 +126,10 @@ class User(UserMixin, db.Model):
             return None
         return User.query.get(data['id'])
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
 
 class Good(db.Model):
     __tablename__ = 'goods'
@@ -135,7 +151,7 @@ class Good(db.Model):
     def to_json(self):
         json_post = {
             'goodID': self.goodID,
-            'url': url_for('api.single_good', id=self.id, _external=True),
+            'url': url_for('api.single_good', good_id=self.goodID, _external=True),
             'goodName': self.goodName,
             'sellerID': self.sellerID,
             'freeCount': self.freeCount,
@@ -144,10 +160,15 @@ class Good(db.Model):
             'compressImage': self.compressImage,
             'contact': self.contact,
 
-            'comments': url_for('api.get_comments', id=self.id,
+            'comments': url_for('api.get_comments', id=self.goodID,
                                 _external=True),
         }
         return json_post
 
-
 Comment = type('Comment', (db.Model,), app.config.get('COMMENT_TABLE_STRUCTS'))
+
+
+class AnonymousUser(AnonymousUserMixin):
+    pass
+
+login_manager.anonymous_user = AnonymousUser
