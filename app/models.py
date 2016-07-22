@@ -150,5 +150,4 @@ class Good(db.Model):
         return json_post
 
 
-additionAttr = app.config.get('COMMENT_TABLE_STRUCTS')
-Comment = type('Comment', (db.Model,), additionAttr)
+Comment = type('Comment', (db.Model,), app.config.get('COMMENT_TABLE_STRUCTS'))
