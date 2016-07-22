@@ -27,7 +27,7 @@ class DevelopmentConfig(Config):
 
 
 class CommentTestConfig(Config):
-    DEBUG = False
+    DEBUG = True
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:lee@localhost/TEST'
     COMMENT_GET_URL = '/comment/get'
     COMMENT_ADD_URL = '/comment/insert'

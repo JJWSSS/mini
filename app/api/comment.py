@@ -57,7 +57,14 @@ class CommentProxy:
 
         args = self.filterArgs(args, self._fileds)
         db.session.add(Comment(**args))
-        db.session.commit()
+        exp = None
+        try:
+            db.session.commit()
+        except Exception as e:
+            exp = e
+            db.session.rollback()
+        if exp:
+            return jsonify({'status':'error'})
         return jsonify({'status': 'ok'})
 
     def delete(self, args):
@@ -80,7 +87,6 @@ def getComment():
     proxy = __makeCommentProxy()
     args = request.args
     return jsonify({'comments': proxy.query(args)})
-
 
 def addComment():
     proxy = __makeCommentProxy()
