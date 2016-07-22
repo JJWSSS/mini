@@ -19,6 +19,18 @@ class Order(db.Model):
     count = db.Column(db.Integer, nullable=False)
     status = db.Column(db.Integer, nullable=False)
 
+    def get_seller_orders(self,sellerID):
+        orders = db.session.query(Order).filter(sellerID == Order.sellerID).all()
+        return orders
+
+    def get_buyer_orders(self,buyerID):
+        orders = db.session.query(Order).filter(buyerID == Order.sellerID).all()
+        return orders
+
+    def get_order_detail(self,orderID):
+        orders = db.session.query(Order).filter(orderID == Order.orderID).one()
+        return orders
+
     def to_json(self):
         json = {
             'orderID': self.orderID,
