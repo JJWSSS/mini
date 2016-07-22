@@ -1,5 +1,7 @@
 # coding=utf-8
-from app import db
+
+from . import api
+
 from app.models import Comment
 
 # 支持操作 ： 1. 根据任意的域进行检索
@@ -18,6 +20,11 @@ class CommitProxy(Comment):
 
     def query(self):
         return super(CommitProxy, self).query.filter_by(self._filerDict)
+
+
+@api.route('/comment')
+def getComment():
+    
 
 
 if __name__ == '__main__':
