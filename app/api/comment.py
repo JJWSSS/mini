@@ -4,6 +4,7 @@ from app.models import Comment
 from flask import request
 from flask import jsonify
 from manage import app
+import copy
 
 
 class CommentProxy:
@@ -37,9 +38,11 @@ class CommentProxy:
     def delete(self, args):
         pass
 
-
 def getComment():
-    proxy = CommentProxy(app.config.get('COMMENT_TABLE_STRUCTS'))
+    table_struct = app.config.get('COMMENT_TABLE_STRUCTS')
+    table_struct = copy.deepcopy(table_struct)
+    table_struct.pop('__tablename__')
+    proxy = CommentProxy([key for key, value in table_struct.items()])
     args = request.args
     return jsonify({'comments': proxy.query(args)})
 

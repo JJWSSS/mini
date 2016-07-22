@@ -7,6 +7,7 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app, url_for
+from manage import app
 
 
 class Order(db.Model):
@@ -149,11 +150,5 @@ class Good(db.Model):
         return json_post
 
 
-# 可以通过任何一个域来获得一个Comment,也可以通过
-class Comment(db.Model):
-    __tablename__ = 'comments'
-    commentID = db.Column(db.Integer, primary_key=True, index=True)
-    goodsID = db.Column(db.Integer, db.ForeignKey('goods.goodID'))
-    commentatorID = db.Column(db.Integer, db.ForeignKey('users.userID'))
-    context = db.Column(db.Text, nullable=False)
-    status = db.Column(db.Integer, default=0)
+additionAttr = app.config.get('COMMENT_TABLE_STRUCTS')
+Comment = type('Comment', (db.Model,), additionAttr)
