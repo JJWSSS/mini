@@ -133,7 +133,7 @@ class Good(db.Model):
     def to_json(self):
         json_post = {
             'goodID': self.goodID,
-            'url': url_for('api.single_good', id=self.id, _external=True),
+            'url': url_for('api.single_good', good_id=self.goodID, _external=True),
             'goodName': self.goodName,
             'sellerID': self.sellerID,
             'freeCount': self.freeCount,
@@ -142,7 +142,7 @@ class Good(db.Model):
             'compressImage': self.compressImage,
             'contact': self.contact,
 
-            'comments': url_for('api.get_comments', id=self.id,
+            'comments': url_for('api.get_comments', id=self.goodID,
                                 _external=True),
         }
         return json_post

@@ -23,7 +23,7 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:101023@localhost/mini'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://jjw:101023@localhost/mini'
 
 
 config = {'default': DevelopmentConfig}
