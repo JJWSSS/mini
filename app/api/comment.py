@@ -1,34 +1,41 @@
 # coding=utf-8
 
-from . import api
 
+from app.api import api
 from app.models import Comment
+from flask import request
+from flask import jsonify
 
-# 支持操作 ： 1. 根据任意的域进行检索
-#            2. 根据relationship的backref进行反查
-#            3.
-class CommitProxy(Comment):
-    def __init__(self, typeMap):
+
+class CommentProxy:
+    def __init__(self, fileds):
         self._filerDict = dict()
-        self.__typeMap = typeMap
+        self._fileds = fileds
 
     def __getattr__(self, item):
         def _feedBack(filterx):
-            self._filerDict[item] = self.__typeMap[item](filterx)
+            self._filerDict[item] = filterx
             return self
         return _feedBack
 
-    def query(self):
-        return super(CommitProxy, self).query.filter_by(self._filerDict)
+    def __toJson(self, model):
+        jsonDict = {}
+        for filed in self._fileds:
+            jsonDict[filed] = model.__getattribute__(filed)
+        return jsonDict
+
+    def query(self, args=None):
+        if args is not None:
+            for key, value in args.items():
+                if key in self._fileds:
+                    self._filerDict[key] = value
+        ret = Comment.query.filter_by(**self._filerDict).all()
+        return [self.__toJson(item) for item in ret ]
 
 
-@api.route('/comment')
+@api.route('/comment/get')
 def getComment():
-    
+    proxy = CommentProxy(['commentID', 'goodID', 'commentatorID', 'context', 'status'])
+    args = request.args
+    return jsonify({'comments' : proxy.query(args)})
 
-
-if __name__ == '__main__':
-    proxy = CommitProxy({'commentID': int, 'goodID': int, 'commentatorID': int, 'context': str, 'status': int})
-    proxy.commentID(123).goodID(4516)
-    #proxy.query().all()
-    print (proxy._filerDict)
