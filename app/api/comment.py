@@ -9,7 +9,7 @@ from flask import jsonify
 
 class CommentProxy:
     def __init__(self, fileds):
-        self._filerDict = dict()
+        self._filerDict = {}
         self._fileds = fileds
 
     def __getattr__(self, item):
@@ -35,7 +35,8 @@ class CommentProxy:
 
 @api.route('/comment/get')
 def getComment():
-    proxy = CommentProxy(['commentID', 'goodID', 'commentatorID', 'context', 'status'])
+    # 最好能将表的结构写入配置里面去
+    proxy = CommentProxy(['commentID', 'goodsID', 'commentatorID', 'context', 'status'])
     args = request.args
-    return jsonify({'comments' : proxy.query(args)})
+    return jsonify({'comments': proxy.query(args)})
 

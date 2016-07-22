@@ -153,7 +153,7 @@ class Good(db.Model):
 class Comment(db.Model):
     __tablename__ = 'comments'
     commentID = db.Column(db.Integer, primary_key=True, index=True)
-    goodID = db.Column(db.Integer, db.ForeignKey('goods.goodID'))
+    goodsID = db.Column(db.Integer, db.ForeignKey('goods.goodID'))
     commentatorID = db.Column(db.Integer, db.ForeignKey('users.userID'))
     context = db.Column(db.Text, nullable=False)
     status = db.Column(db.Integer, default=0)
