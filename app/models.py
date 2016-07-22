@@ -1,3 +1,5 @@
+# coding=utf-8
+
 from . import db
 from flask_login import UserMixin
 from datetime import datetime
@@ -48,6 +50,7 @@ class Good(db.Model):
     comments = db.relationship('Comment', backref='good', lazy='dynamic')
 
 
+# 可以通过任何一个域来获得一个Comment,也可以通过
 class Comment(db.Model):
     __tablename__ = 'comments'
     commentID = db.Column(db.Integer, primary_key=True, index=True)
