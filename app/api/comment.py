@@ -38,6 +38,7 @@ class CommentProxy:
     def delete(self, args):
         pass
 
+
 def getComment():
     table_struct = app.config.get('COMMENT_TABLE_STRUCTS')
     table_struct = copy.deepcopy(table_struct)
