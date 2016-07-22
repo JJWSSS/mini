@@ -19,6 +19,18 @@ class Order(db.Model):
     count = db.Column(db.Integer, nullable=False)
     status = db.Column(db.Integer, nullable=False)
 
+    def to_json(self):
+        json = {
+            'orderID': self.orderID,
+            'goodID': self.goodID,
+            'sellerID': self.sellerID,
+            'buyerID': self.buyerID,
+            'createDate': self.createDate,
+            'confirmDate': self.confirmDate,
+            'count': self.count,
+            'status': self.status
+        }
+
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
