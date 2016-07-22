@@ -1,10 +1,9 @@
 # coding=utf-8
-
-
 from app.api import api
 from app.models import Comment
 from flask import request
 from flask import jsonify
+from manage import app
 
 
 class CommentProxy:
@@ -32,11 +31,18 @@ class CommentProxy:
         ret = Comment.query.filter_by(**self._filerDict).all()
         return [self.__toJson(item) for item in ret ]
 
+    def insert(self, args):
+        pass
 
-@api.route('/comment/get')
+    def delete(self, args):
+        pass
+
+
 def getComment():
     # 最好能将表的结构写入配置里面去
     proxy = CommentProxy(['commentID', 'goodsID', 'commentatorID', 'context', 'status'])
     args = request.args
     return jsonify({'comments': proxy.query(args)})
 
+# 在这里注册路由
+api.route(app.config.get('COMMENT_GET_URL'))(getComment)

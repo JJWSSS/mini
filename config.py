@@ -28,5 +28,6 @@ class DevelopmentConfig(Config):
 class CommentTestConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/test.db'
+    COMMENT_GET_URL = '/comment/get'
 
 config = {'default': DevelopmentConfig, 'comment':CommentTestConfig}
