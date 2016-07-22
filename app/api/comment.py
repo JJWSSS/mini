@@ -39,10 +39,10 @@ class CommentProxy:
 
 
 def getComment():
-    # 最好能将表的结构写入配置里面去
-    proxy = CommentProxy(['commentID', 'goodsID', 'commentatorID', 'context', 'status'])
+    proxy = CommentProxy(app.config.get('COMMENT_TABLE_STRUCTS'))
     args = request.args
     return jsonify({'comments': proxy.query(args)})
+
 
 # 在这里注册路由
 api.route(app.config.get('COMMENT_GET_URL'))(getComment)
