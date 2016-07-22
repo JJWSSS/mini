@@ -23,5 +23,5 @@ class CommitProxy(Comment):
 if __name__ == '__main__':
     proxy = CommitProxy({'commentID': int, 'goodID': int, 'commentatorID': int, 'context': str, 'status': int})
     proxy.commentID(123).goodID(4516)
-    proxy.query().all()
+    #proxy.query().all()
     print (proxy._filerDict)
