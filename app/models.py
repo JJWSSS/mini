@@ -1,9 +1,11 @@
+# -*- coding: utf-8 -*-
+
 from . import db
 from flask_login import UserMixin
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from flask import current_app
+from flask import current_app, url_for
 
 
 class Order(db.Model):
@@ -127,6 +129,23 @@ class Good(db.Model):
     type = db.Column(db.Integer, nullable=False)
     orders = db.relationship('Order', backref='good', lazy='dynamic')
     comments = db.relationship('Comment', backref='good', lazy='dynamic')
+
+    def to_json(self):
+        json_post = {
+            'goodID': self.goodID,
+            'url': url_for('api.single_good', id=self.id, _external=True),
+            'goodName': self.goodName,
+            'sellerID': self.sellerID,
+            'freeCount': self.freeCount,
+            'description': self.description,
+            'image': self.image,
+            'compressImage': self.compressImage,
+            'contact': self.contact,
+
+            'comments': url_for('api.get_comments', id=self.id,
+                                _external=True),
+        }
+        return json_post
 
 
 class Comment(db.Model):

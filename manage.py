@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from app import create_app, db
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
