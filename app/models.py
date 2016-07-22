@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from . import db
-from flask_login import UserMixin
+from . import db, login_manager
+from flask_login import UserMixin, AnonymousUserMixin
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
@@ -155,3 +155,9 @@ class Comment(db.Model):
     commentatorID = db.Column(db.Integer, db.ForeignKey('users.userID'))
     context = db.Column(db.Text, nullable=False)
     status = db.Column(db.Integer, default=0)
+
+
+class AnonymousUser(AnonymousUserMixin):
+    pass
+
+login_manager.anonymous_user = AnonymousUser
