@@ -27,8 +27,8 @@ class DevelopmentConfig(Config):
 
 
 class CommentTestConfig(Config):
-    DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/test.db'
+    DEBUG = False
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:lee@localhost/TEST'
     COMMENT_GET_URL = '/comment/get'
     COMMENT_ADD_URL = '/comment/insert'
     COMMENT_TABLE_STRUCTS = {'__tablename__': 'comments',
