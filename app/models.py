@@ -136,6 +136,22 @@ class User(UserMixin, db.Model):
             return None
         return User.query.get(data['id'])
 
+    @staticmethod
+    def generate_fake(count=100):
+        from sqlalchemy.exc import IntegrityError
+        from random import seed, randint
+        import forgery_py
+        seed()
+        for i in range(count):
+            u = User(userName=forgery_py.address.phone(), nickName=forgery_py.internet.user_name(True),
+                     password=forgery_py.lorem_ipsum.word(), email=forgery_py.internet.email_address(),
+                     isAuthenticated=1, qq=randint(100000000, 999999999))
+            db.session.add(u)
+            try:
+                db.session.commit()
+            except IntegrityError:
+                db.session.rollback()
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -158,22 +174,39 @@ class Good(db.Model):
     type = db.Column(db.Integer, nullable=False)
     orders = db.relationship('Order', backref='good', lazy='dynamic')
     comments = db.relationship('Comment', backref='good', lazy='dynamic')
+    price = db.Column(db.Integer, nullable=False)
 
     def to_json(self):
         json_post = {
             'goodID': self.goodID,
-            'url': url_for('api.single_good', good_id=self.goodID, _external=True),
             'goodName': self.goodName,
             'sellerID': self.sellerID,
+            'sellerName': self.seller.nickName,
+            'createDate': self.createDate,
+            'modifyDate': self.modifyDate,
+            'status': self.status,
             'freeCount': self.freeCount,
             'description': self.description,
             'image': self.image,
             'compressImage': self.compressImage,
             'contact': self.contact,
-            'comments': url_for('api.get_comments', id=self.goodID,
-                                _external=True),
+            'type': self.type,
+            'price': self.price
         }
         return json_post
+
+    @staticmethod
+    def generate_fake(count=100):
+        from random import seed, randint
+        import forgery_py
+        user_count = User.query.count()
+        for i in range(count):
+            u = User.query.offset(randint(0, user_count - 1)).first()
+            g = Good(goodName=forgery_py.name.full_name(), description=forgery_py.lorem_ipsum.sentences(randint(1, 3)),
+                     freeCount=10, image=forgery_py.internet.domain_name(), compressImage=forgery_py.internet.domain_name(),
+                     contact=randint(100000000, 999999999), type=1, price=randint(1, 100), seller=u)
+            db.session.add(g)
+            db.session.commit()
 
 
 class Comment(db.Model):

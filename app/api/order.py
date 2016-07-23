@@ -17,9 +17,10 @@ def list_buyer_orders(buyerID):
     orders = Order.get_buyer_orders(buyerID)
     return orders
 
+
 # 获取订单详情
-@api.route('/getorderdetail/<int:orderID')
-def get_order_detail(orderID)
+@api.route('/getorderdetail/<int:orderID>')
+def get_order_detail(orderID):
     order = Order.get_order_detail(orderID)
-    return orders
+    return order
 
