@@ -1,10 +1,18 @@
 # -*- coding: utf-8 -*-
 
 from . import api
-from flask import request, jsonify, g
+from flask import request, jsonify, g, current_app
 from ..models import User, Good
 from .. import db
 from .errors import forbidden
+from werkzeug.utils import secure_filename
+import os
+from PIL import Image
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in current_app.config['ALLOWED_EXTENSIONS']
 
 
 @api.route('/goods/', methods=['POST'])
@@ -33,7 +41,20 @@ def search():
 
 @api.route('/new_good/', methods=['POST'])
 def new_good():
-    good = Good(goodName=request.form['goodName'], description=request.form['description'])
+    good = Good(goodName=request.form['goodName'], description=request.form['description'],
+                status=request.form['status'], freecount=request.form['freeCount'], type=request.form['type'],
+                contact=request.form['contact'])
+    file = request.files['file']
+    if file and allowed_file(file.filename):
+        im = Image.open(file)
+        filename = secure_filename(file.filename)
+        url = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+        im.save(url)
+        im.thumbnail((40, 40))
+        compress_url = os.path.join(current_app.config['UPLOAD_FOLDER'], ('compress_' + filename))
+        im.save(compress_url)
+        good.image = url
+        good.compressImage = compress_url
     good.seller = g.current_user
     db.session.add(good)
     db.session.commit()
