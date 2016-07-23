@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from . import api
+from datetime import  datetime
 from flask import request,jsonify
 from ..models import User,Order,Good
 from flask_login import current_user,login_required
@@ -10,7 +11,7 @@ from flask_login import current_user,login_required
 #   'start' [int]
 #   'count' [int]
 @login_required
-@api.route('/list_seller_orders', method = ['POST'])
+@api.route('/list_seller_orders', methods = ['POST'])
 def list_seller_orders():
     start = request.form['start']
     stop = start + request.form['count'] - 1
@@ -52,7 +53,7 @@ def list_seller_orders():
 # params[POST]:
 #   'start' [int]
 #   'count' [int]
-@api.route('/list_seller_orders', method = ['POST'])
+@api.route('/list_seller_orders', methods = ['POST'])
 def list_buyer_orders():
     start = request.form['start']
     stop = start + request.form['count'] - 1
@@ -90,7 +91,7 @@ def list_buyer_orders():
 
 # 获取订单详情
 @login_required
-@api.route('/get_order_detail', method = ['POST'])
+@api.route('/get_order_detail', methods = ['POST'])
 def get_order_detail():
     orderID = request.form['orderID']
     orderDetail = Order.query(Order).filter(Order.orderID == orderID).first()
@@ -103,7 +104,32 @@ def get_order_detail():
     )
 
 @login_required
-@api.route('/create_order',method = ['POST'])
+@api.route('/create_order',methods = ['POST'])
 def create_order():
-    orderinfo = request.json
+    neworderinfo = request.json
+    timenow = datetime.utcnow()
+    try:
+        neworder = Order(
+            goodID = neworderinfo.goodID,
+            sellerID = neworderinfo.sellerID,
+            buyerID = neworderinfo.buyerID,
+            createDate = timenow,
+            confirmDate = timenow,
+            count = neworderinfo.count,
+            status = neworderinfo.count
+        )
+
+        return jsonify(
+            {
+                'status': 1,
+                'message': 'Success',
+            }
+        )
+
+    except:
+        return jsonify(
+            {
+                'status': 1,
+                'message': 'Database Error',
+            }
 
