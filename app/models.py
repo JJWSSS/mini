@@ -177,7 +177,27 @@ class Good(db.Model):
         }
         return json_post
 
-Comment = type('Comment', (db.Model,), app.config.get('COMMENT_TABLE_STRUCTS'))
+
+class DescOfQurey:
+    def __get__(self, instance, owner):
+        if hasattr(owner, 'Model'):
+            return owner.Model.query
+        Model = type('Comment', (db.Model,), current_app.config.get('COMMENT_TABLE_STRUCTS'))
+        setattr(owner, 'Model', Model)
+        setattr(owner, 'query', Model.query)
+        return Model.query
+
+
+class Comment:
+    query = DescOfQurey()
+
+    def __new__(cls, *args, **kwargs):
+        if hasattr(cls, 'Model'):
+            return cls.Model(*args, **kwargs)
+
+        Model = type('Comment', (db.Model,), current_app.config.get('COMMENT_TABLE_STRUCTS'))
+        setattr(cls, 'Model', Model)
+        return Model(*args,  **kwargs)
 
 
 class AnonymousUser(AnonymousUserMixin):
