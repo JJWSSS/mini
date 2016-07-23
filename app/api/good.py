@@ -4,11 +4,11 @@ from . import api
 from flask import request, jsonify, g, current_app
 from ..models import User, Good
 from .. import db
-from .errors import forbidden
 from werkzeug.utils import secure_filename
 import os
 from PIL import Image
 from datetime import datetime
+from random import randint
 
 
 def allowed_file(filename):
@@ -54,45 +54,44 @@ def single_good(good_id):
 
 @api.route('/search/', methods=['POST'])
 def search():
-    search_name = request.form['search_name']
-    goods = Good.query.filter_by(Good.goodName.find(search_name) != -1).all()
+    search_name = request.json['search_name']
+    goods = Good.query.filter(Good.goodName.ilike('%'+search_name+'%')).all()
     result_code = 0
     if goods:
         result_code = 1
-    return jsonify({'result': [good.to_json() for good in goods], 'result_code': result_code})
+        return jsonify({'result_code': result_code, 'result': [good.to_json() for good in goods]})
+    else:
+        return jsonify({'result_code': result_code, 'result': []})
 
 
 @api.route('/new_good/', methods=['POST'])
 def new_good():
     objects = request.json
     good = Good(goodName=objects['goodName'], description=objects['description'],
-                status=objects['status'], freecount=objects['freeCount'], type=objects['type'],
-                contact=objects['contact'])
+                freeCount=objects['freeCount'], type=objects['type'],
+                contact=objects['contact'], price=objects['price'])
     file = request.files['file']
     if file and allowed_file(file.filename):
-        im = Image.open(file)
         filename = secure_filename(file.filename)
-        url = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
-        im.save(url)
-        im.thumbnail((40, 40))
-        compress_url = os.path.join(current_app.config['UPLOAD_FOLDER'], ('compress_' + filename))
+        url = os.path.join(current_app.config['UPLOAD_FOLDER'], (filename+str(objects['sellerID']+randint(1, 100))))
+        file.save(url)
+        im = Image.open(url)
+        im.thumbnail((200, 200))
+        compress_url = os.path.join(current_app.config['UPLOAD_FOLDER'],
+                                    ('compress_'+filename+str(objects['sellerID']+randint(1, 100))))
         im.save(compress_url)
         good.image = url
         good.compressImage = compress_url
-    good.seller = g.current_user
+    good.seller = User.query.get_or_404(objects['sellerID'])
     db.session.add(good)
     db.session.commit()
-    return jsonify(good.to_json()), 201
+    return jsonify(good.to_json())
 
 
 @api.route('/edit_good/<int:good_id>', methods=['POST'])
 def edit_good(good_id):
     objects = request.json
     good = Good.query.get_or_404(good_id)
-    '''
-    if g.current_user != good.seller:
-        return forbidden('Insufficient permissions')
-    '''
     good.description = objects['description']
     good.goodName = objects['goodName']
     good.modifyDate = datetime.utcnow()

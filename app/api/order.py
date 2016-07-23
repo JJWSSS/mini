@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from . import api
-from flask import request,jsonify
-from ..models import User,Order,Good
-from flask_login import current_user,login_required
+from flask import request, jsonify
+from ..models import User, Order, Good
+from flask_login import current_user, login_required
 
 # 列出作为卖家的订单
 # params[POST]:
@@ -42,15 +42,9 @@ def list_buyer_orders():
 
 
 # 获取订单详情
-<<<<<<< HEAD
-@api.route('/getorderdetail/<int:orderID>')
-def get_order_detail(orderID):
-=======
 @api.route('/get_order_detail', method = ['POST'])
-def get_order_detail()
+def get_order_detail():
     requeseInfo = request.json
     orderID = requeseInfo['orderID']
->>>>>>> origin/master
     order = Order.get_order_detail(orderID)
     return order
-

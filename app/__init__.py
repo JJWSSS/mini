@@ -12,7 +12,6 @@ db = SQLAlchemy()
 login_manager = LoginManager()
 LoginManager.login_view = 'api.login'
 
-# 有毒
 
 def create_app(config_name):
     app = Flask(__name__)
