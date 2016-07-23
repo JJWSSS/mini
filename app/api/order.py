@@ -1,16 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from . import api
-<<<<<<< HEAD
-from flask import request, jsonify
-from ..models import User, Order, Good
-from flask_login import current_user, login_required
-=======
+
 from datetime import  datetime
 from flask import request,jsonify
 from ..models import User,Order,Good
 from flask_login import current_user,login_required
->>>>>>> origin/master
 
 # 列出作为卖家的订单
 # params[POST]:
@@ -96,14 +91,6 @@ def list_buyer_orders():
 
 
 # 获取订单详情
-<<<<<<< HEAD
-@api.route('/get_order_detail', method = ['POST'])
-def get_order_detail():
-    requeseInfo = request.json
-    orderID = requeseInfo['orderID']
-    order = Order.get_order_detail(orderID)
-    return order
-=======
 @login_required
 @api.route('/get_order_detail', methods = ['POST'])
 def get_order_detail():
@@ -147,4 +134,3 @@ def create_order():
                 'message': 'Database Error',
             }
         )
->>>>>>> origin/master
