@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from . import api
+from .. import db
 from datetime import  datetime
 from flask import request,jsonify
 from ..models import User,Order,Good
@@ -90,6 +91,8 @@ def list_buyer_orders():
 
 
 # 获取订单详情
+# params[POST]:
+#   'orderID' [int]
 @login_required
 @api.route('/get_order_detail', methods = ['POST'])
 def get_order_detail():
@@ -103,6 +106,12 @@ def get_order_detail():
         }
     )
 
+# 创建新订单
+# params[POST]:
+#   'goodID' [int]
+#   'buyerID' [int]
+#   'sellerID' [int]
+#   'count' [int]
 @login_required
 @api.route('/create_order',methods = ['POST'])
 def create_order():
@@ -116,8 +125,9 @@ def create_order():
             createDate = timenow,
             confirmDate = timenow,
             count = neworderinfo.count,
-            status = neworderinfo.count
+            status = 0
         )
+        Order.add(neworder)
 
         return jsonify(
             {
@@ -133,3 +143,84 @@ def create_order():
                 'message': 'Database Error',
             }
         )
+
+# 确认订单
+# TODO
+@login_required
+@api.route('/confirm_order',methods = ['POST'])
+def confirm_order():
+    orderID = request.form['orderID']
+    currentStatus = Order.query(Order.status).filter(Order.orderID == orderID).first()
+
+    if currentStatus == 1:
+        return jsonify(
+            {
+                'status': 0,
+                'message': 'Order Has Already Confirmed'
+            }
+        )
+    elif currentStatus == 2:
+        return  jsonify(
+            {
+                'status': 0,
+                'message': 'Order Has Already Canceled'
+            }
+        )
+    else:
+        try:
+            Order.query(Order).filter(Order.orderID == orderID).update({'status':1})
+            return jsonify(
+                {
+                    'status': 1,
+                    'message': 'Success'
+                }
+            )
+        except:
+            return jsonify(
+                {
+                    'status': 0,
+                    'message': 'Datebase Error'
+                }
+            )
+
+# 取消订单
+# TODO
+@login_required
+@api.route('/cancel_order',methods = ['POST'])
+def cancel_order():
+    orderID = request.form['orderID']
+    currentStatus = Order.query(Order.status).filter(Order.orderID == orderID).first()
+
+    if currentStatus == 0:
+        return jsonify(
+            {
+                'status': 0,
+                'message': 'Order Has not Confirmed'
+            }
+        )
+    elif currentStatus == 2:
+        return jsonify(
+            {
+                'status': 0,
+                'message': 'Order Has Already Canceled'
+            }
+        )
+    else:
+        try:
+            Order.query(Order).filter(Order.orderID == orderID).update({'status': 2})
+            return jsonify(
+                {
+                    'status': 1,
+                    'message': 'Success'
+                }
+            )
+        except:
+            return jsonify(
+                {
+                    'status': 0,
+                    'message': 'Datebase Error'
+                }
+            )
+
+
+

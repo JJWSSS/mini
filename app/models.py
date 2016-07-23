@@ -14,10 +14,10 @@ class Order(db.Model):
     goodID = db.Column(db.Integer, db.ForeignKey('goods.goodID'), nullable=False)
     sellerID = db.Column(db.Integer, db.ForeignKey('users.userID'), nullable=False)
     buyerID = db.Column(db.Integer, db.ForeignKey('users.userID'), nullable=False)
-    createDate = db.Column(db.DateTime, index=True, default=datetime.utcnow())
+    createDate = db.Column(db.DateTime, index=True, nullable=False)
     confirmDate = db.Column(db.DateTime, index=True, nullable=False)
     count = db.Column(db.Integer, nullable=False)
-    status = db.Column(db.Integer, nullable=False)
+    status = db.Column(db.Integer, nullable=False) # 订单状态：0：未确认， 1：已确认， 2:已过期
 
     def get_seller_ordersID(self,sellerID):
         orders = db.session.query(Order).filter(sellerID == Order.sellerID).all()
