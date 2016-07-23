@@ -6,6 +6,7 @@ from flask import jsonify
 import copy
 from app import db
 from manage import app
+import logging
 
 
 class CommentProxy:
@@ -57,6 +58,7 @@ class CommentProxy:
         return ret
 
     def insert(self, args, isVailed = None):
+        message = None
         if isVailed and not isVailed(args):
                 return self.makeRetJson('error', 'invailed arguments')
 
@@ -68,9 +70,11 @@ class CommentProxy:
         except Exception as e:
             exp = e
             db.session.rollback()
+            message = str(e)
+            logging.log(logging.DEBUG, 'from comments model: ' + message)
         if exp:
-            return self.makeRetJson('error')
-        return self.makeRetJson('ok')
+            return self.makeRetJson('error', 'arguments error')
+        return self.makeRetJson('ok', message)
 
     def delete(self, args):
         self._filerDict = self.filterArgs(args, self._fileds)
