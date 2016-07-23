@@ -208,3 +208,72 @@
 [INFO](2016-07-23 15:23:23,925) in _internal.py:line 87 : 127.0.0.1 - - [23/Jul/2016 15:23:23] "GET /api/comment/get HTTP/1.1" 200 -
 [INFO](2016-07-23 15:23:35,604) in _internal.py:line 87 : 127.0.0.1 - - [23/Jul/2016 15:23:35] "GET /api/comment/delete?commentID=15 HTTP/1.1" 200 -
 [INFO](2016-07-23 15:24:31,166) in _internal.py:line 87 : 127.0.0.1 - - [23/Jul/2016 15:24:31] "GET /api/comment/delete?goodsID=12 HTTP/1.1" 200 -
+[WARNING](2016-07-23 23:45:42,424) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 23:45:42,442) in __init__.py:line 45 : Nothing
+[INFO](2016-07-23 23:45:42,691) in _internal.py:line 87 :  * Running on http://localhost:54321/ (Press CTRL+C to quit)
+[INFO](2016-07-23 23:45:42,705) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-23 23:45:43,089) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 23:45:43,091) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 23:45:43,131) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-23 23:45:43,134) in _internal.py:line 87 :  * Debugger pin code: 313-427-143
+[INFO](2016-07-23 23:45:53,379) in _internal.py:line 87 : 127.0.0.1 - - [23/Jul/2016 23:45:53] "GET / HTTP/1.1" 404 -
+[INFO](2016-07-23 23:45:53,467) in _internal.py:line 87 : 127.0.0.1 - - [23/Jul/2016 23:45:53] "GET /favicon.ico HTTP/1.1" 404 -
+[INFO](2016-07-23 23:46:05,154) in _internal.py:line 87 : 127.0.0.1 - - [23/Jul/2016 23:46:05] "GET /api/comment/get HTTP/1.1" 200 -
+[INFO](2016-07-23 23:46:16,583) in _internal.py:line 87 : 127.0.0.1 - - [23/Jul/2016 23:46:16] "GET /api/comment/get?goodsID=12 HTTP/1.1" 200 -
+[INFO](2016-07-23 23:46:23,007) in _internal.py:line 87 : 127.0.0.1 - - [23/Jul/2016 23:46:23] "GET /api/comment/get HTTP/1.1" 200 -
+[INFO](2016-07-23 23:46:49,910) in _internal.py:line 87 : 127.0.0.1 - - [23/Jul/2016 23:46:49] "GET /api/comment/insert?goodsID=13&commentatorID=12&context=%27test%27 HTTP/1.1" 200 -
+[INFO](2016-07-23 23:48:16,783) in _internal.py:line 87 : 127.0.0.1 - - [23/Jul/2016 23:48:16] "GET /api/comment/insert?goodsID=13&commentatorID=12&context=%27test%27 HTTP/1.1" 200 -
+[INFO](2016-07-23 23:48:20,527) in _internal.py:line 87 : 127.0.0.1 - - [23/Jul/2016 23:48:20] "GET /api/comment/insert?goodsID=12&commentatorID=12&context=%27test%27 HTTP/1.1" 200 -
+[INFO](2016-07-23 23:48:28,072) in _internal.py:line 87 : 127.0.0.1 - - [23/Jul/2016 23:48:28] "GET /api/comment/insert?goodsID=12&commentatorID=12&context=%27test1%27 HTTP/1.1" 200 -
+[INFO](2016-07-23 23:48:31,177) in _internal.py:line 87 : 127.0.0.1 - - [23/Jul/2016 23:48:31] "GET /api/comment/insert?goodsID=12&commentatorID=12&context=%27test2%27 HTTP/1.1" 200 -
+[INFO](2016-07-23 23:48:33,952) in _internal.py:line 87 : 127.0.0.1 - - [23/Jul/2016 23:48:33] "GET /api/comment/insert?goodsID=12&commentatorID=12&context=%27test3%27 HTTP/1.1" 200 -
+[INFO](2016-07-23 23:48:40,542) in _internal.py:line 87 : 127.0.0.1 - - [23/Jul/2016 23:48:40] "GET /api/comment/get HTTP/1.1" 200 -
+[INFO](2016-07-23 23:51:05,361) in _internal.py:line 87 : 127.0.0.1 - - [23/Jul/2016 23:51:05] "GET /api/comment/get HTTP/1.1" 200 -
+[WARNING](2016-07-23 23:53:20,560) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 23:53:20,565) in __init__.py:line 45 : Nothing
+[INFO](2016-07-23 23:53:35,776) in _internal.py:line 87 : 127.0.0.1 - - [23/Jul/2016 23:53:35] "GET /api/comment/get HTTP/1.1" 200 -
+[WARNING](2016-07-23 23:53:47,049) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 23:53:47,050) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 23:53:53,156) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 23:53:53,161) in __init__.py:line 45 : Nothing
+[INFO](2016-07-23 23:53:53,298) in _internal.py:line 87 :  * Running on http://localhost:54321/ (Press CTRL+C to quit)
+[INFO](2016-07-23 23:53:53,301) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-23 23:53:54,526) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 23:53:54,531) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 23:53:54,668) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-23 23:53:54,671) in _internal.py:line 87 :  * Debugger pin code: 313-427-143
+[WARNING](2016-07-23 23:55:26,890) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 23:55:26,895) in __init__.py:line 45 : Nothing
+[INFO](2016-07-23 23:55:27,035) in _internal.py:line 87 :  * Running on http://localhost:54321/ (Press CTRL+C to quit)
+[INFO](2016-07-23 23:55:27,038) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-23 23:55:28,275) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 23:55:28,280) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 23:55:28,438) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-23 23:55:28,441) in _internal.py:line 87 :  * Debugger pin code: 313-427-143
+[WARNING](2016-07-23 23:55:51,672) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 23:55:51,677) in __init__.py:line 45 : Nothing
+[INFO](2016-07-23 23:55:51,821) in _internal.py:line 87 :  * Running on http://localhost:54321/ (Press CTRL+C to quit)
+[INFO](2016-07-23 23:55:51,824) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-23 23:55:53,123) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 23:55:53,128) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 23:55:53,271) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-23 23:55:53,273) in _internal.py:line 87 :  * Debugger pin code: 313-427-143
+[INFO](2016-07-23 23:57:06,803) in _internal.py:line 87 :  * Detected change in '/home/lee/mini/mini/app/api/comment.py', reloading
+[INFO](2016-07-23 23:57:06,874) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-23 23:57:08,182) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 23:57:08,188) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 23:57:08,330) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-23 23:57:08,335) in _internal.py:line 87 :  * Debugger pin code: 313-427-143
+[INFO](2016-07-23 23:57:31,512) in _internal.py:line 87 :  * Detected change in '/home/lee/mini/mini/app/api/comment.py', reloading
+[INFO](2016-07-23 23:57:31,580) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-23 23:57:32,860) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 23:59:09,777) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 23:59:09,779) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 23:59:20,737) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 23:59:21,003) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 23:59:25,969) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 23:59:25,970) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 23:59:38,817) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 23:59:38,819) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 23:59:55,135) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 23:59:55,140) in __init__.py:line 45 : Nothing
