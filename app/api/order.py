@@ -144,7 +144,8 @@ def create_order():
         )
 
 # 确认订单
-# TODO
+# param[POST]:
+#   'orderID' [int]
 @login_required
 @api.route('/confirm_order',methods = ['POST'])
 def confirm_order():
@@ -162,7 +163,7 @@ def confirm_order():
         return  jsonify(
             {
                 'status': 0,
-                'message': 'Order Has Already Canceled'
+                'message': 'Order Has Already Complete'
             }
         )
     else:
@@ -183,10 +184,11 @@ def confirm_order():
             )
 
 # 取消订单
-# TODO
+# param[POST]:
+#   'orderID' [int]
 @login_required
-@api.route('/cancel_order',methods = ['POST'])
-def cancel_order():
+@api.route('/complete_order',methods = ['POST'])
+def complete_order():
     orderID = request.form['orderID']
     currentStatus = Order.query(Order.status).filter(Order.orderID == orderID).first()
 
@@ -194,7 +196,7 @@ def cancel_order():
         return jsonify(
             {
                 'status': 0,
-                'message': 'Order Has not Confirmed'
+                'message': 'Order Has not Complete'
             }
         )
     elif currentStatus == 2:

@@ -17,7 +17,7 @@ class Order(db.Model):
     createDate = db.Column(db.DateTime, index=True, nullable=False)
     confirmDate = db.Column(db.DateTime, index=True, nullable=False)
     count = db.Column(db.Integer, nullable=False)
-    status = db.Column(db.Integer, nullable=False) # 订单状态：0：未确认， 1：已确认， 2:已过期
+    status = db.Column(db.Integer, nullable=False) # 订单状态：0：未确认， 1：已确认， 2:已完成
 
     def get_seller_ordersID(self,sellerID):
         orders = db.session.query(Order).filter(sellerID == Order.sellerID).all()
