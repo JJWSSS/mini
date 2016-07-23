@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 
 from . import db, login_manager
@@ -214,10 +215,30 @@ class Good(db.Model):
             db.session.commit()
 
 
-class Comment(db.Model):
-    __tablename__ = 'comments'
-    commentID = db.Column(db.Integer, primary_key=True, index=True)
-    goodID = db.Column(db.Integer, db.ForeignKey('goods.goodID'), nullable=False)
-    commentatorID = db.Column(db.Integer, db.ForeignKey('users.userID'), nullable=False)
-    context = db.Column(db.Text, nullable=False)
-    status = db.Column(db.Integer, default=0)
+class DescOfQurey:
+    def __get__(self, instance, owner):
+        if hasattr(owner, 'Model'):
+            return owner.Model.query
+        Model = type('Comment', (db.Model,), current_app.config.get('COMMENT_TABLE_STRUCTS'))
+        setattr(owner, 'Model', Model)
+        setattr(owner, 'query', Model.query)
+        return Model.query
+
+
+class Comment:
+    query = DescOfQurey()
+
+    def __new__(cls, *args, **kwargs):
+        if hasattr(cls, 'Model'):
+            return cls.Model(*args, **kwargs)
+
+        Model = type('Comment', (db.Model,), current_app.config.get('COMMENT_TABLE_STRUCTS'))
+        setattr(cls, 'Model', Model)
+        return Model(*args,  **kwargs)
+
+
+class AnonymousUser(AnonymousUserMixin):
+    pass
+
+login_manager.anonymous_user = AnonymousUser
+

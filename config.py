@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
-
+from app import db
 
 class Config:
     SECRET_KEY = 'mini'
@@ -28,4 +28,22 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://jjw:101023@localhost/mini'
 
 
-config = {'default': DevelopmentConfig}
+class CommentTestConfig(Config):
+    DEBUG = True
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:lee@localhost/TEST'
+    COMMENT_GET_URL = '/comment/get'
+    COMMENT_ADD_URL = '/comment/insert'
+    COMMENT_DELETE_URL = '/comment/delete'
+    COMMENT_GET_METHODS = ['GET']
+    COMMENT_DELETE_METHODS = ['GET']
+    COMMENT_ADD_METHODS = ['GET']
+    COMMENT_TABLE_STRUCTS = {'__tablename__': 'comments',
+                             'commentID': db.Column(db.Integer, primary_key=True, index=True) ,
+                             'goodsID': db.Column(db.Integer, db.ForeignKey('goods.goodID')),
+                             'commentatorID': db.Column(db.Integer, db.ForeignKey('users.userID')),
+                             'context': db.Column(db.String(512), nullable=False),
+                             'status': db.Column(db.Integer, default=0),
+                             }
+
+
+config = {'default': DevelopmentConfig, 'comment':CommentTestConfig}

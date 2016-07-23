@@ -5,7 +5,7 @@ from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager, Shell
 from app.models import User, Good
 
-app = create_app('default')
+app = create_app('comment')
 manager = Manager(app)
 migrate = Migrate(app, db)
 

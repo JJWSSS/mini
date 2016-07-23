@@ -4,7 +4,6 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_mail import Mail
-from config import config
 import logging
 from os import environ, getcwd, mkdir
 from os.path import exists, join
@@ -34,6 +33,7 @@ def init_logger(log_level):
 # 0 For DEBUG, 1 For INFO, 2 For WARNING, 3 For ERROR, 4 For CRITICAL
 
 def create_app(config_name):
+    from config import config
     # logger Init
     LEVEL = (logging.DEBUG, logging.INFO, logging.WARNING, logging.ERROR, logging.CRITICAL)
     log_level = environ.get('LOGGER_LEVEL')
