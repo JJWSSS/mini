@@ -1,11 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from . import api
-<<<<<<< HEAD
-from .. import db
-=======
-
->>>>>>> 5bb7a46e07f63974772fbd747ee9702e2790b7be
 from datetime import  datetime
 from flask import request,jsonify
 from ..models import User,Order,Good
@@ -146,7 +141,6 @@ def create_order():
                 'status': 1,
                 'message': 'Database Error',
             }
-<<<<<<< HEAD
         )
 
 # 确认订单
@@ -226,5 +220,4 @@ def cancel_order():
                     'message': 'Datebase Error'
                 }
             )
-
 
