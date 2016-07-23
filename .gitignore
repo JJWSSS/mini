@@ -2,4 +2,4 @@
 workspace.xml
 app/__pycache__/*
 *.pyc
-logs/*
+logs/
