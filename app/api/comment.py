@@ -7,6 +7,23 @@ import copy
 from app import db
 from manage import app
 import logging
+from functools import wraps
+
+
+def limitAndStartAddtion(qurey):
+    @wraps(qurey)
+    def __doLimitAndStart(self, args):
+        ret = qurey(self, args)
+        start = 0;
+        limit = 50;
+
+        if 'start' in args:
+            start = args['start']
+        if 'limit' in args:
+            limit = args['limit']
+
+        return ret.offset(start).limit(limit)
+    return __doLimitAndStart
 
 
 class CommentProxy:
@@ -39,19 +56,13 @@ class CommentProxy:
     def makeRetJson(status='', messages='', data=None):
         return jsonify({'status': status, 'messages': messages, 'data': data})
 
+    @limitAndStartAddtion
     def query(self, args=None):
-        if args is None:
-            return Comment.query.all()
+        if not args:
+            return Comment.query
 
-        start = 0
-        limit = 50
         self._filerDict = self.filterArgs(args, self._fileds)
-        if 'start' in args:
-            start = args['start']
-        if 'limit' in args:
-            limit = args['limit']
-        self._filerDict['status'] = 0
-        ret = Comment.query.filter_by(**self._filerDict).offset(start).limit(limit).all()
+        ret = Comment.query.filter_by(**self._filerDict)
         return ret
 
     def insert(self, args, isVailed = None):
@@ -99,9 +110,9 @@ def __makeCommentProxy():
 def getComment():
     proxy = __makeCommentProxy()
     args = request.args
-    ret = proxy.query(args)
+    ret = proxy.query(args).all()
     return proxy.makeRetJson('ok',
-                             data={'comments': [proxy.toJson(item) for item in ret]})
+                data={'comments':[proxy.toJson(item) for item in ret]})
 
 
 @api.route(app.config.get('COMMENT_ADD_URL'),
