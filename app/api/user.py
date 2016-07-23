@@ -16,7 +16,7 @@ import logging
 def register():
     objects = request.json
     password = objects["password"]
-    username = str(objects['telephone'])
+    username = str(objects['username'])
     # Query if it exist
     beseen = db.session.query(User).filter_by(userName=username).first()
     # If The phone number had been Used, return failure
