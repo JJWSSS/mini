@@ -138,7 +138,7 @@ def create_order():
     except:
         return jsonify(
             {
-                'status': 1,
+                'status': 0,
                 'message': 'Database Error',
             }
         )

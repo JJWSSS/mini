@@ -42,6 +42,7 @@ class Order(db.Model):
             'count': self.count,
             'status': self.status
         }
+        return json
 
 
 class User(UserMixin, db.Model):
