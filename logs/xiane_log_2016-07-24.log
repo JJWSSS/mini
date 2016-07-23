@@ -35,3 +35,64 @@
 [WARNING](2016-07-24 00:06:07,519) in __init__.py:line 45 : Nothing
 [WARNING](2016-07-24 00:06:07,553) in _internal.py:line 87 :  * Debugger is active!
 [INFO](2016-07-24 00:06:07,555) in _internal.py:line 87 :  * Debugger pin code: 313-427-143
+[WARNING](2016-07-24 00:39:14,131) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-24 00:39:14,133) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-24 00:39:14,167) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 00:39:14,169) in _internal.py:line 87 :  * Debugger pin code: 313-427-143
+[INFO](2016-07-24 00:40:41,814) in _internal.py:line 87 :  * Detected change in '/home/lee/mini/mini/app/models.py', reloading
+[WARNING](2016-07-24 00:43:20,133) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-24 00:43:20,134) in __init__.py:line 45 : Nothing
+[INFO](2016-07-24 00:43:20,172) in _internal.py:line 87 :  * Running on http://localhost:54321/ (Press CTRL+C to quit)
+[INFO](2016-07-24 00:43:20,173) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 00:43:20,502) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-24 00:43:20,504) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-24 00:43:20,541) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 00:43:20,545) in _internal.py:line 87 :  * Debugger pin code: 313-427-143
+[INFO](2016-07-24 00:47:25,473) in _internal.py:line 87 :  * Detected change in '/home/lee/mini/mini/manage.py', reloading
+[INFO](2016-07-24 00:47:25,527) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 00:47:25,849) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-24 00:47:25,851) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-24 00:47:25,887) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 00:47:25,889) in _internal.py:line 87 :  * Debugger pin code: 313-427-143
+[INFO](2016-07-24 00:47:44,044) in _internal.py:line 87 :  * Detected change in '/home/lee/mini/mini/manage.py', reloading
+[INFO](2016-07-24 00:47:44,091) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 00:47:44,413) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-24 00:47:44,414) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-24 00:47:44,451) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 00:47:44,453) in _internal.py:line 87 :  * Debugger pin code: 313-427-143
+[WARNING](2016-07-24 00:48:10,828) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-24 00:48:10,829) in __init__.py:line 45 : Nothing
+[INFO](2016-07-24 00:49:19,209) in _internal.py:line 87 :  * Detected change in '/home/lee/mini/mini/manage.py', reloading
+[INFO](2016-07-24 00:49:19,261) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 00:49:19,585) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-24 00:49:19,587) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-24 00:49:19,622) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 00:49:19,624) in _internal.py:line 87 :  * Debugger pin code: 313-427-143
+[WARNING](2016-07-24 00:49:26,339) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-24 00:49:26,340) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-24 00:49:34,347) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-24 00:49:34,348) in __init__.py:line 45 : Nothing
+[INFO](2016-07-24 00:49:34,385) in _internal.py:line 87 :  * Running on http://localhost:54321/ (Press CTRL+C to quit)
+[INFO](2016-07-24 00:49:34,386) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 00:49:34,711) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-24 00:49:34,713) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-24 00:49:34,747) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 00:49:34,749) in _internal.py:line 87 :  * Debugger pin code: 313-427-143
+[WARNING](2016-07-24 00:50:49,469) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-24 00:50:49,470) in __init__.py:line 45 : Nothing
+[INFO](2016-07-24 00:51:21,595) in _internal.py:line 87 :  * Detected change in '/home/lee/mini/mini/manage.py', reloading
+[INFO](2016-07-24 00:51:21,641) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 00:51:21,963) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-24 00:51:21,965) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-24 00:51:21,999) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 00:51:22,001) in _internal.py:line 87 :  * Debugger pin code: 313-427-143
+[WARNING](2016-07-24 00:53:15,240) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-24 00:53:15,241) in __init__.py:line 45 : Nothing
+[INFO](2016-07-24 00:53:44,075) in _internal.py:line 87 :  * Detected change in '/home/lee/mini/mini/manage.py', reloading
+[INFO](2016-07-24 00:53:44,130) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 00:53:44,472) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-24 00:53:44,474) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-24 00:53:44,513) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 00:53:44,518) in _internal.py:line 87 :  * Debugger pin code: 313-427-143
+[WARNING](2016-07-24 00:53:48,931) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-24 00:53:48,934) in __init__.py:line 45 : Nothing
