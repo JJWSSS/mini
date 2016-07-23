@@ -1,0 +1,32 @@
+[WARNING](2016-07-23 05:03:11,512) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 05:04:50,257) in __init__.py:line 45 : Nothing
+[INFO](2016-07-23 05:04:50,279) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-23 05:04:50,280) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-23 05:04:50,501) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 05:04:50,519) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-23 05:04:50,521) in _internal.py:line 87 :  * Debugger pin code: 158-170-668
+[WARNING](2016-07-23 13:50:28,356) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 13:50:28,358) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 13:51:32,652) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 13:51:32,663) in __init__.py:line 45 : Nothing
+[INFO](2016-07-23 13:51:32,794) in _internal.py:line 87 :  * Running on http://localhost:54321/ (Press CTRL+C to quit)
+[INFO](2016-07-23 13:51:32,795) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-23 13:51:33,111) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 13:51:33,112) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 13:51:33,137) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-23 13:51:33,139) in _internal.py:line 87 :  * Debugger pin code: 666-622-436
+[WARNING](2016-07-23 13:52:01,309) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 13:52:01,311) in __init__.py:line 45 : Nothing
+[INFO](2016-07-23 13:52:01,336) in _internal.py:line 87 :  * Running on http://localhost:54321/ (Press CTRL+C to quit)
+[INFO](2016-07-23 13:52:01,337) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-23 13:52:01,638) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 13:52:01,639) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 13:52:01,666) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-23 13:52:01,668) in _internal.py:line 87 :  * Debugger pin code: 666-622-436
+[INFO](2016-07-23 13:52:05,375) in _internal.py:line 87 : 127.0.0.1 - - [23/Jul/2016 13:52:05] "GET /api/comment/insert?goodsID=12&commentatorID=12&context=%27hahah%20^%20^%27 HTTP/1.1" 200 -
+[INFO](2016-07-23 13:52:52,431) in _internal.py:line 87 : 127.0.0.1 - - [23/Jul/2016 13:52:52] "GET /api/comment/get HTTP/1.1" 200 -
+[INFO](2016-07-23 13:53:03,279) in _internal.py:line 87 : 127.0.0.1 - - [23/Jul/2016 13:53:03] "GET /api/comment/delete?commentID=13 HTTP/1.1" 200 -
+[INFO](2016-07-23 13:53:07,970) in _internal.py:line 87 : 127.0.0.1 - - [23/Jul/2016 13:53:07] "GET /api/comment/get HTTP/1.1" 200 -
+[INFO](2016-07-23 13:53:24,926) in _internal.py:line 87 : 127.0.0.1 - - [23/Jul/2016 13:53:24] "GET /api/comment/get?limit=2 HTTP/1.1" 200 -
+[INFO](2016-07-23 13:53:31,212) in _internal.py:line 87 : 127.0.0.1 - - [23/Jul/2016 13:53:31] "GET /api/comment/get HTTP/1.1" 200 -
+[INFO](2016-07-23 13:53:40,542) in _internal.py:line 87 : 127.0.0.1 - - [23/Jul/2016 13:53:40] "GET /api/comment/get?start=1&limit=1 HTTP/1.1" 200 -

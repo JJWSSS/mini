@@ -12,24 +12,24 @@ from flask import current_app, url_for
 class Order(db.Model):
     __tablename__ = 'orders'
     orderID = db.Column(db.Integer, primary_key=True, index=True)
-    goodID = db.Column(db.Integer, db.ForeignKey('goods.goodID'))
-    sellerID = db.Column(db.Integer, db.ForeignKey('users.userID'))
-    buyerID = db.Column(db.Integer, db.ForeignKey('users.userID'))
+    goodID = db.Column(db.Integer, db.ForeignKey('goods.goodID'), nullable=False)
+    sellerID = db.Column(db.Integer, db.ForeignKey('users.userID'), nullable=False)
+    buyerID = db.Column(db.Integer, db.ForeignKey('users.userID'), nullable=False)
     createDate = db.Column(db.DateTime, index=True, default=datetime.utcnow())
     confirmDate = db.Column(db.DateTime, index=True, nullable=False)
     count = db.Column(db.Integer, nullable=False)
     status = db.Column(db.Integer, nullable=False)
 
-    def get_seller_orders(self,sellerID):
+    def get_seller_ordersID(self,sellerID):
         orders = db.session.query(Order).filter(sellerID == Order.sellerID).all()
         return orders
 
-    def get_buyer_orders(self,buyerID):
+    def get_buyer_ordersID(self,buyerID):
         orders = db.session.query(Order).filter(buyerID == Order.sellerID).all()
         return orders
 
     def get_order_detail(self,orderID):
-        orders = db.session.query(Order).filter(orderID == Order.orderID).one()
+        orders = db.session.query(Order).filter(orderID == Order.orderID).first()
         return orders
 
     def to_json(self):
@@ -52,7 +52,7 @@ class User(UserMixin, db.Model):
     nickName = db.Column(db.String(128), nullable=True)
     password_hash = db.Column(db.String(128), nullable=False)
     email = db.Column(db.String(64), nullable=True)
-    isAuthenticated = db.Column(db.Boolean, nullable=False, default=False)
+    isAuthenticated = db.Column(db.Integer, nullable=False, default=0)
     qq = db.Column(db.Integer, nullable=True)
     goods = db.relationship('Good', backref='seller', lazy='dynamic')
     sellerOrders = db.relationship('Order', foreign_keys=[Order.sellerID], backref='seller', lazy='dynamic')
@@ -66,6 +66,10 @@ class User(UserMixin, db.Model):
     @password.setter
     def password(self, password):
         self.password_hash = generate_password_hash(password)
+
+    def get_id(self):
+        return int(self.userID)
+
 
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
@@ -137,6 +141,23 @@ class User(UserMixin, db.Model):
             return None
         return User.query.get(data['id'])
 
+    @staticmethod
+    def generate_fake(count=100):
+        from sqlalchemy.exc import IntegrityError
+        from random import seed, randint
+        import forgery_py
+        seed()
+        for i in range(count):
+            u = User(userName=forgery_py.address.phone(), nickName=forgery_py.internet.user_name(True),
+                     password=forgery_py.lorem_ipsum.word(), email=forgery_py.internet.email_address(),
+                     isAuthenticated=1, qq=randint(100000000, 999999999))
+            db.session.add(u)
+            try:
+                db.session.commit()
+            except IntegrityError:
+                db.session.rollback()
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -146,10 +167,10 @@ class Good(db.Model):
     __tablename__ = 'goods'
     goodID = db.Column(db.Integer, primary_key=True, index=True)
     goodName = db.Column(db.String(128), nullable=False)
-    sellerID = db.Column(db.Integer, db.ForeignKey('users.userID'))
+    sellerID = db.Column(db.Integer, db.ForeignKey('users.userID'), nullable=False)
     createDate = db.Column(db.DateTime, index=True, default=datetime.utcnow())
     modifyDate = db.Column(db.DateTime, index=True, default=datetime.utcnow())
-    status = db.Column(db.Boolean, default=True)
+    status = db.Column(db.Integer, default=1)
     freeCount = db.Column(db.Integer, nullable=False)
     description = db.Column(db.Text, nullable=False)
     image = db.Column(db.Text, nullable=False)
@@ -158,23 +179,39 @@ class Good(db.Model):
     type = db.Column(db.Integer, nullable=False)
     orders = db.relationship('Order', backref='good', lazy='dynamic')
     comments = db.relationship('Comment', backref='good', lazy='dynamic')
+    price = db.Column(db.Integer, nullable=False)
 
     def to_json(self):
         json_post = {
             'goodID': self.goodID,
-            'url': url_for('api.single_good', good_id=self.goodID, _external=True),
             'goodName': self.goodName,
             'sellerID': self.sellerID,
+            'sellerName': self.seller.nickName,
+            'createDate': self.createDate,
+            'modifyDate': self.modifyDate,
+            'status': self.status,
             'freeCount': self.freeCount,
             'description': self.description,
             'image': self.image,
             'compressImage': self.compressImage,
             'contact': self.contact,
-
-            'comments': url_for('api.get_comments', id=self.goodID,
-                                _external=True),
+            'type': self.type,
+            'price': self.price
         }
         return json_post
+
+    @staticmethod
+    def generate_fake(count=100):
+        from random import seed, randint
+        import forgery_py
+        user_count = User.query.count()
+        for i in range(count):
+            u = User.query.offset(randint(0, user_count - 1)).first()
+            g = Good(goodName=forgery_py.name.full_name(), description=forgery_py.lorem_ipsum.sentences(randint(1, 3)),
+                     freeCount=10, image=forgery_py.internet.domain_name(), compressImage=forgery_py.internet.domain_name(),
+                     contact=randint(100000000, 999999999), type=1, price=randint(1, 100), seller=u)
+            db.session.add(g)
+            db.session.commit()
 
 
 class DescOfQurey:
@@ -203,3 +240,4 @@ class AnonymousUser(AnonymousUserMixin):
     pass
 
 login_manager.anonymous_user = AnonymousUser
+
