@@ -3,9 +3,10 @@ from app.api import api
 from app.models import Comment
 from flask import request
 from flask import jsonify
-from manage import app
 import copy
 from app import db
+from manage import app
+
 
 class CommentProxy:
     def __init__(self, fileds):
@@ -92,7 +93,7 @@ def __makeCommentProxy():
     return proxy
 
 
-@api.route(app.config.get('COMMENT_GET_URL'))
+@api.route(app.config.get('COMMENT_GET_URL'), methods=app.config.get('COMMENT_GET_METHODS'))
 def getComment():
     proxy = __makeCommentProxy()
     args = request.args
@@ -100,14 +101,14 @@ def getComment():
     return proxy.makeRetJson('ok',  data={'comments': [proxy.toJson(item) for item in ret]})
 
 
-@api.route(app.config.get('COMMENT_ADD_URL'))
+@api.route(app.config.get('COMMENT_ADD_URL'), methods=app.config.get('COMMENT_ADD_METHODS'))
 def addComment():
     proxy = __makeCommentProxy()
     args = request.args
     return proxy.insert(args)
 
 
-@api.route(app.config.get('COMMENT_DELETE_URL'))
+@api.route(app.config.get('COMMENT_DELETE_URL'), methods=app.config.get('COMMENT_DELETE_METHODS'))
 def deleteComment():
     proxy = __makeCommentProxy()
     args = request.args
