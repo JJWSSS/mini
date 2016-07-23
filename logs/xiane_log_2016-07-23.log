@@ -30,3 +30,7 @@
 [INFO](2016-07-23 13:53:24,926) in _internal.py:line 87 : 127.0.0.1 - - [23/Jul/2016 13:53:24] "GET /api/comment/get?limit=2 HTTP/1.1" 200 -
 [INFO](2016-07-23 13:53:31,212) in _internal.py:line 87 : 127.0.0.1 - - [23/Jul/2016 13:53:31] "GET /api/comment/get HTTP/1.1" 200 -
 [INFO](2016-07-23 13:53:40,542) in _internal.py:line 87 : 127.0.0.1 - - [23/Jul/2016 13:53:40] "GET /api/comment/get?start=1&limit=1 HTTP/1.1" 200 -
+[WARNING](2016-07-23 13:54:13,960) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 13:54:13,962) in __init__.py:line 45 : Nothing
+[WARNING](2016-07-23 13:54:14,007) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-23 13:54:14,010) in _internal.py:line 87 :  * Debugger pin code: 666-622-436
