@@ -5,6 +5,7 @@ from ..models import User
 from .. import db
 from flask_login import login_user, logout_user, login_required, current_user
 from ..models import generate_password_hash
+import logging
 
 # register: first step
 # make a new user with incomlete Message
@@ -15,7 +16,7 @@ from ..models import generate_password_hash
 def register():
     objects = request.json
     password = objects["password"]
-    username = str(objects['telephone'])
+    username = str(objects['username'])
     # Query if it exist
     beseen = db.session.query(User).filter_by(userName=username).first()
     # If The phone number had been Used, return failure
@@ -29,12 +30,15 @@ def register():
         newuser = User(userName=username, password_hash=generate_password_hash(password), nickName=username)
         db.session.add(newuser)
     except Exception as e:
+        # Database Or Internal Error
+        logging.log(logging.ERROR, "Database Error Occure, details: {}".format(e.message))
         return jsonify({
             "status": 2,
             "message": "Unknown Error Occur in the Database Manage",
             "data": {}
         })
     db.session.commit()
+    logging.log(logging.INFO, "Register Success: username{}".format(username))
     return jsonify({
         "status" : 0,
         "message" : "Register Success",
@@ -59,6 +63,7 @@ def login():
         pass
         #print 'username={}, password={}'.format(person.userName, person.password_hash)
     else:
+        logging.log(logging.INFO, "Login Fail: {}".format(username))
         return jsonify({
             "status" : 1,
             "message" : "Login Failure, Username is not Exist",
@@ -66,12 +71,14 @@ def login():
         })
     if person.verify_password(password=password) :
         login_user(person, True)
+        logging.log(logging.INFO, "Login Success: {}".format(username))
         return jsonify({
             "status": 0,
             "message": "Login Success",
             "data": {}
-        }), 200
+        })
     else :
+        logging.log(logging.INFO, "Login Fail(Password): {}".format(username))
         return jsonify({
             "status": 2,
             "message": "Login Failure, Password is Wrong",
@@ -103,17 +110,20 @@ def reset_passwd():
             db.session.commit()
         except Exception as e:
             # logging
+            logging.log(logging.ERROR, "reset password({}) Fail: Database or Internal ERROR".format(username))
             return jsonify({
                 "status": 2,
                 "message": "Something Error Occur With Database",
                 "data": {}
             })
     else:
+        logging.log(logging.INFO, "reset password({}) Fail: Not Such username".format(username))
         return jsonify({
             "status": 1,
             "message": "reset Password Fail! Username is Wrong",
             "data": {}
         })
+    logging.log(logging.INFO, "reset password({}): Success".format(username))
     return jsonify({
         "status": 0,
         "message": "reset Success",
@@ -138,15 +148,20 @@ def comfirm():
     if user :
         user.email = email
     else:
+        logging.log(logging.INFO, "comfirm ({}) Fail: No Such User".format(username))
         return jsonify({
             "status" : 1,
             "message" : "Confirm Failure, Not such user",
             "data": {}
         })
-    db.session.commit()
+    #db.session.commit()
     # TODO Send Active E-amil
-    user.isAuthenticated = True
-    db.session.commit()
+    try:
+        user.isAuthenticated = True
+        db.session.commit()
+    except:
+        logging.log(logging.ERROR, "comfirm ({}) Fail: Database or Internal Error".format(username))
+    logging.log(logging.INFO, "comfirm({}): Success".format(username))
     return jsonify({
             "status" : 0,
             "message" : "Confirm Success",
@@ -169,6 +184,7 @@ def get_user_info():
     username = current_user.userName
     result = User.query.filter_by(userName=username).first()
     if result:
+        logging.log(logging.INFO, "Get User Information ({}): Success".format(username))
         return jsonify({
             "status"   : 0,
             "message"  : "Get user info Success",
@@ -182,6 +198,7 @@ def get_user_info():
             }
         })
     else :
+        logging.log(logging.INFO, "Get User Information ({}) Fail: No such User".format(username))
         return jsonify({
             "status"    : 1,
             "message"   : "Get User info Fail!, Not such User",
@@ -204,19 +221,25 @@ def update_user_info():
     result = User.query.filter_by(userName=username).first()
     if result:
         if result.isAuthenticated is False :
+            logging.log(logging.INFO, "Update User Information ({}) Fail: No Authentiaction".format(username))
             return jsonify({
                 "status": 2,
                 "message": "Update User Fail!, The user has no Auth",
                 "data" : {}
             })
-        result.nickName = nickname
-        db.session.commit()
+        try:
+            result.nickName = nickname
+            db.session.commit()
+        except Exception as e:
+            logging.log(logging.ERROR, "Update User Information ({}) Fail: Database or Internal Error".format(username))
     else :
+        logging.log(logging.INFO, "Update User Information ({}) Fail: No such User".format(username))
         return jsonify({
             "status": 1,
             "message": "Update User Fail!, Not such User",
             "data" : {}
         })
+    logging.log(logging.INFO, "Update User Information ({}): Success".format(username))
     return jsonify({
         "status" : 0,
         "message" : "Update User Success!",
@@ -224,7 +247,7 @@ def update_user_info():
     })
 
 
-@api.route('/active', methods=['GET, POST'])
+@api.route('/active', methods=['GET'])
 def is_it_active():
     if current_user.is_anonymous():
         return jsonify({
