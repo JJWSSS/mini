@@ -14,9 +14,6 @@ class CommentProxy:
         self._filerDict = {}
         self._fileds = fileds
 
-    def getFileds(self):
-        return self._fileds
-
     def __getattr__(self, item):
         def _feedBack(filterx):
             self._filerDict[item] = filterx
@@ -97,22 +94,26 @@ def __makeCommentProxy():
     return proxy
 
 
-@api.route(app.config.get('COMMENT_GET_URL'), methods=app.config.get('COMMENT_GET_METHODS'))
+@api.route(app.config.get('COMMENT_GET_URL'),
+           methods=app.config.get('COMMENT_GET_METHODS'))
 def getComment():
     proxy = __makeCommentProxy()
     args = request.args
     ret = proxy.query(args)
-    return proxy.makeRetJson('ok',  data={'comments': [proxy.toJson(item) for item in ret]})
+    return proxy.makeRetJson('ok',
+                             data={'comments': [proxy.toJson(item) for item in ret]})
 
 
-@api.route(app.config.get('COMMENT_ADD_URL'), methods=app.config.get('COMMENT_ADD_METHODS'))
+@api.route(app.config.get('COMMENT_ADD_URL'),
+           methods=app.config.get('COMMENT_ADD_METHODS'))
 def addComment():
     proxy = __makeCommentProxy()
     args = request.args
     return proxy.insert(args)
 
 
-@api.route(app.config.get('COMMENT_DELETE_URL'), methods=app.config.get('COMMENT_DELETE_METHODS'))
+@api.route(app.config.get('COMMENT_DELETE_URL'),
+           methods=app.config.get('COMMENT_DELETE_METHODS'))
 def deleteComment():
     proxy = __makeCommentProxy()
     args = request.args
