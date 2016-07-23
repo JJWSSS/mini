@@ -11,9 +11,9 @@ from flask import current_app, url_for
 class Order(db.Model):
     __tablename__ = 'orders'
     orderID = db.Column(db.Integer, primary_key=True, index=True)
-    goodID = db.Column(db.Integer, db.ForeignKey('goods.goodID'))
-    sellerID = db.Column(db.Integer, db.ForeignKey('users.userID'))
-    buyerID = db.Column(db.Integer, db.ForeignKey('users.userID'))
+    goodID = db.Column(db.Integer, db.ForeignKey('goods.goodID'), nullable=False)
+    sellerID = db.Column(db.Integer, db.ForeignKey('users.userID'), nullable=False)
+    buyerID = db.Column(db.Integer, db.ForeignKey('users.userID'), nullable=False)
     createDate = db.Column(db.DateTime, index=True, default=datetime.utcnow())
     confirmDate = db.Column(db.DateTime, index=True, nullable=False)
     count = db.Column(db.Integer, nullable=False)
@@ -51,7 +51,7 @@ class User(UserMixin, db.Model):
     nickName = db.Column(db.String(128), nullable=True)
     password_hash = db.Column(db.String(128), nullable=False)
     email = db.Column(db.String(64), nullable=True)
-    isAuthenticated = db.Column(db.Boolean, nullable=False, default=False)
+    isAuthenticated = db.Column(db.Integer, nullable=False, default=0)
     qq = db.Column(db.Integer, nullable=True)
     goods = db.relationship('Good', backref='seller', lazy='dynamic')
     sellerOrders = db.relationship('Order', foreign_keys=[Order.sellerID], backref='seller', lazy='dynamic')
@@ -65,6 +65,10 @@ class User(UserMixin, db.Model):
     @password.setter
     def password(self, password):
         self.password_hash = generate_password_hash(password)
+
+    def get_id(self):
+        return int(self.userID)
+
 
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
@@ -136,6 +140,7 @@ class User(UserMixin, db.Model):
             return None
         return User.query.get(data['id'])
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -145,10 +150,10 @@ class Good(db.Model):
     __tablename__ = 'goods'
     goodID = db.Column(db.Integer, primary_key=True, index=True)
     goodName = db.Column(db.String(128), nullable=False)
-    sellerID = db.Column(db.Integer, db.ForeignKey('users.userID'))
+    sellerID = db.Column(db.Integer, db.ForeignKey('users.userID'), nullable=False)
     createDate = db.Column(db.DateTime, index=True, default=datetime.utcnow())
     modifyDate = db.Column(db.DateTime, index=True, default=datetime.utcnow())
-    status = db.Column(db.Boolean, default=True)
+    status = db.Column(db.Integer, default=1)
     freeCount = db.Column(db.Integer, nullable=False)
     description = db.Column(db.Text, nullable=False)
     image = db.Column(db.Text, nullable=False)
@@ -169,7 +174,6 @@ class Good(db.Model):
             'image': self.image,
             'compressImage': self.compressImage,
             'contact': self.contact,
-
             'comments': url_for('api.get_comments', id=self.goodID,
                                 _external=True),
         }
@@ -179,13 +183,7 @@ class Good(db.Model):
 class Comment(db.Model):
     __tablename__ = 'comments'
     commentID = db.Column(db.Integer, primary_key=True, index=True)
-    goodID = db.Column(db.Integer, db.ForeignKey('goods.goodID'))
-    commentatorID = db.Column(db.Integer, db.ForeignKey('users.userID'))
+    goodID = db.Column(db.Integer, db.ForeignKey('goods.goodID'), nullable=False)
+    commentatorID = db.Column(db.Integer, db.ForeignKey('users.userID'), nullable=False)
     context = db.Column(db.Text, nullable=False)
     status = db.Column(db.Integer, default=0)
-
-
-class AnonymousUser(AnonymousUserMixin):
-    pass
-
-login_manager.anonymous_user = AnonymousUser
