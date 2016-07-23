@@ -8,6 +8,7 @@ from .errors import forbidden
 from werkzeug.utils import secure_filename
 import os
 from PIL import Image
+from datetime import datetime
 
 
 def allowed_file(filename):
@@ -17,10 +18,32 @@ def allowed_file(filename):
 
 @api.route('/goods/', methods=['POST'])
 def get_goods():
-    # 验证文件编码
-    userid = request.form['userID']
-    user = User.query.get_or_404(userid)
-    return jsonify({'goods': [good.to_json() for good in user.goods]})
+    objects = request.json
+    userid = objects['userID']
+    type = objects['type']
+    begin = objects['begin']
+    limit = objects['limit']
+    if userid:
+        if type:
+            if begin or limit:
+                goods = Good.query.filter_by(sellerID=userid, type=type).offset(begin).limit(limit).all()
+            else:
+                goods = Good.query.filter_by(sellerID=userid, type=type).all()
+        elif begin or limit:
+            goods = Good.query.filter_by(sellerID=userid).offset(begin).limit(limit).all()
+        else:
+            goods = Good.query.filter_by(sellerID=userid).all()
+    elif type:
+        if begin or limit:
+            goods = Good.query.filter_by(type=type).offset(begin).limit(limit).all()
+        else:
+            goods = Good.query.filter_by(type=type).all()
+    else:
+        goods = Good.query.offset(begin).limit(limit).all()
+    if goods:
+        return jsonify({'error_code': 0, 'goods': [good.to_json() for good in goods]})
+    else:
+        return jsonify({'error_code': 1, 'goods': None})
 
 
 @api.route('/good/<int:good_id>')
@@ -41,9 +64,10 @@ def search():
 
 @api.route('/new_good/', methods=['POST'])
 def new_good():
-    good = Good(goodName=request.form['goodName'], description=request.form['description'],
-                status=request.form['status'], freecount=request.form['freeCount'], type=request.form['type'],
-                contact=request.form['contact'])
+    objects = request.json
+    good = Good(goodName=objects['goodName'], description=objects['description'],
+                status=objects['status'], freecount=objects['freeCount'], type=objects['type'],
+                contact=objects['contact'])
     file = request.files['file']
     if file and allowed_file(file.filename):
         im = Image.open(file)
@@ -61,17 +85,27 @@ def new_good():
     return jsonify(good.to_json()), 201
 
 
-@api.route('/edit_good/<int:good_id>', methods=['PUT'])
+@api.route('/edit_good/<int:good_id>', methods=['POST'])
 def edit_good(good_id):
+    objects = request.json
     good = Good.query.get_or_404(good_id)
+    '''
     if g.current_user != good.seller:
         return forbidden('Insufficient permissions')
-    good.description = request.form['description']
+    '''
+    good.description = objects['description']
+    good.goodName = objects['goodName']
+    good.modifyDate = datetime.utcnow()
+    good.status = objects['status']
+    good.freeCount = objects['freeCount']
+    good.contact = objects['contact']
+    good.type = objects['type']
+    good.price = objects['price']
     db.session.add(good)
     return jsonify(good.to_json())
 
 
-@api.route('/delete_good/<int:good_id>', methods=['DELETE'])
+@api.route('/delete_good/<int:good_id>', methods=['GET'])
 def delete_good(good_id):
     good = Good.query.get_or_404(good_id)
     db.session.delete(good)

@@ -87,6 +87,7 @@ def list_buyer_orders():
         }
     )
 
+
 # 获取订单详情
 @login_required
 @api.route('/get_order_detail', method = ['POST'])

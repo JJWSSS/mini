@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from . import api
-from flask import request, jsonify
+from flask import request, jsonify, g
 from ..models import User
 from .. import db
 from flask_login import login_user, logout_user, login_required, current_user
@@ -21,10 +21,10 @@ def register():
     # If The phone number had been Used, return failure
     if beseen:
         return jsonify({
-            "status" : 0,
+            "status" : 1,
             "message" : "Register Fail, The username has been Used!",
             "data"   : {}
-        }), 403
+        })
     try:
         newuser = User(userName=username, password_hash=generate_password_hash(password), nickName=username)
         db.session.add(newuser)
@@ -36,7 +36,7 @@ def register():
         })
     db.session.commit()
     return jsonify({
-        "status" : 1,
+        "status" : 0,
         "message" : "Register Success",
         "data": {}
     }), 200
@@ -63,7 +63,7 @@ def login():
             "status" : 1,
             "message" : "Login Failure, Username is not Exist",
             "data": {}
-        }), 404
+        })
     if person.verify_password(password=password) :
         login_user(person, True)
         return jsonify({
@@ -73,10 +73,10 @@ def login():
         }), 200
     else :
         return jsonify({
-            "status": 1,
+            "status": 2,
             "message": "Login Failure, Password is Wrong",
             "data": {}
-        }), 404
+        })
 
 # logout
 @login_required
@@ -97,7 +97,6 @@ def reset_passwd():
     username  = objects["username"]
     newpasswd = objects["password"]
     person = User.query.filter_by(userName=username).first()
-    # Check If the User is Correct
     if person :
         try:
             person.password_hash = generate_password_hash(newpasswd)
@@ -108,19 +107,18 @@ def reset_passwd():
                 "status": 2,
                 "message": "Something Error Occur With Database",
                 "data": {}
-            }), 503
+            })
     else:
         return jsonify({
             "status": 1,
             "message": "reset Password Fail! Username is Wrong",
             "data": {}
-        }), 404
-    # Nothing Wrong
+        })
     return jsonify({
         "status": 0,
         "message": "reset Success",
         "data": {}
-    }), 200
+    })
 
 # register: second step
 # comfirm the User's Message by tencent email
@@ -144,28 +142,11 @@ def comfirm():
             "status" : 1,
             "message" : "Confirm Failure, Not such user",
             "data": {}
-        }), 404
-    # Commit To the Database
-    try:
-        db.session.commit()
-    except:
-        return jsonify({
-            "status": 2,
-            "message": "Something Error Occur With Database",
-            "data": {}
-        }), 503
+        })
+    db.session.commit()
     # TODO Send Active E-amil
-    user.isAuthenticated = 1
-    # Commit To the Database, Authenticate
-    try:
-        db.session.commit()
-    except:
-        return jsonify({
-            "status": 2,
-            "message": "Something Error Occur With Database",
-            "data": {}
-        }), 503
-    # Nothing Wrong
+    user.isAuthenticated = True
+    db.session.commit()
     return jsonify({
             "status" : 0,
             "message" : "Confirm Success",
@@ -199,13 +180,13 @@ def get_user_info():
                 "isAuthenticated": result.isAuthenticated,
                 "qq": result.qq
             }
-        }), 200
+        })
     else :
         return jsonify({
             "status"    : 1,
             "message"   : "Get User info Fail!, Not such User",
             "data": {}
-        }), 404
+        })
 
 
 # update user's information
@@ -227,8 +208,7 @@ def update_user_info():
                 "status": 2,
                 "message": "Update User Fail!, The user has no Auth",
                 "data" : {}
-            }), 403
-        # Commit
+            })
         result.nickName = nickname
         db.session.commit()
     else :
@@ -236,12 +216,27 @@ def update_user_info():
             "status": 1,
             "message": "Update User Fail!, Not such User",
             "data" : {}
-        }), 404
+        })
     return jsonify({
         "status" : 0,
         "message" : "Update User Success!",
         "data" : {}
     })
 
+
+@api.route('/active', methods=['GET, POST'])
+def is_it_active():
+    if current_user.is_anonymous():
+        return jsonify({
+            "status": 1,
+            "message": "User Not Login!",
+            "data": {}
+        })
+    else :
+        return jsonify({
+            "status": 0,
+            "message": "User has Login!",
+            "data": {}
+        })
 
 
