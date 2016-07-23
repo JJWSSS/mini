@@ -31,6 +31,7 @@ class CommentTestConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:lee@localhost/TEST'
     COMMENT_GET_URL = '/comment/get'
     COMMENT_ADD_URL = '/comment/insert'
+    COMMENT_DELETE_URL = '/comment/delete'
     COMMENT_TABLE_STRUCTS = {'__tablename__': 'comments',
                              'commentID': db.Column(db.Integer, primary_key=True, index=True) ,
                              'goodsID': db.Column(db.Integer, db.ForeignKey('goods.goodID')),

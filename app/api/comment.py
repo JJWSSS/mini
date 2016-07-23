@@ -22,7 +22,7 @@ class CommentProxy:
             return self
         return _feedBack
 
-    def __toJson(self, model):
+    def toJson(self, model):
         jsonDict = {}
         for filed in self._fileds:
             jsonDict[filed] = model.__getattribute__(filed)
@@ -48,8 +48,9 @@ class CommentProxy:
             start = args['start']
         if 'limit' in args:
             limit = args['limit']
+        self._filerDict['status'] = 0
         ret = Comment.query.filter_by(**self._filerDict).offset(start).limit(limit).all()
-        return [self.__toJson(item) for item in ret]
+        return ret
 
     def insert(self, args, isVailed = None):
         if isVailed and not isVailed(args):
@@ -68,17 +69,22 @@ class CommentProxy:
         return jsonify({'status': 'ok'})
 
     def delete(self, args):
-        pass
+        self._filerDict = self.filterArgs(args, self._fileds)
+        if len(self._filerDict) <= 0:
+            return jsonify({'status': 0, 'note' : '0 comments have been deleted'})
+        self._filerDict['status'] = 0
+        ret = Comment.query.filter_by(**self._filerDict).update({'status': 1})
+        return jsonify({'status': str(ret), 'note': str(ret) + ' comments have been deleted'})
 
 
 def __makeCommentProxy():
     if hasattr(__makeCommentProxy, 'proxy'):
         return __makeCommentProxy.proxy
 
-    table_struct = app.config.get('COMMENT_TABLE_STRUCTS')
-    table_struct = copy.deepcopy(table_struct)
-    table_struct.pop('__tablename__')
-    proxy = CommentProxy([key for key, value in table_struct.items()])
+    table_structs = app.config.get('COMMENT_TABLE_STRUCTS')
+    table_structs = copy.deepcopy(table_structs)
+    table_structs.pop('__tablename__')
+    proxy = CommentProxy([key for key, value in table_structs.items()])
     setattr(__makeCommentProxy, 'proxy', proxy)
     return proxy
 
@@ -86,7 +92,9 @@ def __makeCommentProxy():
 def getComment():
     proxy = __makeCommentProxy()
     args = request.args
-    return jsonify({'comments': proxy.query(args)})
+    ret = proxy.query(args)
+    return jsonify({'comments': [proxy.toJson(item) for item in ret]})
+
 
 def addComment():
     proxy = __makeCommentProxy()
@@ -94,6 +102,13 @@ def addComment():
     return proxy.insert(args)
 
 
+def deleteComment():
+    proxy = __makeCommentProxy()
+    args = request.args
+    return proxy.delete(args)
+
+
 # 在这里注册路由
 api.route(app.config.get('COMMENT_ADD_URL'))(addComment)
 api.route(app.config.get('COMMENT_GET_URL'))(getComment)
+api.route(app.config.get('COMMENT_DELETE_URL'))(deleteComment)
