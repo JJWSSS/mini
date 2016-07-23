@@ -7,7 +7,6 @@ from manage import app
 import copy
 from app import db
 
-
 class CommentProxy:
     def __init__(self, fileds):
         self._filerDict = {}
@@ -37,6 +36,10 @@ class CommentProxy:
                     ret[key] = value
         return ret
 
+    @staticmethod
+    def makeRetJson(status='', messages='', data=None):
+        return jsonify({'status': status, 'messages': messages, 'data': data})
+
     def query(self, args=None):
         if args is None:
             return Comment.query.all()
@@ -54,7 +57,7 @@ class CommentProxy:
 
     def insert(self, args, isVailed = None):
         if isVailed and not isVailed(args):
-                return jsonify({'status': 'error', 'note': 'invailed arguments'})
+                return self.makeRetJson('error', 'invailed arguments')
 
         args = self.filterArgs(args, self._fileds)
         db.session.add(Comment(**args))
@@ -65,16 +68,16 @@ class CommentProxy:
             exp = e
             db.session.rollback()
         if exp:
-            return jsonify({'status':'error'})
-        return jsonify({'status': 'ok'})
+            return self.makeRetJson('error')
+        return self.makeRetJson('ok')
 
     def delete(self, args):
         self._filerDict = self.filterArgs(args, self._fileds)
         if len(self._filerDict) <= 0:
-            return jsonify({'status': 0, 'note' : '0 comments have been deleted'})
+            return self.makeRetJson('error', '0 comments have been deleted')
         self._filerDict['status'] = 0
         ret = Comment.query.filter_by(**self._filerDict).update({'status': 1})
-        return jsonify({'status': str(ret), 'note': str(ret) + ' comments have been deleted'})
+        return self.makeRetJson('ok', str(ret) + ' comments have been deleted')
 
 
 def __makeCommentProxy():
@@ -89,26 +92,25 @@ def __makeCommentProxy():
     return proxy
 
 
+@api.route(app.config.get('COMMENT_GET_URL'))
 def getComment():
     proxy = __makeCommentProxy()
     args = request.args
     ret = proxy.query(args)
-    return jsonify({'comments': [proxy.toJson(item) for item in ret]})
+    return proxy.makeRetJson('ok',  data={'comments': [proxy.toJson(item) for item in ret]})
 
 
+@api.route(app.config.get('COMMENT_ADD_URL'))
 def addComment():
     proxy = __makeCommentProxy()
     args = request.args
     return proxy.insert(args)
 
 
+@api.route(app.config.get('COMMENT_DELETE_URL'))
 def deleteComment():
     proxy = __makeCommentProxy()
     args = request.args
     return proxy.delete(args)
 
 
-# 在这里注册路由
-api.route(app.config.get('COMMENT_ADD_URL'))(addComment)
-api.route(app.config.get('COMMENT_GET_URL'))(getComment)
-api.route(app.config.get('COMMENT_DELETE_URL'))(deleteComment)
