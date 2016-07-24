@@ -245,6 +245,7 @@ class Comment:
         return Model(*args,  **kwargs)
 """
 
+
 class AnonymousUser(AnonymousUserMixin):
     pass
 
