@@ -28,14 +28,28 @@ def list_seller_orders():
             }
         )
 
-    ordersID = Order.query(Order.orderID).filter(sellerID == Order.sellerID and status == Order.status).slice(start,stop)
-    if not ordersID:
+
+    try:
+        ordersID = Order.query(Order.orderID).filter(sellerID == Order.sellerID and status == Order.status).slice(start,stop)
+
+        if not ordersID:
+            return jsonify(
+
+                {
+                    'status': 2,
+                    'message': 'Fail: No order',
+                    'data': {}
+                }
+            )
+    except:
         return jsonify(
             {
                 'status' : 2,
-                'message' : 'Fail: No order'
+                'message': 'Fail: Database Error',
+                'data':{}
             }
         )
+
 
     orderlist = list()
     for orderID in ordersID:
