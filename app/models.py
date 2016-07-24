@@ -219,6 +219,15 @@ class Good(db.Model):
             db.session.commit()
 
 
+class Comment(db.Model):
+    __tablename__= 'comments'
+    commentID = db.Column(db.Integer, primary_key=True, index=True)
+    goodsID = db.Column(db.Integer, db.ForeignKey('goods.goodID'))
+    commentatorID = db.Column(db.Integer, db.ForeignKey('users.userID'))
+    context = db.Column(db.String(512), nullable=False)
+    status = db.Column(db.Integer, default=0)
+
+"""
 class DescOfQurey:
     def __get__(self, instance, owner):
         if hasattr(owner, 'Model'):
@@ -239,6 +248,7 @@ class Comment:
         Model = type('Comment', (db.Model,), current_app.config.get('COMMENT_TABLE_STRUCTS'))
         setattr(cls, 'Model', Model)
         return Model(*args,  **kwargs)
+"""
 
 
 class AnonymousUser(AnonymousUserMixin):
