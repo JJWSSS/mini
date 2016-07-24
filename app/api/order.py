@@ -15,6 +15,7 @@ from flask_login import current_user,login_required
 def list_seller_orders():
     start = request.form['start']
     stop = start + request.form['count'] - 1
+    status = request.form['status']
     sellerID = current_user.userID
     if not sellerID:
         return jsonify(
@@ -24,7 +25,7 @@ def list_seller_orders():
             }
         )
 
-    ordersID = Order.query(Order.orderID).filter(sellerID == Order.sellerID).slice(start,stop)
+    ordersID = Order.query(Order.orderID).filter(sellerID == Order.sellerID and status == Order.status).slice(start,stop)
     if not ordersID:
         return jsonify(
             {
@@ -57,16 +58,17 @@ def list_seller_orders():
 def list_buyer_orders():
     start = request.form['start']
     stop = start + request.form['count'] - 1
+    status = request.form['status']
     buyerID = current_user.userID
     if not buyerID:
         return jsonify(
             {
-                'status' : 'Fail',
-                'message' : 'User Not Login'
+                'status' : 0,
+                'message' : 'Fail: User Not Login'
             }
         )
 
-    ordersID = Order.query(Order.orderID).filter(buyerID == Order.buyerID).slice(start,stop)
+    ordersID = Order.query(Order.orderID).filter(buyerID == Order.buyerID and status == Order.status).slice(start,stop)
     if not ordersID:
         return jsonify(
             {
@@ -138,13 +140,14 @@ def create_order():
     except:
         return jsonify(
             {
-                'status': 1,
+                'status': 0,
                 'message': 'Database Error',
             }
         )
 
 # 确认订单
-# TODO
+# param[POST]:
+#   'orderID' [int]
 @login_required
 @api.route('/confirm_order',methods = ['POST'])
 def confirm_order():
@@ -162,7 +165,7 @@ def confirm_order():
         return  jsonify(
             {
                 'status': 0,
-                'message': 'Order Has Already Canceled'
+                'message': 'Order Has Already Complete'
             }
         )
     else:
@@ -183,10 +186,11 @@ def confirm_order():
             )
 
 # 取消订单
-# TODO
+# param[POST]:
+#   'orderID' [int]
 @login_required
-@api.route('/cancel_order',methods = ['POST'])
-def cancel_order():
+@api.route('/complete_order',methods = ['POST'])
+def complete_order():
     orderID = request.form['orderID']
     currentStatus = Order.query(Order.status).filter(Order.orderID == orderID).first()
 
@@ -194,7 +198,7 @@ def cancel_order():
         return jsonify(
             {
                 'status': 0,
-                'message': 'Order Has not Confirmed'
+                'message': 'Order Has not Complete'
             }
         )
     elif currentStatus == 2:
