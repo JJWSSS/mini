@@ -4,3 +4,5 @@ app/__pycache__/*
 *.pyc
 app/logs/*.log
 logs/
+photos/
+>>>>>>> FETCH_HEAD
