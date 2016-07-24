@@ -15,6 +15,7 @@ from flask_login import current_user,login_required
 def list_seller_orders():
     start = request.form['start']
     stop = start + request.form['count'] - 1
+    status = request.form['status']
     sellerID = current_user.userID
     if not sellerID:
         return jsonify(
@@ -24,7 +25,7 @@ def list_seller_orders():
             }
         )
 
-    ordersID = Order.query(Order.orderID).filter(sellerID == Order.sellerID).slice(start,stop)
+    ordersID = Order.query(Order.orderID).filter(sellerID == Order.sellerID and status == Order.status).slice(start,stop)
     if not ordersID:
         return jsonify(
             {
@@ -57,6 +58,7 @@ def list_seller_orders():
 def list_buyer_orders():
     start = request.form['start']
     stop = start + request.form['count'] - 1
+    status = request.form['status']
     buyerID = current_user.userID
     if not buyerID:
         return jsonify(
@@ -66,7 +68,7 @@ def list_buyer_orders():
             }
         )
 
-    ordersID = Order.query(Order.orderID).filter(buyerID == Order.buyerID).slice(start,stop)
+    ordersID = Order.query(Order.orderID).filter(buyerID == Order.buyerID and status == Order.status).slice(start,stop)
     if not ordersID:
         return jsonify(
             {
