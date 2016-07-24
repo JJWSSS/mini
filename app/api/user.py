@@ -7,13 +7,19 @@ from flask_login import login_user, logout_user, login_required, current_user
 from ..models import generate_password_hash
 import logging
 
-# register: first step
-# make a new user with incomlete Message
-# param[POST]:
-#             "telephone"
-#             "password"
 @api.route('/register', methods=['POST'])
 def register():
+    '''
+    register: first step
+    make a new user with incomlete Message
+    :param:   [JSON]
+      "telephone"
+      "password"
+    :return:  [JSON]
+       "status" : 0,
+       "message" : "",
+       "data"   : {}
+    '''
     objects = request.json
     password = objects["password"]
     username = str(objects['username'])
@@ -45,15 +51,18 @@ def register():
         "data": {}
     })
 
-# login
-# param[POST]:
-#             "username"
-#             "password"
-# return[HTML][JSON]
-#             "status":  0, 1
-#             "message":
 @api.route('/login', methods=['POST'])
 def login():
+    '''
+    login
+    :param:   [JSON]
+        "username"
+        "password"
+    :return:  [JSON]
+        "status":  0, 1
+        "message":
+        "data": {}
+    '''
     objects = request.json
     username = objects["username"]
     password = objects["password"]
@@ -85,10 +94,18 @@ def login():
             "data": {}
         })
 
-# logout
 @login_required
 @api.route('/logout', methods=['POST'])
 def logout():
+    '''
+    logout
+    :param:
+
+    :return:    [JSON]
+        "status" : 0,
+        "message" : "Register Fail, The username has been Used!",
+        "data"   : {}
+    '''
     logout_user()
     return jsonify({
         "status" : 1,
@@ -100,6 +117,15 @@ def logout():
 # TODO
 @api.route('/reset', methods=['POST'])
 def reset_passwd():
+    '''
+    reset password without login
+    :param:    [JSON]
+
+    :return:   [JSON]
+        "status" : 0,
+        "message" : "",
+        "data": {}
+    '''
     objects = request.json
     username  = objects["username"]
     newpasswd = objects["password"]
@@ -130,16 +156,19 @@ def reset_passwd():
         "data": {}
     })
 
-# register: second step
-# comfirm the User's Message by tencent email
-# param[POST]
-#             "email"
-# return[HTML][JSON]
-#                   "status": 0, 1
-#                   "message":
 @login_required
 @api.route('/comfirm', methods=['POST'])
 def comfirm():
+    '''
+    register: second step
+    comfirm the User's Message by tencent email
+    :param:  [JSON]
+        "email"
+    :return: [JSON]
+        "status" : 0,
+        "message" : "",
+        "data": {}
+    '''
     objects = request.json
     username  = current_user.userName
     email = objects['email']
@@ -168,19 +197,25 @@ def comfirm():
             "data": {}
     })
 
-# get user's information
-# return[HTML][JSON]  When "status" is 0, then has the other Attributes
-#                   "status"  : 0, 1
-#                   "message" :
-#                   "username":
-#                   "id"      :
-#                   "nickname":
-#                   "email"   :
-#                   "isAuthenticated":
-#                   "qq"      :
 @login_required
 @api.route('/getuser', methods=['GET'])
 def get_user_info():
+    '''
+    get current user's information
+    :param:
+
+    :return:   [JSON]
+        "status"   : 1,
+        "message"  : "",
+        "data": {
+            "username": username,
+            "id": result.userID,
+            "nickname": result.nickName,
+            "email": result.email,
+            "isAuthenticated": result.isAuthenticated,
+            "qq": result.qq
+        }
+    '''
     username = current_user.userName
     result = User.query.filter_by(userName=username).first()
     if result:
@@ -206,15 +241,18 @@ def get_user_info():
         })
 
 
-# update user's information
-# param[POST][JSON]
-#            "nickname"
-# return[HTML][JSON]
-#            "status" : 0, 1, 2  (Success, Fail with No user, Fail with no Auth)
-#            "message" :
 @login_required
 @api.route('/updateuser', methods=['POST'])
 def update_user_info():
+    '''
+    update User's Information
+    :param:   [JSON]
+        "nickname"
+    :return:  [JSON]
+        "status": 2,
+        "message": "",
+        "data" : {}
+    '''
     objects = request.json
     username = current_user.userName
     nickname = objects["nickname"]
@@ -249,6 +287,15 @@ def update_user_info():
 
 @api.route('/active', methods=['GET'])
 def is_it_active():
+    '''
+    If Ip is Active
+    :param:
+
+    :return:   [JSON]
+        "status": 0,
+        "message": "User Not Login!",
+        "data": {}
+    '''
     if current_user.is_anonymous():
         return jsonify({
             "status": 0,
