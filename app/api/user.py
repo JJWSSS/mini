@@ -22,7 +22,7 @@ def register():
     # If The phone number had been Used, return failure
     if beseen:
         return jsonify({
-            "status" : 1,
+            "status" : 0,
             "message" : "Register Fail, The username has been Used!",
             "data"   : {}
         })
@@ -40,10 +40,10 @@ def register():
     db.session.commit()
     logging.log(logging.INFO, "Register Success: username{}".format(username))
     return jsonify({
-        "status" : 0,
+        "status" : 1,
         "message" : "Register Success",
         "data": {}
-    }), 200
+    })
 
 # login
 # param[POST]:
@@ -65,7 +65,7 @@ def login():
     else:
         logging.log(logging.INFO, "Login Fail: {}".format(username))
         return jsonify({
-            "status" : 1,
+            "status" : 0,
             "message" : "Login Failure, Username is not Exist",
             "data": {}
         })
@@ -73,7 +73,7 @@ def login():
         login_user(person, True)
         logging.log(logging.INFO, "Login Success: {}".format(username))
         return jsonify({
-            "status": 0,
+            "status": 1,
             "message": "Login Success",
             "data": {}
         })
@@ -91,10 +91,10 @@ def login():
 def logout():
     logout_user()
     return jsonify({
-        "status" : 0,
+        "status" : 1,
         "message" : "logout Success",
         "data": {}
-    }), 200
+    })
 
 # reset user's password
 # TODO
@@ -119,13 +119,13 @@ def reset_passwd():
     else:
         logging.log(logging.INFO, "reset password({}) Fail: Not Such username".format(username))
         return jsonify({
-            "status": 1,
+            "status": 0,
             "message": "reset Password Fail! Username is Wrong",
             "data": {}
         })
     logging.log(logging.INFO, "reset password({}): Success".format(username))
     return jsonify({
-        "status": 0,
+        "status": 1,
         "message": "reset Success",
         "data": {}
     })
@@ -150,7 +150,7 @@ def comfirm():
     else:
         logging.log(logging.INFO, "comfirm ({}) Fail: No Such User".format(username))
         return jsonify({
-            "status" : 1,
+            "status" : 0,
             "message" : "Confirm Failure, Not such user",
             "data": {}
         })
@@ -163,10 +163,10 @@ def comfirm():
         logging.log(logging.ERROR, "comfirm ({}) Fail: Database or Internal Error".format(username))
     logging.log(logging.INFO, "comfirm({}): Success".format(username))
     return jsonify({
-            "status" : 0,
+            "status" : 1,
             "message" : "Confirm Success",
             "data": {}
-    }), 200
+    })
 
 # get user's information
 # return[HTML][JSON]  When "status" is 0, then has the other Attributes
@@ -186,7 +186,7 @@ def get_user_info():
     if result:
         logging.log(logging.INFO, "Get User Information ({}): Success".format(username))
         return jsonify({
-            "status"   : 0,
+            "status"   : 1,
             "message"  : "Get user info Success",
             "data": {
                 "username": username,
@@ -200,7 +200,7 @@ def get_user_info():
     else :
         logging.log(logging.INFO, "Get User Information ({}) Fail: No such User".format(username))
         return jsonify({
-            "status"    : 1,
+            "status"    : 0,
             "message"   : "Get User info Fail!, Not such User",
             "data": {}
         })
@@ -235,13 +235,13 @@ def update_user_info():
     else :
         logging.log(logging.INFO, "Update User Information ({}) Fail: No such User".format(username))
         return jsonify({
-            "status": 1,
+            "status": 0,
             "message": "Update User Fail!, Not such User",
             "data" : {}
         })
     logging.log(logging.INFO, "Update User Information ({}): Success".format(username))
     return jsonify({
-        "status" : 0,
+        "status" : 1,
         "message" : "Update User Success!",
         "data" : {}
     })
@@ -251,13 +251,13 @@ def update_user_info():
 def is_it_active():
     if current_user.is_anonymous():
         return jsonify({
-            "status": 1,
+            "status": 0,
             "message": "User Not Login!",
             "data": {}
         })
     else :
         return jsonify({
-            "status": 0,
+            "status": 1,
             "message": "User has Login!",
             "data": {}
         })
