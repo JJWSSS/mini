@@ -306,7 +306,11 @@ def is_it_active():
         return jsonify({
             "status": 1,
             "message": "User has Login!",
-            "data": {}
+            "data": {
+                "id"       : current_user.userID,
+                "nickname" : current_user.nickName,
+                "isAuth"   : current_user.isAuthenticated
+            }
         })
 
 
