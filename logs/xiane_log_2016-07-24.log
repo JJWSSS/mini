@@ -613,3 +613,81 @@ INFO:werkzeug: * Debugger pin code: 277-754-078
 [INFO](2016-07-24 19:24:17,476) in _internal.py:line 87 :  * Debugger pin code: 257-976-002
 [INFO](2016-07-24 19:24:49,473) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 19:24:49] "POST /api/list_seller_orders HTTP/1.1" 200 -
 [INFO](2016-07-24 19:30:24,721) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 19:30:24] "POST /api/good HTTP/1.1" 500 -
+[INFO](2016-07-24 19:35:32,409) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-24 19:35:32,412) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 19:35:33,597) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 19:35:33,604) in _internal.py:line 87 :  * Debugger pin code: 257-976-002
+[INFO](2016-07-24 19:35:49,276) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 19:35:49] "POST /api/list_seller_orders HTTP/1.1" 200 -
+[INFO](2016-07-24 19:45:11,218) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-24 19:45:11,220) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 19:45:12,543) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 19:45:12,554) in _internal.py:line 87 :  * Debugger pin code: 257-976-002
+[INFO](2016-07-24 19:47:38,579) in _internal.py:line 87 :  * Detected change in 'D:\\Program\\Github\\mini\\app\\api\\order.py', reloading
+[INFO](2016-07-24 19:47:38,639) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 19:47:39,942) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 19:47:39,950) in _internal.py:line 87 :  * Debugger pin code: 257-976-002
+[INFO](2016-07-24 19:56:05,793) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-24 19:56:05,796) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 19:56:07,109) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 19:56:07,116) in _internal.py:line 87 :  * Debugger pin code: 257-976-002
+[INFO](2016-07-24 19:56:46,179) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 19:56:46] "POST /api/get_order_detail HTTP/1.1" 500 -
+[INFO](2016-07-24 19:57:30,255) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-24 19:57:30,257) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 19:57:31,527) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 19:57:31,534) in _internal.py:line 87 :  * Debugger pin code: 257-976-002
+[INFO](2016-07-24 19:57:33,671) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 19:57:33] "POST /api/get_order_detail HTTP/1.1" 500 -
+[INFO](2016-07-24 19:59:42,724) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-24 19:59:42,726) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 19:59:44,176) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 19:59:44,183) in _internal.py:line 87 :  * Debugger pin code: 257-976-002
+[INFO](2016-07-24 20:00:16,834) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 20:00:16] "POST /api/get_order_detail HTTP/1.1" 200 -
+[INFO](2016-07-24 20:00:30,876) in _internal.py:line 87 :  * Detected change in 'D:\\Program\\Github\\mini\\app\\api\\order.py', reloading
+[INFO](2016-07-24 20:00:30,955) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 20:00:32,257) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 20:00:32,264) in _internal.py:line 87 :  * Debugger pin code: 257-976-002
+[INFO](2016-07-24 20:04:33,829) in _internal.py:line 87 :  * Detected change in 'D:\\Program\\Github\\mini\\app\\api\\order.py', reloading
+[INFO](2016-07-24 20:04:33,949) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 20:04:36,026) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 20:04:36,033) in _internal.py:line 87 :  * Debugger pin code: 257-976-002
+[INFO](2016-07-24 20:06:03,555) in _internal.py:line 87 :  * Detected change in 'D:\\Program\\Github\\mini\\app\\api\\order.py', reloading
+[INFO](2016-07-24 20:06:03,630) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 20:06:04,995) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 20:06:05,005) in _internal.py:line 87 :  * Debugger pin code: 257-976-002
+[INFO](2016-07-24 20:06:51,428) in _internal.py:line 87 :  * Detected change in 'D:\\Program\\Github\\mini\\app\\api\\order.py', reloading
+[INFO](2016-07-24 20:06:51,493) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 20:06:52,995) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 20:06:53,002) in _internal.py:line 87 :  * Debugger pin code: 257-976-002
+[INFO](2016-07-24 20:07:33,029) in _internal.py:line 87 :  * Detected change in 'D:\\Program\\Github\\mini\\app\\api\\order.py', reloading
+[INFO](2016-07-24 20:07:33,098) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 20:07:34,281) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 20:07:34,288) in _internal.py:line 87 :  * Debugger pin code: 257-976-002
+[INFO](2016-07-24 20:09:31,336) in _internal.py:line 87 :  * Detected change in 'D:\\Program\\Github\\mini\\app\\api\\order.py', reloading
+[INFO](2016-07-24 20:09:31,405) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 20:09:32,731) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 20:09:32,738) in _internal.py:line 87 :  * Debugger pin code: 257-976-002
+[INFO](2016-07-24 20:13:04,071) in _internal.py:line 87 :  * Detected change in 'D:\\Program\\Github\\mini\\app\\api\\order.py', reloading
+[INFO](2016-07-24 20:13:04,171) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 20:13:05,569) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 20:13:05,576) in _internal.py:line 87 :  * Debugger pin code: 257-976-002
+[INFO](2016-07-24 20:13:37,068) in _internal.py:line 87 :  * Detected change in 'D:\\Program\\Github\\mini\\app\\api\\order.py', reloading
+[INFO](2016-07-24 20:13:37,136) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 20:13:38,625) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 20:13:38,637) in _internal.py:line 87 :  * Debugger pin code: 257-976-002
+[INFO](2016-07-24 20:15:17,532) in _internal.py:line 87 :  * Detected change in 'D:\\Program\\Github\\mini\\app\\api\\order.py', reloading
+[INFO](2016-07-24 20:15:17,601) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 20:15:19,017) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 20:15:19,024) in _internal.py:line 87 :  * Debugger pin code: 257-976-002
+[INFO](2016-07-24 20:17:16,840) in _internal.py:line 87 :  * Detected change in 'D:\\Program\\Github\\mini\\app\\api\\order.py', reloading
+[INFO](2016-07-24 20:17:16,906) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 20:17:18,228) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 20:17:18,235) in _internal.py:line 87 :  * Debugger pin code: 257-976-002
+[INFO](2016-07-24 20:17:21,503) in _internal.py:line 87 :  * Detected change in 'D:\\Program\\Github\\mini\\app\\api\\order.py', reloading
+[INFO](2016-07-24 20:17:21,559) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 20:17:22,790) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 20:17:22,796) in _internal.py:line 87 :  * Debugger pin code: 257-976-002
+[INFO](2016-07-24 20:19:10,579) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 20:19:10] "POST /api/confirm_order HTTP/1.1" 200 -
+[INFO](2016-07-24 20:21:03,557) in _internal.py:line 87 :  * Detected change in 'D:\\Program\\Github\\mini\\app\\api\\order.py', reloading
+[INFO](2016-07-24 20:21:03,688) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 20:21:05,719) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 20:21:05,731) in _internal.py:line 87 :  * Debugger pin code: 257-976-002
+[INFO](2016-07-24 20:21:18,085) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 20:21:18] "POST /api/confirm_order HTTP/1.1" 200 -

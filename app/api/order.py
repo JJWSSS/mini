@@ -12,6 +12,7 @@ from flask_login import current_user,login_required
 #   'start' [int]
 #   'count' [int]
 #   'status' [int]
+# @login_required
 @api.route('/list_seller_orders', methods = ['POST'])
 def list_seller_orders():
     object = request.json
@@ -30,7 +31,7 @@ def list_seller_orders():
 
 
     try:
-        ordersID = Order.query(Order.orderID).filter(sellerID == Order.sellerID and status == Order.status)
+        ordersID = Order.query(Order.orderID).filter(sellerID == Order.sellerID and status == Order.status).slice(start,stop)
 
         if not ordersID:
             return jsonify(
@@ -80,6 +81,7 @@ def list_seller_orders():
 #   'start' [int]
 #   'count' [int]
 #   'status' [int]
+# @login_required
 @api.route('/list_seller_orders', methods = ['POST'])
 def list_buyer_orders():
     object = request.json
@@ -97,7 +99,7 @@ def list_buyer_orders():
         )
 
     try:
-        ordersID = Order.query(Order.orderID).filter(buyerID == Order.buyerID and status == Order.status)
+        ordersID = Order.query(Order.orderID).filter(buyerID == Order.buyerID and status == Order.status).slice(start,stop)
         if not ordersID:
             return jsonify(
                 {
@@ -114,35 +116,64 @@ def list_buyer_orders():
             }
         )
 
-    orderlist = list()
-    for orderID in ordersID:
-        orderinfo = Order.query(Order).filter(orderID == Order.orderID).first()
-        orderinfo = dict(orderinfo,**Good.query(Good.goodName).filter(Good.goodID == orderinfo.goodID).first())
-        orderinfo = dict(orderinfo,**User.query(User.userName).filter(User.userID == orderinfo.sellerID).first())
-        orderlist.append(orderinfo)
-    return jsonify(
-        {
-            'status' : 'Success',
-            'message' : orderlist
-        }
-    )
+    try:
+        orderlist = list()
+        for orderID in ordersID:
+            orderinfo = Order.query(Order).filter(orderID == Order.orderID).first()
+            orderinfo = dict(orderinfo,**Good.query(Good.goodName).filter(Good.goodID == orderinfo.goodID).first())
+            orderinfo = dict(orderinfo,**User.query(User.userName).filter(User.userID == orderinfo.sellerID).first())
+            orderlist.append(orderinfo)
+        return jsonify(
+            {
+                'status' : 'Success',
+                'message' : orderlist
+            }
+        )
+    except:
+        return jsonify(
+            {
+                'status': 3,
+                'message': 'Fail: Database Error',
+                'data': {}
+            }
+        )
 
 
 # 获取订单详情
 # params[POST]:
 #   'orderID' [int]
-@login_required
+# @login_required
 @api.route('/get_order_detail', methods = ['POST'])
 def get_order_detail():
-    orderID = request.form['orderID']
-    orderDetail = Order.query(Order).filter(Order.orderID == orderID).first()
-    return jsonify(
-        {
-            'status' : 1,
-            'message' : 'Success',
-            'data' : orderDetail
-        }
-    )
+    object = request.json
+    orderID = object['orderID']
+    try:
+        orderDetail = Order.query(Order).filter(Order.orderID == orderID).first()
+
+        if not orderDetail:
+            return jsonify(
+                {
+                    'status':0,
+                    'message':'No Such Order',
+                    'Data':{}
+                }
+            )
+
+        return jsonify(
+            {
+                'status' : 1,
+                'message' : 'Success',
+                'data' : orderDetail
+            }
+        )
+    except:
+        return jsonify(
+            {
+                'status': 3,
+                'message': 'Fail: Database Error',
+                'data': {}
+            }
+        )
 
 # 创建新订单
 # params[POST]:
@@ -150,11 +181,19 @@ def get_order_detail():
 #   'buyerID' [int]
 #   'sellerID' [int]
 #   'count' [int]
-@login_required
+# @login_required
 @api.route('/create_order',methods = ['POST'])
 def create_order():
     neworderinfo = request.json
     timenow = datetime.utcnow()
+    if neworderinfo.sellerID == neworderinfo.buyerID:
+        return jsonify(
+            {
+                'status': 2,
+                'message': 'Same Seller and Buyer',
+                'data': {}
+            }
+        )
     try:
         neworder = Order(
             goodID = neworderinfo.goodID,
@@ -171,93 +210,123 @@ def create_order():
             {
                 'status': 1,
                 'message': 'Success',
+                'data':{}
             }
         )
 
     except:
         return jsonify(
             {
-                'status': 0,
+                'status': 3,
                 'message': 'Database Error',
+                'data':{}
             }
         )
 
 # 确认订单
 # param[POST]:
 #   'orderID' [int]
-@login_required
+# @login_required
 @api.route('/confirm_order',methods = ['POST'])
 def confirm_order():
-    orderID = request.form['orderID']
-    currentStatus = Order.query(Order.status).filter(Order.orderID == orderID).first()
-
-    if currentStatus == 1:
+    object = request.json
+    orderID = object['orderID']
+    try:
+        currentStatus = Order.query(Order.status).filter(Order.orderID == orderID).first()
+        if not currentStatus:
+            return (
+                {
+                    'status':2,
+                    'message': 'No Such Order',
+                    'data':{}
+                }
+            )
+    except:
         return jsonify(
             {
-                'status': 0,
-                'message': 'Order Has Already Confirmed'
+                'status':3,
+                'message':'Database Error',
+                'data':{}
             }
         )
-    elif currentStatus == 2:
-        return  jsonify(
-            {
-                'status': 0,
-                'message': 'Order Has Already Complete'
-            }
-        )
-    else:
+
+    if currentStatus == 0:
         try:
             Order.query(Order).filter(Order.orderID == orderID).update({'status':1})
             return jsonify(
                 {
                     'status': 1,
-                    'message': 'Success'
+                    'message': 'Success',
+                    'data':{}
                 }
             )
         except:
             return jsonify(
                 {
-                    'status': 0,
-                    'message': 'Datebase Error'
+                    'status': 3,
+                    'message': 'Datebase Error',
+                    'data':{}
                 }
             )
+    else:
+        return jsonify(
+            {
+                'status': 0,
+                'message': 'Order Has Already Confirmed',
+                'data':{}
+            }
+        )
 
 # 取消订单
 # param[POST]:
 #   'orderID' [int]
-@login_required
+# @login_required
 @api.route('/complete_order',methods = ['POST'])
 def complete_order():
     orderID = request.form['orderID']
-    currentStatus = Order.query(Order.status).filter(Order.orderID == orderID).first()
+    try:
+        currentStatus = Order.query(Order.status).filter(Order.orderID == orderID).first()
+        if not currentStatus:
+            return (
+                {
+                    'status':2,
+                    'message': 'No Such Order',
+                    'data':{}
+                }
+            )
+
+    except:
+        return jsonify(
+            {
+                'status':3,
+                'message':'Database Error',
+                'data':{}
+            }
+        )
 
     if currentStatus == 0:
-        return jsonify(
-            {
-                'status': 0,
-                'message': 'Order Has not Complete'
-            }
-        )
-    elif currentStatus == 2:
-        return jsonify(
-            {
-                'status': 0,
-                'message': 'Order Has Already Canceled'
-            }
-        )
-    else:
         try:
-            Order.query(Order).filter(Order.orderID == orderID).update({'status': 2})
+            Order.query(Order).filter(Order.orderID == orderID).update({'status': 1})
             return jsonify(
                 {
                     'status': 1,
-                    'message': 'Success'
+                    'message': 'Success',
+                    'data':{}
                 }
             )
         except:
             return jsonify(
                 {
-                    'status': 0,
-                    'message': 'Datebase Error'
+                    'status': 3,
+                    'message': 'Datebase Error',
+                    'data':{}
                 }
             )
+    else:
+        return jsonify(
+            {
+                'status': 0,
+                'message': 'Order Has Already Canceled',
+                'data':{}
+            }
+        )
