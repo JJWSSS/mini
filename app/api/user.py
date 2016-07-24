@@ -197,6 +197,30 @@ def comfirm():
             "data": {}
     })
 
+def user_info(userid):
+    result = User.query.filter_by(userID=userid).first()
+    if result:
+        logging.log(logging.INFO, "Get User Information ({}): Success".format(username))
+        return {
+            "status": 1,
+            "message": "Get user info Success",
+            "data": {
+                "username": result.userName,
+                "id": result.userID,
+                "nickname": result.nickName,
+                "email": result.email,
+                "isAuthenticated": result.isAuthenticated,
+                "qq": result.qq
+            }
+        }
+    else:
+        logging.log(logging.INFO, "Get User Information ({}) Fail: No such User".format(result.userName))
+        return {
+            "status": 0,
+            "message": "Get User info Fail!, Not such User",
+            "data": {}
+        }
+
 @login_required
     @api.route('/getuser', methods=['GET'])
 def get_user_info():
