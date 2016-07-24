@@ -17,11 +17,14 @@ def appendUserInfo(getJson):
         ret = getJson(self, args)
         for item in ret:
             userInfo = user_info(item['commentatorID'])
-            if userInfo['status'] == 1:
-                item['UserInfo'] = {
-                                    'nickname': userInfo['data']['nickname'],
-                                    'username': userInfo['data']['username'],
-                                   }
+            if userInfo['status']:
+                item['userInfo'] = {
+                    'userNmae': userInfo['data']['username'],
+                    'nickName': userInfo['data']['nickname'],
+                    'id': userInfo['data']['id']
+                }
+            else:
+                item['userInfo'] = None
         return ret
 
     return __doAppendImage
@@ -49,8 +52,8 @@ def limitAndStartAddtion(qurey):
     @wraps(qurey)
     def __doLimitAndStart(self, args):
         ret = qurey(self, args)
-        start = 0;
-        limit = 50;
+        start = 0
+        limit = 50
 
         if 'start' in args:
             start = args['start']
