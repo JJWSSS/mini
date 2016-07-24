@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from . import api
+from .. import db
 from datetime import  datetime
 from flask import request,jsonify
 from ..models import User,Order,Good
@@ -186,7 +187,7 @@ def get_order_detail():
 def create_order():
     neworderinfo = request.json
     timenow = datetime.utcnow()
-    if neworderinfo.sellerID == neworderinfo.buyerID:
+    if neworderinfo['sellerID'] == neworderinfo['buyerID']:
         return jsonify(
             {
                 'status': 2,
@@ -196,15 +197,16 @@ def create_order():
         )
     try:
         neworder = Order(
-            goodID = neworderinfo.goodID,
-            sellerID = neworderinfo.sellerID,
-            buyerID = neworderinfo.buyerID,
+            goodID = neworderinfo['goodID'],
+            sellerID = neworderinfo['sellerID'],
+            buyerID = neworderinfo['buyerID'],
             createDate = timenow,
             confirmDate = timenow,
-            count = neworderinfo.count,
+            count = neworderinfo['count'],
             status = 0
         )
-        Order.add(neworder)
+        db.session.add(neworder)
+        db.session.commit()
 
         return jsonify(
             {
