@@ -16,8 +16,7 @@ db = SQLAlchemy()
 login_manager = LoginManager()
 LoginManager.login_view = 'api.login'
 
-<<<<<<< HEAD
-=======
+
 def init_logger(log_level):
     local_cwd = getcwd()
     tmp = join(local_cwd, 'logs')
@@ -31,7 +30,7 @@ def init_logger(log_level):
     logging.basicConfig(filename=_log, level=log_level,
                         format='[%(levelname)s](%(asctime)s) in %(filename)s:line %(lineno)d : %(message)s')
 # 有毒
->>>>>>> origin/master
+
 
 def create_app(config_name):
     # logger Init

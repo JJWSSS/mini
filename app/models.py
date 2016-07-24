@@ -174,7 +174,9 @@ class Good(db.Model):
     description = db.Column(db.Text, nullable=False)
     image = db.Column(db.Text, nullable=False)
     compressImage = db.Column(db.Text, nullable=False)
-    contact = db.Column(db.Integer, nullable=False)
+    contact_tel = db.Column(db.Integer, nullable=False)
+    contact_qq = db.Column(db.Integer, nullable=False)
+    contact_wechat = db.Column(db.String(64), nullable=False)
     type = db.Column(db.Integer, nullable=False)
     orders = db.relationship('Order', backref='good', lazy='dynamic')
     comments = db.relationship('Comment', backref='good', lazy='dynamic')
@@ -193,7 +195,9 @@ class Good(db.Model):
             'description': self.description,
             'image': self.image,
             'compressImage': self.compressImage,
-            'contact': self.contact,
+            'contact_tel': self.contact_tel,
+            'contact_qq': self.contact_qq,
+            'contact_wechat': self.contact_wechat,
             'type': self.type,
             'price': self.price
         }
