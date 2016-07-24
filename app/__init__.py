@@ -15,6 +15,7 @@ db = SQLAlchemy()
 login_manager = LoginManager()
 LoginManager.login_view = 'api.login'
 
+
 # 初始化日志路径以及格式
 def init_logger(log_level):
     local_cwd = getcwd()
@@ -31,6 +32,7 @@ def init_logger(log_level):
 # 通过设置环境变量来设置日志的等级
 # $ export LOGGER_LEVEL=0
 # 0 For DEBUG, 1 For INFO, 2 For WARNING, 3 For ERROR, 4 For CRITICAL
+
 
 def create_app(config_name):
     from config import config

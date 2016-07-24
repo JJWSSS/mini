@@ -227,4 +227,3 @@ def complete_order():
                     'message': 'Datebase Error'
                 }
             )
-

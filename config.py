@@ -30,7 +30,7 @@ class DevelopmentConfig(Config):
 
 class CommentTestConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:lee@localhost/TEST'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://jjw:101023@localhost/mini'
     COMMENT_GET_URL = '/comment/get'
     COMMENT_ADD_URL = '/comment/insert'
     COMMENT_DELETE_URL = '/comment/delete'
