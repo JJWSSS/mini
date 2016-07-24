@@ -61,8 +61,8 @@ def list_buyer_orders():
     if not buyerID:
         return jsonify(
             {
-                'status' : 'Fail',
-                'message' : 'User Not Login'
+                'status' : 0,
+                'message' : 'Fail: User Not Login'
             }
         )
 
