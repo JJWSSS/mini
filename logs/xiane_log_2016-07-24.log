@@ -7,3 +7,330 @@
 [WARNING](2016-07-24 10:35:20,325) in __init__.py:line 47 : Nothing
 [WARNING](2016-07-24 10:35:20,368) in _internal.py:line 87 :  * Debugger is active!
 [INFO](2016-07-24 10:35:20,369) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[WARNING](2016-07-24 10:36:37,057) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:36:37,058) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:36:37,113) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 10:36:37,115) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[INFO](2016-07-24 10:37:19,397) in _internal.py:line 87 :  * Detected change in '/home/lee/mini/mini/app/api/comment.py', reloading
+[WARNING](2016-07-24 10:37:20,024) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:37:20,026) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:37:20,066) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 10:37:20,068) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[INFO](2016-07-24 10:37:38,192) in _internal.py:line 87 :  * Detected change in '/home/lee/mini/mini/app/api/comment.py', reloading
+[WARNING](2016-07-24 10:37:38,912) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:37:38,915) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:37:38,965) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 10:37:38,968) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[INFO](2016-07-24 10:38:10,203) in _internal.py:line 87 :  * Detected change in '/home/lee/mini/mini/app/api/comment.py', reloading
+[WARNING](2016-07-24 10:38:11,033) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:38:11,036) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:38:11,079) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 10:38:11,081) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[INFO](2016-07-24 10:38:25,233) in _internal.py:line 87 :  * Detected change in '/home/lee/mini/mini/app/api/comment.py', reloading
+[WARNING](2016-07-24 10:38:26,057) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:38:26,065) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:38:26,152) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 10:38:26,155) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[INFO](2016-07-24 10:42:05,844) in _internal.py:line 87 :  * Detected change in '/home/lee/mini/mini/app/api/comment.py', reloading
+[WARNING](2016-07-24 10:42:06,862) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:42:06,866) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:42:06,941) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 10:42:06,943) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[WARNING](2016-07-24 10:42:09,649) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:42:09,650) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:42:12,462) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:42:12,466) in __init__.py:line 47 : Nothing
+[INFO](2016-07-24 10:42:12,762) in _internal.py:line 87 :  * Running on http://localhost:54321/ (Press CTRL+C to quit)
+[INFO](2016-07-24 10:42:12,768) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 10:42:13,443) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:42:13,445) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:42:13,499) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 10:42:13,501) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[INFO](2016-07-24 10:42:14,891) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:42:14] "GET /api/comment/get?goodsID=12 HTTP/1.1" 500 -
+[INFO](2016-07-24 10:42:14,923) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:42:14] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+[INFO](2016-07-24 10:42:14,925) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:42:14] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+[INFO](2016-07-24 10:42:14,927) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:42:14] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+[INFO](2016-07-24 10:42:15,328) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:42:15] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+[INFO](2016-07-24 10:42:15,357) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:42:15] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+[INFO](2016-07-24 10:43:28,040) in _internal.py:line 87 :  * Detected change in '/home/lee/mini/mini/config.py', reloading
+[INFO](2016-07-24 10:43:28,171) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 10:43:29,197) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:43:29,199) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:43:29,299) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 10:43:29,305) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[WARNING](2016-07-24 10:43:31,002) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:43:31,004) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:43:33,673) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:43:33,674) in __init__.py:line 47 : Nothing
+[INFO](2016-07-24 10:43:33,718) in _internal.py:line 87 :  * Running on http://localhost:54321/ (Press CTRL+C to quit)
+[INFO](2016-07-24 10:43:33,718) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 10:43:34,052) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:43:34,053) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:43:34,097) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 10:43:34,099) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[INFO](2016-07-24 10:43:36,593) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:43:36] "GET /api/comment/get?goodsID=12 HTTP/1.1" 200 -
+[INFO](2016-07-24 10:43:41,323) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:43:41] "GET /api/comment/get HTTP/1.1" 200 -
+[INFO](2016-07-24 10:46:26,776) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:46:26] "GET /api/comment/get HTTP/1.1" 200 -
+[INFO](2016-07-24 10:46:32,542) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:46:32] "GET /api/comment/get?goodsID=12312 HTTP/1.1" 200 -
+[INFO](2016-07-24 10:48:00,161) in _internal.py:line 87 :  * Detected change in '/home/lee/mini/mini/app/api/comment.py', reloading
+[INFO](2016-07-24 10:48:00,309) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 10:48:01,080) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:48:01,085) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:48:01,206) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 10:48:01,217) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[WARNING](2016-07-24 10:48:24,270) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:48:24,271) in __init__.py:line 47 : Nothing
+[INFO](2016-07-24 10:48:24,312) in _internal.py:line 87 :  * Running on http://localhost:54321/ (Press CTRL+C to quit)
+[INFO](2016-07-24 10:48:24,312) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 10:48:24,660) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:48:24,662) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:48:24,704) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 10:48:24,706) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[INFO](2016-07-24 10:48:28,208) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:48:28] "GET /api/comment/get?goodsID=12312 HTTP/1.1" 200 -
+[INFO](2016-07-24 10:48:29,069) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:48:29] "GET /api/comment/get?goodsID=12312 HTTP/1.1" 200 -
+[INFO](2016-07-24 10:48:33,721) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:48:33] "GET /api/comment/get HTTP/1.1" 500 -
+[INFO](2016-07-24 10:48:33,776) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:48:33] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+[INFO](2016-07-24 10:48:33,778) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:48:33] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+[INFO](2016-07-24 10:48:33,779) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:48:33] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+[INFO](2016-07-24 10:48:33,816) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:48:33] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+[INFO](2016-07-24 10:48:33,889) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:48:33] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+[INFO](2016-07-24 10:49:07,033) in _internal.py:line 87 :  * Detected change in '/home/lee/mini/mini/app/api/comment.py', reloading
+[INFO](2016-07-24 10:49:07,151) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 10:49:07,992) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:49:07,997) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:49:08,082) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 10:49:08,090) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[INFO](2016-07-24 10:49:09,096) in _internal.py:line 87 :  * Detected change in '/home/lee/mini/mini/app/api/comment.py', reloading
+[INFO](2016-07-24 10:49:09,295) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 10:49:10,169) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:49:10,174) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:49:10,293) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 10:49:10,300) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[WARNING](2016-07-24 10:49:12,451) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:49:12,453) in __init__.py:line 47 : Nothing
+[INFO](2016-07-24 10:49:12,517) in _internal.py:line 87 :  * Running on http://localhost:54321/ (Press CTRL+C to quit)
+[INFO](2016-07-24 10:49:12,518) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 10:49:12,940) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:49:12,946) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:49:13,021) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 10:49:13,023) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[INFO](2016-07-24 10:49:15,722) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:49:15] "GET /api/comment/get HTTP/1.1" 500 -
+[INFO](2016-07-24 10:49:15,742) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:49:15] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+[INFO](2016-07-24 10:49:15,743) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:49:15] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+[INFO](2016-07-24 10:49:15,744) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:49:15] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+[INFO](2016-07-24 10:49:15,771) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:49:15] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+[INFO](2016-07-24 10:49:15,876) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:49:15] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+[INFO](2016-07-24 10:50:23,643) in _internal.py:line 87 :  * Detected change in '/home/lee/mini/mini/app/api/comment.py', reloading
+[INFO](2016-07-24 10:50:23,772) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 10:50:24,332) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:50:24,337) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:50:24,428) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 10:50:24,434) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[INFO](2016-07-24 10:50:27,459) in _internal.py:line 87 :  * Detected change in '/home/lee/mini/mini/app/api/comment.py', reloading
+[INFO](2016-07-24 10:50:27,597) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 10:50:28,124) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:50:28,147) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:50:28,209) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 10:50:28,211) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[INFO](2016-07-24 10:51:09,540) in _internal.py:line 87 :  * Detected change in '/home/lee/mini/mini/app/api/comment.py', reloading
+[INFO](2016-07-24 10:51:09,807) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 10:51:10,513) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:51:10,516) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:51:10,559) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 10:51:10,561) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[INFO](2016-07-24 10:51:19,628) in _internal.py:line 87 :  * Detected change in '/home/lee/mini/mini/app/api/comment.py', reloading
+[INFO](2016-07-24 10:51:19,756) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 10:51:20,688) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:51:20,691) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:51:20,737) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 10:51:20,742) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[INFO](2016-07-24 10:51:28,800) in _internal.py:line 87 :  * Detected change in '/home/lee/mini/mini/app/api/comment.py', reloading
+[INFO](2016-07-24 10:51:28,918) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 10:51:29,588) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:51:29,592) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:51:29,635) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 10:51:29,637) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[WARNING](2016-07-24 10:51:37,817) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:51:37,819) in __init__.py:line 47 : Nothing
+[INFO](2016-07-24 10:51:37,863) in _internal.py:line 87 :  * Running on http://localhost:54321/ (Press CTRL+C to quit)
+[INFO](2016-07-24 10:51:37,864) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 10:51:38,651) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:51:38,652) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:51:38,844) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 10:51:38,853) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[INFO](2016-07-24 10:51:40,225) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:51:40] "GET /api/comment/get HTTP/1.1" 500 -
+[INFO](2016-07-24 10:51:40,257) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:51:40] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+[INFO](2016-07-24 10:51:40,259) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:51:40] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+[INFO](2016-07-24 10:51:40,261) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:51:40] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+[INFO](2016-07-24 10:51:40,302) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:51:40] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+[INFO](2016-07-24 10:51:40,440) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:51:40] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+[WARNING](2016-07-24 10:52:33,027) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:52:33,034) in __init__.py:line 47 : Nothing
+[INFO](2016-07-24 10:52:33,134) in _internal.py:line 87 :  * Running on http://localhost:54321/ (Press CTRL+C to quit)
+[INFO](2016-07-24 10:52:33,136) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 10:52:34,337) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:52:34,341) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:52:34,428) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 10:52:34,430) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[WARNING](2016-07-24 10:54:08,446) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:54:08,449) in __init__.py:line 47 : Nothing
+[INFO](2016-07-24 10:54:08,489) in _internal.py:line 87 :  * Running on http://localhost:54321/ (Press CTRL+C to quit)
+[INFO](2016-07-24 10:54:08,489) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 10:54:08,807) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:54:08,808) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:54:08,847) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 10:54:08,849) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[INFO](2016-07-24 10:54:10,666) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:54:10] "GET /api/comment/get HTTP/1.1" 500 -
+[INFO](2016-07-24 10:54:10,700) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:54:10] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+[INFO](2016-07-24 10:54:10,702) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:54:10] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+[INFO](2016-07-24 10:54:10,703) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:54:10] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+[INFO](2016-07-24 10:54:10,761) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:54:10] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+[INFO](2016-07-24 10:54:10,888) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:54:10] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+[WARNING](2016-07-24 10:55:39,490) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:55:39,494) in __init__.py:line 47 : Nothing
+[INFO](2016-07-24 10:55:39,580) in _internal.py:line 87 :  * Running on http://localhost:54321/ (Press CTRL+C to quit)
+[INFO](2016-07-24 10:55:39,582) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 10:55:40,831) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:55:40,835) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:55:40,934) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 10:55:40,936) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[INFO](2016-07-24 10:56:33,726) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:56:33] "GET /api/comment/get HTTP/1.1" 500 -
+[INFO](2016-07-24 10:56:33,844) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:56:33] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+[INFO](2016-07-24 10:56:33,858) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:56:33] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+[INFO](2016-07-24 10:56:33,871) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:56:33] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+[INFO](2016-07-24 10:56:33,898) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:56:33] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+[INFO](2016-07-24 10:56:34,066) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:56:34] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+[INFO](2016-07-24 10:57:20,609) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:57:20] "GET /api/comment/get HTTP/1.1" 500 -
+[INFO](2016-07-24 10:57:20,636) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:57:20] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+[INFO](2016-07-24 10:57:20,645) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:57:20] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+[INFO](2016-07-24 10:57:20,652) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:57:20] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+[INFO](2016-07-24 10:57:20,676) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:57:20] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+[INFO](2016-07-24 10:57:20,862) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:57:20] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+[WARNING](2016-07-24 10:57:25,693) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:57:25,695) in __init__.py:line 47 : Nothing
+[INFO](2016-07-24 10:57:25,741) in _internal.py:line 87 :  * Running on http://localhost:54321/ (Press CTRL+C to quit)
+[INFO](2016-07-24 10:57:25,741) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 10:57:26,063) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:57:26,067) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:57:26,132) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 10:57:26,138) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[INFO](2016-07-24 10:57:27,229) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:57:27] "GET /api/comment/get HTTP/1.1" 500 -
+[INFO](2016-07-24 10:57:27,260) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:57:27] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+[INFO](2016-07-24 10:57:27,261) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:57:27] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+[INFO](2016-07-24 10:57:27,263) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:57:27] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+[INFO](2016-07-24 10:57:27,288) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:57:27] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+[INFO](2016-07-24 10:57:27,403) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:57:27] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+[INFO](2016-07-24 10:57:28,574) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:57:28] "GET /api/comment/get HTTP/1.1" 500 -
+[INFO](2016-07-24 10:57:28,603) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:57:28] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+[INFO](2016-07-24 10:57:28,606) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:57:28] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+[INFO](2016-07-24 10:57:28,612) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:57:28] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+[INFO](2016-07-24 10:57:28,633) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:57:28] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+[INFO](2016-07-24 10:57:28,709) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:57:28] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+[INFO](2016-07-24 10:57:30,039) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:57:30] "GET /api/comment/get HTTP/1.1" 500 -
+[INFO](2016-07-24 10:57:30,062) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:57:30] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+[INFO](2016-07-24 10:57:30,064) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:57:30] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+[INFO](2016-07-24 10:57:30,065) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:57:30] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+[INFO](2016-07-24 10:57:30,097) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:57:30] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+[INFO](2016-07-24 10:57:30,218) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:57:30] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+[INFO](2016-07-24 10:58:45,716) in _internal.py:line 87 :  * Detected change in '/home/lee/mini/mini/app/api/user.py', reloading
+[INFO](2016-07-24 10:58:45,832) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 10:58:46,241) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:58:46,242) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:58:46,282) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 10:58:46,284) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[WARNING](2016-07-24 10:58:49,123) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:58:49,125) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:58:53,686) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:58:53,688) in __init__.py:line 47 : Nothing
+[INFO](2016-07-24 10:58:53,744) in _internal.py:line 87 :  * Running on http://localhost:54321/ (Press CTRL+C to quit)
+[INFO](2016-07-24 10:58:53,744) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 10:58:54,062) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:58:54,063) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:58:54,102) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 10:58:54,104) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[INFO](2016-07-24 10:58:56,123) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:58:56] "GET /api/comment/get HTTP/1.1" 500 -
+[INFO](2016-07-24 10:58:56,139) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:58:56] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+[INFO](2016-07-24 10:58:56,145) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:58:56] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+[INFO](2016-07-24 10:58:56,148) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:58:56] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+[INFO](2016-07-24 10:58:56,195) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:58:56] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+[INFO](2016-07-24 10:58:56,305) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 10:58:56] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+[INFO](2016-07-24 10:59:29,388) in _internal.py:line 87 :  * Detected change in '/home/lee/mini/mini/app/api/user.py', reloading
+[INFO](2016-07-24 10:59:29,458) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 10:59:29,768) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:59:29,770) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 10:59:29,810) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 10:59:29,812) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[INFO](2016-07-24 11:00:17,184) in _internal.py:line 87 :  * Detected change in '/home/lee/mini/mini/app/api/user.py', reloading
+[INFO](2016-07-24 11:00:17,293) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 11:00:17,964) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 11:00:17,965) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 11:00:18,048) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 11:00:18,060) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[INFO](2016-07-24 11:01:02,351) in _internal.py:line 87 :  * Detected change in '/home/lee/mini/mini/app/api/user.py', reloading
+[INFO](2016-07-24 11:01:02,486) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 11:01:03,394) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 11:01:03,396) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 11:01:03,564) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 11:01:03,571) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[WARNING](2016-07-24 11:01:06,088) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 11:01:06,089) in __init__.py:line 47 : Nothing
+[INFO](2016-07-24 11:01:06,134) in _internal.py:line 87 :  * Running on http://localhost:54321/ (Press CTRL+C to quit)
+[INFO](2016-07-24 11:01:06,135) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 11:01:06,466) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 11:01:06,467) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 11:01:06,506) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 11:01:06,507) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[INFO](2016-07-24 11:01:08,776) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 11:01:08] "GET /api/comment/get HTTP/1.1" 500 -
+[INFO](2016-07-24 11:01:08,797) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 11:01:08] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+[INFO](2016-07-24 11:01:08,798) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 11:01:08] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+[INFO](2016-07-24 11:01:08,800) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 11:01:08] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+[INFO](2016-07-24 11:01:08,846) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 11:01:08] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+[INFO](2016-07-24 11:01:08,964) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 11:01:08] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+[INFO](2016-07-24 11:01:31,738) in _internal.py:line 87 :  * Detected change in '/home/lee/mini/mini/app/api/user.py', reloading
+[INFO](2016-07-24 11:01:31,856) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 11:01:32,640) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 11:01:32,644) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 11:01:32,730) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 11:01:32,732) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[WARNING](2016-07-24 11:01:59,049) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 11:01:59,051) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 11:02:02,684) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 11:02:02,686) in __init__.py:line 47 : Nothing
+[INFO](2016-07-24 11:02:02,769) in _internal.py:line 87 :  * Running on http://localhost:54321/ (Press CTRL+C to quit)
+[INFO](2016-07-24 11:02:02,770) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 11:02:03,169) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 11:02:03,171) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 11:02:03,216) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 11:02:03,218) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[INFO](2016-07-24 11:05:07,528) in _internal.py:line 87 :  * Detected change in '/home/lee/mini/mini/app/api/user.py', reloading
+[INFO](2016-07-24 11:05:07,613) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 11:05:07,966) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 11:05:07,967) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 11:05:08,017) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 11:05:08,019) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[WARNING](2016-07-24 11:05:12,405) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 11:05:12,409) in __init__.py:line 47 : Nothing
+[INFO](2016-07-24 11:05:12,510) in _internal.py:line 87 :  * Running on http://localhost:54321/ (Press CTRL+C to quit)
+[INFO](2016-07-24 11:05:12,513) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 11:05:12,887) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 11:05:12,889) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 11:05:12,931) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 11:05:12,935) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[INFO](2016-07-24 11:05:19,558) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 11:05:19] "GET /api/comment/get HTTP/1.1" 500 -
+[INFO](2016-07-24 11:05:19,591) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 11:05:19] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+[INFO](2016-07-24 11:05:19,604) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 11:05:19] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+[INFO](2016-07-24 11:05:19,614) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 11:05:19] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+[INFO](2016-07-24 11:05:19,675) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 11:05:19] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+[INFO](2016-07-24 11:05:19,850) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 11:05:19] "GET /api/comment/get?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+[INFO](2016-07-24 11:05:35,099) in _internal.py:line 87 :  * Detected change in '/home/lee/mini/mini/app/api/user.py', reloading
+[INFO](2016-07-24 11:05:35,216) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 11:05:35,666) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 11:05:35,668) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 11:05:35,758) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 11:05:35,764) in _internal.py:line 87 :  * Debugger pin code: 391-555-408
+[INFO](2016-07-24 11:11:40,603) in _internal.py:line 87 :  * Detected change in '/home/lee/mini/mini/app/api/comment.py', reloading
+[INFO](2016-07-24 11:11:40,716) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 11:11:42,717) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 11:11:42,737) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 11:11:42,957) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 11:11:42,967) in _internal.py:line 87 :  * Debugger pin code: 391-555-408

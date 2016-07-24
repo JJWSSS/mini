@@ -8,6 +8,7 @@ from app import db
 from manage import app
 import logging
 from functools import wraps
+from app.api.user import user_info
 
 
 def appendUserInfo(getJson):
@@ -15,8 +16,12 @@ def appendUserInfo(getJson):
     def __doAppendImage(self, args):
         ret = getJson(self, args)
         for item in ret:
-            item['UserInfo'] = \
-                {'name': 'Lee', 'Time': '2016-07-24', 'Image': 'wow.jpg'}
+            userInfo = user_info(item['commentatorID'])
+            if userInfo['status'] == 1:
+                item['UserInfo'] = {
+                                    'nickname': userInfo['data']['nickname'],
+                                    'username': userInfo['data']['username'],
+                                   }
         return ret
 
     return __doAppendImage
