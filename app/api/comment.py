@@ -53,7 +53,7 @@ class CommentProxy:
         return ret
 
     @staticmethod
-    def makeRetJson(status='', messages='', data=None):
+    def makeRetJson(status=0, messages='', data={}):
         return jsonify({'status': status, 'messages': messages, 'data': data})
 
     @limitAndStartAddtion
@@ -68,7 +68,7 @@ class CommentProxy:
     def insert(self, args, isVailed = None):
         message = None
         if isVailed and not isVailed(args):
-                return self.makeRetJson('error', 'invailed arguments')
+                return self.makeRetJson(0, 'invailed arguments')
 
         args = self.filterArgs(args, self._fileds)
         db.session.add(Comment(**args))
@@ -81,16 +81,16 @@ class CommentProxy:
             message = str(e)
             logging.log(logging.DEBUG, 'from comments model: ' + message)
         if exp:
-            return self.makeRetJson('error', 'arguments error')
-        return self.makeRetJson('ok', message)
+            return self.makeRetJson(0, 'arguments error')
+        return self.makeRetJson(1, message)
 
     def delete(self, args):
         self._filerDict = self.filterArgs(args, self._fileds)
         if len(self._filerDict) <= 0:
-            return self.makeRetJson('error', '0 comments have been deleted')
+            return self.makeRetJson(0, '0 comments have been deleted')
         self._filerDict['status'] = 0
         ret = Comment.query.filter_by(**self._filerDict).update({'status': 1})
-        return self.makeRetJson('ok', str(ret) + ' comments have been deleted')
+        return self.makeRetJson(1, str(ret) + ' comments have been deleted')
 
 
 def __makeCommentProxy():
@@ -111,7 +111,7 @@ def getComment():
     proxy = __makeCommentProxy()
     args = request.args
     ret = proxy.query(args).all()
-    return proxy.makeRetJson('ok',
+    return proxy.makeRetJson(1,
                 data={'comments':[proxy.toJson(item) for item in ret]})
 
 
