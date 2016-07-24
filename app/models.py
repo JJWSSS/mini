@@ -183,6 +183,9 @@ class Good(db.Model):
     orders = db.relationship('Order', backref='good', lazy='dynamic')
     comments = db.relationship('Comment', backref='good', lazy='dynamic')
     price = db.Column(db.Integer, nullable=False)
+    poster = db.Column(db.String(128), nullable=False)
+    address = db.Column(db.String(128), nullable=False)
+    times = db.Column(db.Integer, default=0)
 
     def to_json(self):
         json_post = {
@@ -201,7 +204,10 @@ class Good(db.Model):
             'contact_qq': self.contact_qq,
             'contact_wechat': self.contact_wechat,
             'type': self.type,
-            'price': self.price
+            'price': self.price,
+            'poster': self.poster,
+            'address': self.address,
+            'times': self.times
         }
         return json_post
 

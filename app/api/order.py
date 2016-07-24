@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 # -*- coding: utf-8 -*-
 
 from . import api
@@ -226,5 +224,3 @@ def complete_order():
                     'message': 'Datebase Error'
                 }
             )
-
->>>>>>> origin/master
