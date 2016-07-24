@@ -49,6 +49,7 @@ def get_goods():
 
 
 @api.route('/good/', methods=['POST'])
+@login_required
 def single_good():
     try:
         objects = request.json
@@ -59,6 +60,7 @@ def single_good():
 
 
 @api.route('/search/', methods=['POST'])
+@login_required
 def search():
     search_name = request.json['search_name']
     goods = Good.query.filter(Good.goodName.ilike('%'+search_name+'%')).all()
@@ -69,6 +71,7 @@ def search():
 
 
 @api.route('/new_good/', methods=['POST'])
+@login_required
 def new_good():
     try:
         objects = request.json
@@ -86,6 +89,7 @@ def new_good():
 
 
 @api.route('/new_photo/', methods=['POST'])
+@login_required
 def new_photo():
     try:
         file = request.files['file']
@@ -104,6 +108,7 @@ def new_photo():
 
 
 @api.route('/edit_good/', methods=['POST'])
+@login_required
 def edit_good():
     try:
         objects = request.json
@@ -125,6 +130,7 @@ def edit_good():
 
 
 @api.route('/delete_good/', methods=['POST'])
+@login_required
 def delete_good():
     try:
         good = Good.query.get_or_404(request.json['good_id'])
@@ -135,6 +141,7 @@ def delete_good():
 
 
 @api.route('/homepage_goods/', methods=['POST'])
+@login_required
 def homepage_goods():
     try:
         objects = request.json
@@ -149,6 +156,7 @@ def homepage_goods():
 
 
 @api.route('/refresh_goods/', methods=['POST'])
+@login_required
 def refresh_goods():
     objects = request.json
     userid = objects['userID']
@@ -180,6 +188,7 @@ def refresh_goods():
 
 
 @api.route('/more_goods/', methods=['POST'])
+@login_required
 def more_goods():
     objects = request.json
     userid = objects['userID']
@@ -211,6 +220,7 @@ def more_goods():
 
 
 @api.route('/add_times/', methods=['POST'])
+@login_required
 def add_times():
     try:
         good = Good.query.get_or_404(request.json['goodID'])

@@ -564,3 +564,21 @@ INFO:werkzeug: * Debugger pin code: 277-754-078
 [INFO](2016-07-24 16:51:58,425) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 16:51:58] "POST /good HTTP/1.1" 404 -
 [INFO](2016-07-24 16:52:10,104) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 16:52:10] "POST /api/good/ HTTP/1.1" 200 -
 [INFO](2016-07-24 16:52:30,878) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 16:52:30] "POST /api/good/ HTTP/1.1" 200 -
+[WARNING](2016-07-24 17:10:08,764) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 17:10:08,766) in __init__.py:line 47 : Nothing
+[INFO](2016-07-24 17:10:08,945) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-24 17:10:08,947) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 17:10:09,938) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 17:10:09,939) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 17:10:09,971) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 17:10:09,980) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-24 17:10:10,238) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 17:10:10] "POST /api/add_times/ HTTP/1.1" 401 -
+[WARNING](2016-07-24 17:10:40,200) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 17:10:40,202) in __init__.py:line 47 : Nothing
+[INFO](2016-07-24 17:10:40,244) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-24 17:10:40,245) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 17:10:41,117) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 17:10:41,119) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 17:10:41,149) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 17:10:41,156) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-24 17:10:41,227) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 17:10:41] "POST /api/add_times/ HTTP/1.1" 200 -
