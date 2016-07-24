@@ -8,15 +8,18 @@ from flask_login import current_user,login_required
 
 # 列出作为卖家的订单
 # params[POST]:
+#   'userID' [int]
 #   'start' [int]
 #   'count' [int]
-@login_required
+#   'status' [int]
 @api.route('/list_seller_orders', methods = ['POST'])
 def list_seller_orders():
-    start = request.form['start']
-    stop = start + request.form['count'] - 1
-    status = request.form['status']
-    sellerID = current_user.userID
+    object = request.json
+    userID = object['userID']
+    start = object['start']
+    stop = start + object['count'] - 1
+    status = object['status']
+    sellerID = userID
     if not sellerID:
         return jsonify(
             {
