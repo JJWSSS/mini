@@ -30,7 +30,7 @@ def list_seller_orders():
 
 
     try:
-        ordersID = Order.query(Order.orderID).filter(sellerID == Order.sellerID and status == Order.status).slice(start,stop)
+        ordersID = Order.query(Order.orderID).filter(sellerID == Order.sellerID and status == Order.status)
 
         if not ordersID:
             return jsonify(
@@ -76,14 +76,18 @@ def list_seller_orders():
 
 # 列出作为买家的订单
 # params[POST]:
+#   'userID' [int]
 #   'start' [int]
 #   'count' [int]
+#   'status' [int]
 @api.route('/list_seller_orders', methods = ['POST'])
 def list_buyer_orders():
-    start = request.form['start']
-    stop = start + request.form['count'] - 1
-    status = request.form['status']
-    buyerID = current_user.userID
+    object = request.json
+    userID = object['userID']
+    start = object['start']
+    stop = start + object['count'] - 1
+    status = object['status']
+    buyerID = userID
     if not buyerID:
         return jsonify(
             {
@@ -92,12 +96,21 @@ def list_buyer_orders():
             }
         )
 
-    ordersID = Order.query(Order.orderID).filter(buyerID == Order.buyerID and status == Order.status).slice(start,stop)
-    if not ordersID:
+    try:
+        ordersID = Order.query(Order.orderID).filter(buyerID == Order.buyerID and status == Order.status)
+        if not ordersID:
+            return jsonify(
+                {
+                    'status' : 2,
+                    'message' : 'Fail: No order'
+                }
+            )
+    except:
         return jsonify(
             {
-                'status' : 2,
-                'message' : 'Fail: No order'
+                'status': 3,
+                'message': 'Fail: Database Error',
+                'data': {}
             }
         )
 
