@@ -5,4 +5,3 @@ app/__pycache__/*
 app/logs/*.log
 logs/
 photos/
->>>>>>> FETCH_HEAD
