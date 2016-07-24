@@ -7,6 +7,8 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app, url_for
+from sqlalchemy import func
+from datetime import datetime
 
 
 class Order(db.Model):
@@ -222,6 +224,8 @@ class Comment(db.Model):
     commentatorID = db.Column(db.Integer, db.ForeignKey('users.userID'))
     context = db.Column(db.String(512), nullable=False)
     status = db.Column(db.Integer, default=0)
+    commitTime = db.Column(db.DateTime, default=datetime.utcnow)
+
 
 """
 class DescOfQurey:
