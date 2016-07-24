@@ -1,5 +1,10 @@
 .idea/
 workspace.xml
+app/__pycache__/*
 *.pyc
+<<<<<<< HEAD
 logs/
 photos/
+=======
+app/logs/*.log
+>>>>>>> origin/master
