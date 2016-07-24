@@ -601,3 +601,15 @@ INFO:werkzeug: * Debugger pin code: 277-754-078
 [WARNING](2016-07-24 17:10:41,149) in _internal.py:line 87 :  * Debugger is active!
 [INFO](2016-07-24 17:10:41,156) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
 [INFO](2016-07-24 17:10:41,227) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 17:10:41] "POST /api/add_times/ HTTP/1.1" 200 -
+[WARNING](2016-07-24 19:23:12,579) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 19:23:12,583) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 19:24:15,887) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 19:24:15,891) in __init__.py:line 47 : Nothing
+[INFO](2016-07-24 19:24:16,355) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-24 19:24:16,357) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 19:24:17,041) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 19:24:17,046) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 19:24:17,469) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 19:24:17,476) in _internal.py:line 87 :  * Debugger pin code: 257-976-002
+[INFO](2016-07-24 19:24:49,473) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 19:24:49] "POST /api/list_seller_orders HTTP/1.1" 200 -
+[INFO](2016-07-24 19:30:24,721) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 19:30:24] "POST /api/good HTTP/1.1" 500 -

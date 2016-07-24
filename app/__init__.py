@@ -40,11 +40,11 @@ def create_app(config_name):
     LEVEL = (logging.DEBUG, logging.INFO, logging.WARNING, logging.ERROR, logging.CRITICAL)
     log_level = environ.get('LOGGER_LEVEL')
     if log_level is None:
-        log_level = logging.INFO
+        log_level = logging.DEBUG
     else :
         log_level = LEVEL[log_level]
     init_logger(log_level=log_level)
-    logging.log(logging.WARNING, "Nothing")
+    #logging.log(logging.WARNING, "Nothing")
 
     # app Init
     app = Flask(__name__)
