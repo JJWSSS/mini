@@ -2,6 +2,8 @@
 
 import os
 from app import db
+from sqlalchemy import func
+from datetime import datetime
 
 class Config:
     SECRET_KEY = 'mini'
@@ -30,7 +32,7 @@ class DevelopmentConfig(Config):
 
 class CommentTestConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://jjw:101023@localhost/mini'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/test.db'
     COMMENT_GET_URL = '/comment/get'
     COMMENT_ADD_URL = '/comment/insert'
     COMMENT_DELETE_URL = '/comment/delete'
@@ -43,6 +45,7 @@ class CommentTestConfig(Config):
                              'commentatorID': db.Column(db.Integer, db.ForeignKey('users.userID')),
                              'context': db.Column(db.String(512), nullable=False),
                              'status': db.Column(db.Integer, default=0),
+                             'commitTime': db.Column(db.DateTime, default=datetime.utcnow)
                              }
 
 
