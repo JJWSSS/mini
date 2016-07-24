@@ -18,8 +18,14 @@ def allowed_file(filename):
 
 
 @api.route('/goods/', methods=['POST'])
-@login_required
 def get_goods():
+    """
+    功能: 获取商品列表
+    参数类型: json
+    参数: userID(卖家的ID), type(商品类型), begin(查询起始位置), limit(查询个数)
+    返回类型: json
+    参数: status(1为成功, 0为失败), data(商品列表数据)
+    """
     objects = request.json
     userid = objects['userID']
     type = objects['type']
@@ -49,7 +55,6 @@ def get_goods():
 
 
 @api.route('/good/', methods=['POST'])
-@login_required
 def single_good():
     try:
         objects = request.json
@@ -60,7 +65,6 @@ def single_good():
 
 
 @api.route('/search/', methods=['POST'])
-@login_required
 def search():
     search_name = request.json['search_name']
     goods = Good.query.filter(Good.goodName.ilike('%'+search_name+'%')).all()
@@ -141,7 +145,6 @@ def delete_good():
 
 
 @api.route('/homepage_goods/', methods=['POST'])
-@login_required
 def homepage_goods():
     try:
         objects = request.json
@@ -156,7 +159,6 @@ def homepage_goods():
 
 
 @api.route('/refresh_goods/', methods=['POST'])
-@login_required
 def refresh_goods():
     objects = request.json
     userid = objects['userID']
@@ -188,7 +190,6 @@ def refresh_goods():
 
 
 @api.route('/more_goods/', methods=['POST'])
-@login_required
 def more_goods():
     objects = request.json
     userid = objects['userID']
@@ -220,7 +221,6 @@ def more_goods():
 
 
 @api.route('/add_times/', methods=['POST'])
-@login_required
 def add_times():
     try:
         good = Good.query.get_or_404(request.json['goodID'])
