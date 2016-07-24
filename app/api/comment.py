@@ -30,12 +30,21 @@ class CommentProxy:
     def __init__(self, fileds):
         self._filerDict = {}
         self._fileds = fileds
+        self.__Comment = Comment
 
     def __getattr__(self, item):
         def _feedBack(filterx):
             self._filerDict[item] = filterx
             return self
         return _feedBack
+
+    @property
+    def Comment(self):
+        return self.__Comment
+
+    @Comment.setter
+    def setComment(self, _comment):
+        self.__Comment = _comment
 
     def toJson(self, model):
         jsonDict = {}
@@ -59,10 +68,10 @@ class CommentProxy:
     @limitAndStartAddtion
     def query(self, args=None):
         if not args:
-            return Comment.query
+            return self.Comment.query
 
         self._filerDict = self.filterArgs(args, self._fileds)
-        ret = Comment.query.filter_by(**self._filerDict)
+        ret = self.Comment.query.filter_by(**self._filerDict)
         return ret
 
     def insert(self, args, isVailed = None):
@@ -71,7 +80,7 @@ class CommentProxy:
                 return self.makeRetJson(0, 'invailed arguments')
 
         args = self.filterArgs(args, self._fileds)
-        db.session.add(Comment(**args))
+        db.session.add(self.Comment(**args))
         exp = None
         try:
             db.session.commit()
@@ -89,14 +98,13 @@ class CommentProxy:
         if len(self._filerDict) <= 0:
             return self.makeRetJson(0, '0 comments have been deleted')
         self._filerDict['status'] = 0
-        ret = Comment.query.filter_by(**self._filerDict).update({'status': 1})
+        ret = self.Comment.query.filter_by(**self._filerDict).update({'status': 1})
         return self.makeRetJson(1, str(ret) + ' comments have been deleted')
 
 
 def __makeCommentProxy():
     if hasattr(__makeCommentProxy, 'proxy'):
         return __makeCommentProxy.proxy
-
     table_structs = app.config.get('COMMENT_TABLE_STRUCTS')
     table_structs = copy.deepcopy(table_structs)
     table_structs.pop('__tablename__')

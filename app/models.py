@@ -216,11 +216,11 @@ class Good(db.Model):
 
 class Comment(db.Model):
     __tablename__= 'comments'
-    commentID= db.Column(db.Integer, primary_key=True, index=True)
-    goodsID= db.Column(db.Integer, db.ForeignKey('goods.goodID'))
-    commentatorID= db.Column(db.Integer, db.ForeignKey('users.userID'))
-    context= db.Column(db.String(512), nullable=False)
-    status= db.Column(db.Integer, default=0)
+    commentID = db.Column(db.Integer, primary_key=True, index=True)
+    goodsID = db.Column(db.Integer, db.ForeignKey('goods.goodID'))
+    commentatorID = db.Column(db.Integer, db.ForeignKey('users.userID'))
+    context = db.Column(db.String(512), nullable=False)
+    status = db.Column(db.Integer, default=0)
 
 """
 class DescOfQurey:
