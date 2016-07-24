@@ -7,21 +7,44 @@ import copy
 from app import db
 from manage import app
 import logging
+from functools import wraps
+
+
+def limitAndStartAddtion(qurey):
+    @wraps(qurey)
+    def __doLimitAndStart(self, args):
+        ret = qurey(self, args)
+        start = 0;
+        limit = 50;
+
+        if 'start' in args:
+            start = args['start']
+        if 'limit' in args:
+            limit = args['limit']
+
+        return ret.offset(start).limit(limit)
+    return __doLimitAndStart
 
 
 class CommentProxy:
     def __init__(self, fileds):
         self._filerDict = {}
         self._fileds = fileds
-
-    def getFileds(self):
-        return self._fileds
+        self.__Comment = Comment
 
     def __getattr__(self, item):
         def _feedBack(filterx):
             self._filerDict[item] = filterx
             return self
         return _feedBack
+
+    @property
+    def Comment(self):
+        return self.__Comment
+
+    @Comment.setter
+    def setComment(self, _comment):
+        self.__Comment = _comment
 
     def toJson(self, model):
         jsonDict = {}
@@ -39,31 +62,25 @@ class CommentProxy:
         return ret
 
     @staticmethod
-    def makeRetJson(status='', messages='', data=None):
+    def makeRetJson(status=0, messages='', data={}):
         return jsonify({'status': status, 'messages': messages, 'data': data})
 
+    @limitAndStartAddtion
     def query(self, args=None):
-        if args is None:
-            return Comment.query.all()
+        if not args:
+            return self.Comment.query
 
-        start = 0
-        limit = 50
         self._filerDict = self.filterArgs(args, self._fileds)
-        if 'start' in args:
-            start = args['start']
-        if 'limit' in args:
-            limit = args['limit']
-        self._filerDict['status'] = 0
-        ret = Comment.query.filter_by(**self._filerDict).offset(start).limit(limit).all()
+        ret = self.Comment.query.filter_by(**self._filerDict)
         return ret
 
     def insert(self, args, isVailed = None):
         message = None
         if isVailed and not isVailed(args):
-                return self.makeRetJson('error', 'invailed arguments')
+                return self.makeRetJson(0, 'invailed arguments')
 
         args = self.filterArgs(args, self._fileds)
-        db.session.add(Comment(**args))
+        db.session.add(self.Comment(**args))
         exp = None
         try:
             db.session.commit()
@@ -73,22 +90,21 @@ class CommentProxy:
             message = str(e)
             logging.log(logging.DEBUG, 'from comments model: ' + message)
         if exp:
-            return self.makeRetJson('error', 'arguments error')
-        return self.makeRetJson('ok', message)
+            return self.makeRetJson(0, 'arguments error')
+        return self.makeRetJson(1, message)
 
     def delete(self, args):
         self._filerDict = self.filterArgs(args, self._fileds)
         if len(self._filerDict) <= 0:
-            return self.makeRetJson('error', '0 comments have been deleted')
+            return self.makeRetJson(0, '0 comments have been deleted')
         self._filerDict['status'] = 0
-        ret = Comment.query.filter_by(**self._filerDict).update({'status': 1})
-        return self.makeRetJson('ok', str(ret) + ' comments have been deleted')
+        ret = self.Comment.query.filter_by(**self._filerDict).update({'status': 1})
+        return self.makeRetJson(1, str(ret) + ' comments have been deleted')
 
 
 def __makeCommentProxy():
     if hasattr(__makeCommentProxy, 'proxy'):
         return __makeCommentProxy.proxy
-
     table_structs = app.config.get('COMMENT_TABLE_STRUCTS')
     table_structs = copy.deepcopy(table_structs)
     table_structs.pop('__tablename__')
@@ -97,22 +113,26 @@ def __makeCommentProxy():
     return proxy
 
 
-@api.route(app.config.get('COMMENT_GET_URL'), methods=app.config.get('COMMENT_GET_METHODS'))
+@api.route(app.config.get('COMMENT_GET_URL'),
+           methods=app.config.get('COMMENT_GET_METHODS'))
 def getComment():
     proxy = __makeCommentProxy()
     args = request.args
-    ret = proxy.query(args)
-    return proxy.makeRetJson('ok',  data={'comments': [proxy.toJson(item) for item in ret]})
+    ret = proxy.query(args).all()
+    return proxy.makeRetJson(1,
+                data={'comments':[proxy.toJson(item) for item in ret]})
 
 
-@api.route(app.config.get('COMMENT_ADD_URL'), methods=app.config.get('COMMENT_ADD_METHODS'))
+@api.route(app.config.get('COMMENT_ADD_URL'),
+           methods=app.config.get('COMMENT_ADD_METHODS'))
 def addComment():
     proxy = __makeCommentProxy()
     args = request.args
     return proxy.insert(args)
 
 
-@api.route(app.config.get('COMMENT_DELETE_URL'), methods=app.config.get('COMMENT_DELETE_METHODS'))
+@api.route(app.config.get('COMMENT_DELETE_URL'),
+           methods=app.config.get('COMMENT_DELETE_METHODS'))
 def deleteComment():
     proxy = __makeCommentProxy()
     args = request.args
