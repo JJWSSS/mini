@@ -28,30 +28,51 @@ def list_seller_orders():
             }
         )
 
-    ordersID = Order.query(Order.orderID).filter(sellerID == Order.sellerID and status == Order.status).slice(start,stop)
-    if not ordersID:
+
+    try:
+        ordersID = Order.query(Order.orderID).filter(sellerID == Order.sellerID and status == Order.status).slice(start,stop)
+
+        if not ordersID:
+            return jsonify(
+
+                {
+                    'status': 2,
+                    'message': 'Fail: No order',
+                    'data': {}
+                }
+            )
+    except:
         return jsonify(
             {
-                'status' : 2,
-                'message' : 'Fail: No order'
+                'status' : 3,
+                'message': 'Fail: Database Error',
+                'data':{}
             }
         )
 
-    orderlist = list()
-    for orderID in ordersID:
-        orderinfo = Order.query(Order).filter(orderID == Order.orderID).first()
-        orderinfo = dict(orderinfo,**Good.query(Good.goodName).filter(Good.goodID == orderinfo.goodID).first())
-        orderinfo = dict(orderinfo,**User.query(User.userName).filter(User.userID == orderinfo.buyerID).first())
-        orderlist.append(orderinfo)
+    try:
+        orderlist = list()
+        for orderID in ordersID:
+            orderinfo = Order.query(Order).filter(orderID == Order.orderID).first()
+            orderinfo = dict(orderinfo,**Good.query(Good.goodName).filter(Good.goodID == orderinfo.goodID).first())
+            orderinfo = dict(orderinfo,**User.query(User.userName).filter(User.userID == orderinfo.buyerID).first())
+            orderlist.append(orderinfo)
 
-    return jsonify(
-        {
-            'status' : 1,
-            'message' : 'Success',
-            'data' : orderlist
-        }
-    )
-
+        return jsonify(
+            {
+                'status' : 1,
+                'message' : 'Success',
+                'data' : orderlist
+            }
+        )
+    except:
+        return jsonify(
+            {
+                'status': 3,
+                'message': 'Fail: Database Error',
+                'data': {}
+            }
+        )
 
 # 列出作为买家的订单
 # params[POST]:
