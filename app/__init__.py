@@ -27,17 +27,12 @@ def init_logger(log_level):
     if not exists(_log):
         with open(_log, 'w') as f:
             pass
-<<<<<<< HEAD
-    logging.basicConfig(filename=_log, level=log_level)
-# 有毒
-=======
     logging.basicConfig(filename=_log, level=log_level,
                         format='[%(levelname)s](%(asctime)s) in %(filename)s:line %(lineno)d : %(message)s')
->>>>>>> origin/master
-
 # 通过设置环境变量来设置日志的等级
 # $ export LOGGER_LEVEL=0
 # 0 For DEBUG, 1 For INFO, 2 For WARNING, 3 For ERROR, 4 For CRITICAL
+
 
 def create_app(config_name):
     from config import config

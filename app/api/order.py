@@ -223,8 +223,4 @@ def complete_order():
                     'status': 0,
                     'message': 'Datebase Error'
                 }
-<<<<<<< HEAD
             )
-=======
-            )
->>>>>>> origin/master

@@ -492,3 +492,75 @@ WARNING:root:Nothing
 WARNING:root:Nothing
 WARNING:werkzeug: * Debugger is active!
 INFO:werkzeug: * Debugger pin code: 277-754-078
+[WARNING](2016-07-24 16:08:10,166) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 16:08:10,168) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 16:08:56,472) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 16:08:56,474) in __init__.py:line 47 : Nothing
+[INFO](2016-07-24 16:08:56,504) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-24 16:08:56,505) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 16:08:57,219) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 16:08:57,220) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 16:08:57,249) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 16:08:57,255) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-24 16:09:03,332) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 16:09:03] "POST /api/edit_good/ HTTP/1.1" 200 -
+[WARNING](2016-07-24 16:10:06,299) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 16:10:06,301) in __init__.py:line 47 : Nothing
+[INFO](2016-07-24 16:10:06,339) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-24 16:10:06,340) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 16:10:07,260) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 16:10:07,261) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 16:10:07,288) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 16:10:07,295) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-24 16:10:28,084) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 16:10:28] "POST /api/edit_good/ HTTP/1.1" 500 -
+[INFO](2016-07-24 16:10:43,312) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 16:10:43] "POST /api/edit_good/ HTTP/1.1" 200 -
+[INFO](2016-07-24 16:15:01,632) in _internal.py:line 87 :  * Detected change in '/Users/JJW/Code/mini/app/api/good.py', reloading
+[INFO](2016-07-24 16:15:01,746) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 16:15:02,644) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 16:15:02,646) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 16:15:02,688) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 16:15:02,695) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-24 16:15:55,866) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 16:15:55] "POST /api/new_photo/ HTTP/1.1" 200 -
+[INFO](2016-07-24 16:17:35,069) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 16:17:35] "POST /api/delete_good/ HTTP/1.1" 200 -
+[INFO](2016-07-24 16:22:28,681) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 16:22:28] "POST /api/refresh_goods/ HTTP/1.1" 200 -
+[INFO](2016-07-24 16:24:07,039) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 16:24:07] "POST /api/more_goods/ HTTP/1.1" 200 -
+[INFO](2016-07-24 16:26:07,912) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 16:26:07] "POST /api/goods/ HTTP/1.1" 400 -
+[INFO](2016-07-24 16:26:15,538) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 16:26:15] "POST /api/goods/ HTTP/1.1" 200 -
+[INFO](2016-07-24 16:28:04,949) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 16:28:04] "POST /api/good/ HTTP/1.1" 200 -
+[INFO](2016-07-24 16:29:41,912) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 16:29:41] "POST /api/search/ HTTP/1.1" 200 -
+[WARNING](2016-07-24 16:32:49,342) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 16:32:49,347) in __init__.py:line 47 : Nothing
+[INFO](2016-07-24 16:32:49,404) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-24 16:32:49,405) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 16:32:50,273) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 16:32:50,275) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 16:32:50,325) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 16:32:50,333) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-24 16:34:11,746) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 16:34:11] "POST /api/new_good/ HTTP/1.1" 200 -
+[WARNING](2016-07-24 16:34:39,611) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 16:34:39,613) in __init__.py:line 47 : Nothing
+[INFO](2016-07-24 16:34:39,653) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-24 16:34:39,654) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 16:34:40,488) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 16:34:40,489) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 16:34:40,567) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 16:34:40,575) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-24 16:35:50,884) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 16:35:50] "POST /api/new_good/ HTTP/1.1" 200 -
+[WARNING](2016-07-24 16:38:40,494) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 16:38:40,497) in __init__.py:line 47 : Nothing
+[INFO](2016-07-24 16:38:40,542) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-24 16:38:40,545) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 16:38:41,209) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 16:38:41,210) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 16:38:41,238) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 16:38:41,246) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[WARNING](2016-07-24 16:49:30,453) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 16:49:30,456) in __init__.py:line 47 : Nothing
+[INFO](2016-07-24 16:49:30,509) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-24 16:49:30,511) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-24 16:49:31,305) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 16:49:31,306) in __init__.py:line 47 : Nothing
+[WARNING](2016-07-24 16:49:31,333) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-24 16:49:31,341) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-24 16:51:58,425) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 16:51:58] "POST /good HTTP/1.1" 404 -
+[INFO](2016-07-24 16:52:10,104) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 16:52:10] "POST /api/good/ HTTP/1.1" 200 -
+[INFO](2016-07-24 16:52:30,878) in _internal.py:line 87 : 127.0.0.1 - - [24/Jul/2016 16:52:30] "POST /api/good/ HTTP/1.1" 200 -

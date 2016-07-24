@@ -18,6 +18,7 @@ def allowed_file(filename):
 
 
 @api.route('/goods/', methods=['POST'])
+@login_required
 def get_goods():
     objects = request.json
     userid = objects['userID']
@@ -110,12 +111,9 @@ def edit_good():
         good.description = objects['description']
         good.goodName = objects['goodName']
         good.modifyDate = datetime.utcnow()
-        good.status = objects['status']
-        good.freeCount = objects['freeCount']
         good.contact_tel = objects['contact_tel']
         good.contact_qq = objects['contact_qq']
         good.contact_wechat = objects['contact_wechat']
-        good.type = objects['type']
         good.price = objects['price']
         good.address = objects['address']
         good.poster = objects['poster']
