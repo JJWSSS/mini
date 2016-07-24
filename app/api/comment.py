@@ -10,6 +10,36 @@ import logging
 from functools import wraps
 
 
+def appendUserInfo(getJson):
+    @wraps(getJson)
+    def __doAppendImage(self, args):
+        ret = getJson(self, args)
+        for item in ret:
+            item['UserInfo'] = \
+                {'name': 'Lee', 'Time': '2016-07-24', 'Image': 'wow.jpg'}
+        return ret
+
+    return __doAppendImage
+
+
+def model2Json(getAll):
+    @wraps(getAll)
+    def __doToJson(self, args):
+        ret = getAll(self, args)
+        proxy = __makeCommentProxy()
+        return [proxy.toJson(item) for item in ret]
+
+    return __doToJson
+
+
+def getAll(qurey):
+    @wraps(qurey)
+    def __doGetAll(self, args):
+        return qurey(self, args).all()
+
+    return __doGetAll
+
+
 def limitAndStartAddtion(qurey):
     @wraps(qurey)
     def __doLimitAndStart(self, args):
@@ -23,6 +53,7 @@ def limitAndStartAddtion(qurey):
             limit = args['limit']
 
         return ret.offset(start).limit(limit)
+
     return __doLimitAndStart
 
 
@@ -36,6 +67,7 @@ class CommentProxy:
         def _feedBack(filterx):
             self._filerDict[item] = filterx
             return self
+
         return _feedBack
 
     @property
@@ -65,19 +97,23 @@ class CommentProxy:
     def makeRetJson(status=0, messages='', data={}):
         return jsonify({'status': status, 'messages': messages, 'data': data})
 
+    @appendUserInfo
+    @model2Json
+    @getAll
     @limitAndStartAddtion
     def query(self, args=None):
         if not args:
-            return self.Comment.query
+            return self.Comment.query.filter_by(status=0)
 
         self._filerDict = self.filterArgs(args, self._fileds)
+        self._filerDict['status'] = 0  # 这里假设了表的结构，依赖于表的结构，需要重构
         ret = self.Comment.query.filter_by(**self._filerDict)
         return ret
 
-    def insert(self, args, isVailed = None):
+    def insert(self, args, isVailed=None):
         message = None
         if isVailed and not isVailed(args):
-                return self.makeRetJson(0, 'invailed arguments')
+            return self.makeRetJson(0, 'invailed arguments')
 
         args = self.filterArgs(args, self._fileds)
         db.session.add(self.Comment(**args))
@@ -118,9 +154,9 @@ def __makeCommentProxy():
 def getComment():
     proxy = __makeCommentProxy()
     args = request.args
-    ret = proxy.query(args).all()
+    ret = proxy.query(args)
     return proxy.makeRetJson(1,
-                data={'comments':[proxy.toJson(item) for item in ret]})
+                             data={'comments': ret})
 
 
 @api.route(app.config.get('COMMENT_ADD_URL'),
@@ -137,5 +173,3 @@ def deleteComment():
     proxy = __makeCommentProxy()
     args = request.args
     return proxy.delete(args)
-
-

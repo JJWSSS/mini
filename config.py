@@ -2,6 +2,8 @@
 
 import os
 from app import db
+from sqlalchemy import func
+from datetime import datetime
 
 class Config:
     SECRET_KEY = 'mini'
@@ -43,6 +45,7 @@ class CommentTestConfig(Config):
                              'commentatorID': db.Column(db.Integer, db.ForeignKey('users.userID')),
                              'context': db.Column(db.String(512), nullable=False),
                              'status': db.Column(db.Integer, default=0),
+                             'commitTime': db.Column(db.DateTime, default=datetime.utcnow)
                              }
 
 
