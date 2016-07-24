@@ -222,7 +222,7 @@ def user_info(userid):
         }
 
 @login_required
-@api.route('/getuser', methods=['GET'])
+    @api.route('/getuser', methods=['GET'])
 def get_user_info():
     '''
     get current user's information
