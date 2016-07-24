@@ -200,7 +200,7 @@ def comfirm():
 def user_info(userid):
     result = User.query.filter_by(userID=userid).first()
     if result:
-        logging.log(logging.INFO, "Get User Information ({}): Success".format(username))
+        logging.log(logging.INFO, "Get User Information ({}): Success".format(userid))
         return {
             "status": 1,
             "message": "Get user info Success",
@@ -214,7 +214,7 @@ def user_info(userid):
             }
         }
     else:
-        logging.log(logging.INFO, "Get User Information ({}) Fail: No such User".format(result.userName))
+        logging.log(logging.INFO, "Get User Information ({}) Fail: No such User".format(userid))
         return {
             "status": 0,
             "message": "Get User info Fail!, Not such User",
