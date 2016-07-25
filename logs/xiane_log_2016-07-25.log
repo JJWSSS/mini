@@ -356,3 +356,11 @@
 [INFO](2016-07-25 15:21:08,694) in _internal.py:line 87 :  * Restarting with stat
 [WARNING](2016-07-25 15:21:09,899) in _internal.py:line 87 :  * Debugger is active!
 [INFO](2016-07-25 15:21:09,906) in _internal.py:line 87 :  * Debugger pin code: 257-976-002
+[INFO](2016-07-25 15:36:37,182) in _internal.py:line 87 :  * Detected change in 'D:\\Program\\Github\\mini\\app\\models.py', reloading
+[INFO](2016-07-25 15:36:37,249) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-25 15:36:38,536) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-25 15:36:38,544) in _internal.py:line 87 :  * Debugger pin code: 257-976-002
+[INFO](2016-07-25 15:36:45,090) in _internal.py:line 87 :  * Detected change in 'D:\\Program\\Github\\mini\\config.py', reloading
+[INFO](2016-07-25 15:36:45,150) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-25 15:36:46,424) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-25 15:36:46,431) in _internal.py:line 87 :  * Debugger pin code: 257-976-002
