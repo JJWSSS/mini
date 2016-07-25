@@ -13,15 +13,16 @@ from flask_login import current_user,login_required
 #   'start' [int]
 #   'count' [int]
 #   'status' [int]
-# @login_required
+@login_required
 @api.route('/list_seller_orders', methods = ['POST'])
 def list_seller_orders():
     object = request.json
-    userID = object['userID']
+    # sellerID = object['userID']
+    sellerID = current_user.userID
     start = object['start']
     stop = start + object['count'] - 1
     status = object['status']
-    sellerID = userID
+
     if not sellerID:
         return jsonify(
             {
@@ -32,11 +33,10 @@ def list_seller_orders():
 
 
     try:
-        ordersID = Order.query(Order.orderID).filter(sellerID == Order.sellerID and status == Order.status).slice(start,stop)
+        ordersID = Order.query.filter(sellerID == Order.sellerID, status == Order.status).slice(start,stop).all()
 
         if not ordersID:
             return jsonify(
-
                 {
                     'status': 2,
                     'message': 'Fail: No order',
@@ -52,29 +52,46 @@ def list_seller_orders():
             }
         )
 
-    try:
-        orderlist = list()
-        for orderID in ordersID:
-            orderinfo = Order.query(Order).filter(orderID == Order.orderID).first()
-            orderinfo = dict(orderinfo,**Good.query(Good.goodName).filter(Good.goodID == orderinfo.goodID).first())
-            orderinfo = dict(orderinfo,**User.query(User.userName).filter(User.userID == orderinfo.buyerID).first())
-            orderlist.append(orderinfo)
+    # try:
+    orderlist = list()
+    print (orderlist)
+    for row in ordersID:
+        orderID = row.orderID
+        orderdetail = Order.query.filter(orderID == Order.orderID).first()
+        orderinfo = {
+            'orderID' : orderdetail.orderID,
+            'goodID': orderdetail.goodID,
+            'sellerID': orderdetail.sellerID,
+            'buyerID': orderdetail.buyerID,
+            'createDate': orderdetail.createDate,
+            'confirmDate': orderdetail.confirmDate,
+            'count': orderdetail.count,
+            'status': orderdetail.status
+        }
+        print (orderinfo)
+        good = Good.query.filter(Good.goodID == orderinfo['goodID']).first()
+        orderinfo = dict(orderinfo,**{'goodName':good.goodName})
+        user = User.query.filter(User.userID == orderinfo['sellerID']).first()
+        orderinfo = dict(orderinfo,**{'userName':user.userName})
+        orderlist.append(orderinfo)
 
-        return jsonify(
-            {
-                'status' : 1,
-                'message' : 'Success',
-                'data' : orderlist
-            }
-        )
-    except:
+    print (orderlist)
+
+    return jsonify(
+        {
+            'status' : 1,
+            'message' : 'Success',
+            'data' : orderlist
+        }
+    )
+    '''except:
         return jsonify(
             {
                 'status': 3,
                 'message': 'Fail: Database Error',
                 'data': {}
             }
-        )
+        )'''
 
 # 列出作为买家的订单
 # params[POST]:
@@ -82,30 +99,31 @@ def list_seller_orders():
 #   'start' [int]
 #   'count' [int]
 #   'status' [int]
-# @login_required
-@api.route('/list_seller_orders', methods = ['POST'])
+@login_required
+@api.route('/list_buyer_orders', methods = ['POST'])
 def list_buyer_orders():
     object = request.json
-    userID = object['userID']
+    buyerID = current_user.userID
     start = object['start']
     stop = start + object['count'] - 1
     status = object['status']
-    buyerID = userID
     if not buyerID:
         return jsonify(
             {
                 'status' : 0,
-                'message' : 'Fail: User Not Login'
+                'message' : 'Fail: User Not Login',
+                'data':{}
             }
         )
 
     try:
-        ordersID = Order.query(Order.orderID).filter(buyerID == Order.buyerID and status == Order.status).slice(start,stop)
+        ordersID = Order.query.filter(buyerID == Order.buyerID and status == Order.status).slice(start,stop).all()
         if not ordersID:
             return jsonify(
                 {
                     'status' : 2,
-                    'message' : 'Fail: No order'
+                    'message' : 'Fail: No order',
+                    'data':{}
                 }
             )
     except:
@@ -119,15 +137,29 @@ def list_buyer_orders():
 
     try:
         orderlist = list()
-        for orderID in ordersID:
-            orderinfo = Order.query(Order).filter(orderID == Order.orderID).first()
-            orderinfo = dict(orderinfo,**Good.query(Good.goodName).filter(Good.goodID == orderinfo.goodID).first())
-            orderinfo = dict(orderinfo,**User.query(User.userName).filter(User.userID == orderinfo.sellerID).first())
+        for row in ordersID:
+            orderID = row.orderID
+            orderdetail = Order.query.filter(orderID == Order.orderID).first()
+            orderinfo = {
+                'orderID': orderdetail.orderID,
+                'goodID': orderdetail.goodID,
+                'sellerID': orderdetail.sellerID,
+                'buyerID': orderdetail.buyerID,
+                'createDate': orderdetail.createDate,
+                'confirmDate': orderdetail.confirmDate,
+                'count': orderdetail.count,
+                'status': orderdetail.status
+            }
+            good = Good.query.filter(Good.goodID == orderinfo['goodID']).first()
+            orderinfo = dict(orderinfo,**{'goodName':good.goodName})
+            user = User.query.filter(User.userID == orderinfo['buyerID']).first()
+            orderinfo = dict(orderinfo,**{'userName':user.userName})
             orderlist.append(orderinfo)
         return jsonify(
             {
-                'status' : 'Success',
-                'message' : orderlist
+                'status' : 1,
+                'message' : 'Success',
+                'data': orderlist
             }
         )
     except:
@@ -215,7 +247,6 @@ def create_order():
                 'data':{}
             }
         )
-
     except:
         return jsonify(
             {
@@ -228,67 +259,17 @@ def create_order():
 # 确认订单
 # param[POST]:
 #   'orderID' [int]
-# @login_required
+# 状态 0：未确认  1：买家单方面确认  2：卖家单方面确认 3：已确
+@login_required
 @api.route('/confirm_order',methods = ['POST'])
 def confirm_order():
     object = request.json
+    userID = current_user.userID
     orderID = object['orderID']
-    try:
-        currentStatus = Order.query(Order.status).filter(Order.orderID == orderID).first()
-        if not currentStatus:
-            return (
-                {
-                    'status':2,
-                    'message': 'No Such Order',
-                    'data':{}
-                }
-            )
-    except:
-        return jsonify(
-            {
-                'status':3,
-                'message':'Database Error',
-                'data':{}
-            }
-        )
 
-    if currentStatus == 0:
-        try:
-            Order.query(Order).filter(Order.orderID == orderID).update({'status':1})
-            return jsonify(
-                {
-                    'status': 1,
-                    'message': 'Success',
-                    'data':{}
-                }
-            )
-        except:
-            return jsonify(
-                {
-                    'status': 3,
-                    'message': 'Datebase Error',
-                    'data':{}
-                }
-            )
-    else:
-        return jsonify(
-            {
-                'status': 0,
-                'message': 'Order Has Already Confirmed',
-                'data':{}
-            }
-        )
-
-# 取消订单
-# param[POST]:
-#   'orderID' [int]
-# @login_required
-@api.route('/complete_order',methods = ['POST'])
-def complete_order():
-    orderID = request.form['orderID']
     try:
-        currentStatus = Order.query(Order.status).filter(Order.orderID == orderID).first()
-        if not currentStatus:
+        order = Order.query.filter(Order.orderID == orderID).first()
+        if not order:
             return (
                 {
                     'status':2,
@@ -306,29 +287,136 @@ def complete_order():
             }
         )
 
-    if currentStatus == 0:
+    currentStatus = order.status
+    if order.status == 0:
         try:
-            Order.query(Order).filter(Order.orderID == orderID).update({'status': 1})
+            if userID == order.buyerID:
+                Order.query.filter(Order.orderID == orderID).update({'status':1})
+                currentStatus = 1
+            elif userID == order.sellerID:
+                Order.query.filter(Order.orderID == orderID).update({'status':2})
+                currentStatus = 2
+            else:
+                return jsonify(
+                    {
+                        'status': 4,
+                        'message': 'User Is Not Either Buyer Or Seller',
+                        'data': {'status':currentStatus }
+                    }
+                )
+
             return jsonify(
                 {
                     'status': 1,
                     'message': 'Success',
-                    'data':{}
+                    'data':{'status': currentStatus }
                 }
             )
+
         except:
             return jsonify(
                 {
                     'status': 3,
                     'message': 'Datebase Error',
-                    'data':{}
+                    'data':{'status': currentStatus }
+                }
+            )
+
+    elif order.status == 1:
+        try:
+            if userID == order.sellerID:
+                Order.query.filter(Order.orderID == orderID).update({'status': 3, 'confirmDate':datetime.utcnow()})
+                currentStatus = 3
+            elif userID == order.buyerID:
+                return jsonify(
+                    {
+                        'status': 5,
+                        'message': 'You Hava Already Confirmed',
+                        'data': {'status': currentStatus }
+                    }
+                )
+            else:
+                return jsonify(
+                    {
+                        'status': 4,
+                        'message': 'User Is Not Either Buyer Or Seller',
+                        'data': {'status': currentStatus }
+                    }
+                )
+
+            return jsonify(
+                {
+                    'status': 1,
+                    'message': 'Success',
+                    'data':{'status': currentStatus }
+                }
+            )
+
+        except:
+            return jsonify(
+                {
+                    'status': 3,
+                    'message': 'Datebase Error',
+                    'data': {'status': currentStatus }
+                }
+            )
+
+    elif order.status == 2:
+        try:
+            if userID == order.buyerID:
+                Order.query.filter(Order.orderID == orderID).update({'status': 3, 'confirmDate':datetime.utcnow()})
+                currentStatus = 3
+            elif userID == order.sellerID:
+                return jsonify(
+                    {
+                        'status': 5,
+                        'message': 'You Hava Already Confirmed',
+                        'data': {'status': currentStatus }
+                    }
+                )
+            else:
+                return jsonify(
+                    {
+                        'status': 4,
+                        'message': 'User Is Not Either Buyer Or Seller',
+                        'data': {'status': currentStatus }
+                    }
+                )
+
+            return jsonify(
+                {
+                    'status': 1,
+                    'message': 'Success',
+                    'data': {'status': currentStatus }
+                }
+            )
+
+        except:
+            return jsonify(
+                {
+                    'status': 3,
+                    'message': 'Datebase Error',
+                    'data': {'status': currentStatus }
                 }
             )
     else:
-        return jsonify(
-            {
-                'status': 0,
-                'message': 'Order Has Already Canceled',
-                'data':{}
-            }
-        )
+        if userID == order.buyerID or userID == order.sellerID:
+            return jsonify(
+                {
+                    'status': 5,
+                    'message': 'You Hava Already Confirmed',
+                    'data': {'status': currentStatus }
+                }
+            )
+        else:
+            return jsonify(
+                {
+                    'status': 4,
+                    'message': 'User Is Not Either Buyer Or Seller',
+                    'data': {'status': currentStatus }
+                }
+            )
+
+
+
+
