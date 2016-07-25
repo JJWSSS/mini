@@ -34,21 +34,24 @@ def get_goods():
         limit = objects['limit']
         if userid:
             if type:
-                if begin or limit:
+                if limit:
                     goods = Good.query.filter_by(sellerID=userid, type=type).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
                 else:
-                    goods = Good.query.filter_by(sellerID=userid, type=type).order_by(Good.createDate.desc()).all()
-            elif begin or limit:
+                    goods = Good.query.filter_by(sellerID=userid, type=type).order_by(Good.createDate.desc()).offset(begin).all()
+            elif limit:
                 goods = Good.query.filter_by(sellerID=userid).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
             else:
-                goods = Good.query.filter_by(sellerID=userid).order_by(Good.createDate.desc()).all()
+                goods = Good.query.filter_by(sellerID=userid).order_by(Good.createDate.desc()).offset(begin).all()
         elif type:
-            if begin or limit:
+            if limit:
                 goods = Good.query.filter_by(type=type).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
             else:
-                goods = Good.query.filter_by(type=type).order_by(Good.createDate.desc()).all()
+                goods = Good.query.filter_by(type=type).order_by(Good.createDate.desc()).offset(begin).all()
         else:
-            goods = Good.query.offset(begin).limit(limit).order_by(Good.createDate.desc()).all()
+            if limit:
+                goods = Good.query.order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
+            else:
+                goods = Good.query.order_by(Good.createDate.desc()).offset(begin).all()
         return jsonify({'status': 1, 'data': {'goods': [good.to_json() for good in goods]}})
     except KeyError:
         return jsonify({'status': 0, 'data': ['json参数不对', KeyError.args]})
@@ -198,21 +201,24 @@ def refresh_goods():
         day_time = datetime.strptime(objects['datetime'], '%a, %d %b %Y %X GMT')
         if userid:
             if type:
-                if begin or limit:
+                if limit:
                     goods = Good.query.filter(Good.createDate > day_time, Good.sellerID == userid, Good.type == type).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
                 else:
-                    goods = Good.query.filter(Good.createDate > day_time, Good.sellerID == userid, Good.type == type).order_by(Good.createDate.desc()).all()
-            elif begin or limit:
+                    goods = Good.query.filter(Good.createDate > day_time, Good.sellerID == userid, Good.type == type).order_by(Good.createDate.desc()).offset(begin).all()
+            elif limit:
                 goods = Good.query.filter(Good.createDate > day_time, Good.sellerID == userid).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
             else:
-                goods = Good.query.filter(Good.createDate > day_time, Good.sellerID == userid).order_by(Good.createDate.desc()).all()
+                goods = Good.query.filter(Good.createDate > day_time, Good.sellerID == userid).order_by(Good.createDate.desc()).offset(begin).all()
         elif type:
-            if begin or limit:
+            if limit:
                 goods = Good.query.filter(Good.createDate > day_time, Good.type == type).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
             else:
-                goods = Good.query.filter(Good.createDate > day_time, Good.type == type).order_by(Good.createDate.desc()).all()
+                goods = Good.query.filter(Good.createDate > day_time, Good.type == type).order_by(Good.createDate.desc()).offset(begin).all()
         else:
-            goods = Good.query.offset(begin).limit(limit).order_by(Good.createDate.desc()).all()
+            if limit:
+                goods = Good.query.order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
+            else:
+                goods = Good.query.order_by(Good.createDate.desc()).offset(begin).all()
         if goods:
             return jsonify({'status': 1, 'data': [good.to_json() for good in goods]})
     except ValueError:
@@ -234,21 +240,24 @@ def more_goods():
         day_time = datetime.strptime(objects['datetime'], '%a, %d %b %Y %X GMT')
         if userid:
             if type:
-                if begin or limit:
+                if limit:
                     goods = Good.query.filter(Good.createDate < day_time, Good.sellerID == userid, Good.type == type).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
                 else:
-                    goods = Good.query.filter(Good.createDate < day_time, Good.sellerID == userid, Good.type == type).order_by(Good.createDate.desc()).all()
-            elif begin or limit:
+                    goods = Good.query.filter(Good.createDate < day_time, Good.sellerID == userid, Good.type == type).order_by(Good.createDate.desc()).offset(begin).all()
+            elif limit:
                 goods = Good.query.filter(Good.createDate < day_time, Good.sellerID == userid).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
             else:
-                goods = Good.query.filter(Good.createDate < day_time, Good.sellerID == userid).order_by(Good.createDate.desc()).all()
+                goods = Good.query.filter(Good.createDate < day_time, Good.sellerID == userid).order_by(Good.createDate.desc()).offset(begin).all()
         elif type:
-            if begin or limit:
+            if limit:
                 goods = Good.query.filter(Good.createDate < day_time, Good.type == type).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
             else:
-                goods = Good.query.filter(Good.createDate < day_time, Good.type == type).order_by(Good.createDate.desc()).all()
+                goods = Good.query.filter(Good.createDate < day_time, Good.type == type).order_by(Good.createDate.desc()).offset(begin).all()
         else:
-            goods = Good.query.offset(begin).limit(limit).order_by(Good.createDate.desc()).all()
+            if limit:
+                goods = Good.query.order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
+            else:
+                goods = Good.query.order_by(Good.createDate.desc()).offset(begin).all()
         if goods:
             return jsonify({'status': 1, 'data': [good.to_json() for good in goods]})
     except ValueError:
