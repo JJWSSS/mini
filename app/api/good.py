@@ -17,7 +17,7 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1] in current_app.config['ALLOWED_EXTENSIONS']
 
 
-@api.route('/goods/', methods=['POST'])
+@api.route('/goods', methods=['POST'])
 def get_goods():
     """
     功能: 获取商品列表
@@ -61,7 +61,7 @@ def get_goods():
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
 
-@api.route('/good/', methods=['POST'])
+@api.route('/good', methods=['POST'])
 def single_good():
     try:
         good = Good.query.get(request.json['good_id'])
@@ -74,7 +74,7 @@ def single_good():
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
 
-@api.route('/search/', methods=['POST'])
+@api.route('/search', methods=['POST'])
 def search():
     try:
         search_name = request.json['search_name']
@@ -88,7 +88,7 @@ def search():
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
 
-@api.route('/new_good/', methods=['POST'])
+@api.route('/new_good', methods=['POST'])
 @login_required
 def new_good():
     try:
@@ -108,7 +108,7 @@ def new_good():
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
 
-@api.route('/new_photo/', methods=['POST'])
+@api.route('/new_photo', methods=['POST'])
 @login_required
 def new_photo():
     try:
@@ -135,7 +135,7 @@ def new_photo():
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
 
-@api.route('/edit_good/', methods=['POST'])
+@api.route('/edit_good', methods=['POST'])
 def edit_good():
     try:
         objects = request.json
@@ -160,7 +160,7 @@ def edit_good():
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
 
-@api.route('/delete_good/', methods=['POST'])
+@api.route('/delete_good', methods=['POST'])
 @login_required
 def delete_good():
     try:
@@ -175,7 +175,7 @@ def delete_good():
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
 
-@api.route('/homepage_goods/', methods=['POST'])
+@api.route('/homepage_goods', methods=['POST'])
 def homepage_goods():
     try:
         objects = request.json
@@ -190,7 +190,7 @@ def homepage_goods():
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
 
-@api.route('/refresh_goods/', methods=['POST'])
+@api.route('/refresh_goods', methods=['POST'])
 def refresh_goods():
     try:
         objects = request.json
@@ -228,7 +228,7 @@ def refresh_goods():
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
 
-@api.route('/more_goods/', methods=['POST'])
+@api.route('/more_goods', methods=['POST'])
 def more_goods():
     try:
         objects = request.json
@@ -266,13 +266,16 @@ def more_goods():
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
 
-@api.route('/add_times/', methods=['POST'])
+@api.route('/add_times', methods=['POST'])
 def add_times():
     try:
-        good = Good.query.get(request.json['goodID'])
+        good = Good.query.get(request.json['good_id'])
         if not good:
             return jsonify({'status': -1, 'data': ['商品没有查到']})
-        good.times += 1
+        if not good.times:
+            good.times = 1
+        else:
+            good.times += 1
         db.session.add(good)
         return jsonify({'status': 1, 'data': {}})
     except KeyError as k:

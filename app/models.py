@@ -222,7 +222,8 @@ class Good(db.Model):
             u = User.query.offset(randint(0, user_count - 1)).first()
             g = Good(goodName=forgery_py.name.full_name(), description=forgery_py.lorem_ipsum.sentences(randint(1, 3)),
                      freeCount=10, image=forgery_py.internet.domain_name(), compressImage=forgery_py.internet.domain_name(),
-                     contact=randint(100000000, 999999999), type=1, price=randint(1, 100), seller=u)
+                     contact_tel=randint(100000000, 999999999), type=1, price=randint(1, 100), seller=u, contact_qq=randint(100000000, 999999999),
+                     contact_wechat='jjj', address='china', poster='very good')
             db.session.add(g)
             db.session.commit()
 
