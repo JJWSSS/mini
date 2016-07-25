@@ -219,8 +219,7 @@ def refresh_goods():
                 goods = Good.query.order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
             else:
                 goods = Good.query.order_by(Good.createDate.desc()).offset(begin).all()
-        if goods:
-            return jsonify({'status': 1, 'data': [good.to_json() for good in goods]})
+        return jsonify({'status': 1, 'data': [good.to_json() for good in goods]})
     except ValueError as v:
         return jsonify({'status': -1, 'data': ['日期格式有误', v.args]})
     except KeyError as k:
@@ -258,8 +257,7 @@ def more_goods():
                 goods = Good.query.order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
             else:
                 goods = Good.query.order_by(Good.createDate.desc()).offset(begin).all()
-        if goods:
-            return jsonify({'status': 1, 'data': [good.to_json() for good in goods]})
+        return jsonify({'status': 1, 'data': [good.to_json() for good in goods]})
     except ValueError as v:
         return jsonify({'status': -1, 'data': ['日期格式有误', v.args]})
     except KeyError as k:
