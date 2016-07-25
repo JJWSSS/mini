@@ -9,3 +9,71 @@
 [WARNING](2016-07-25 10:18:09,567) in _internal.py:line 87 :  * Debugger is active!
 [INFO](2016-07-25 10:18:09,573) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
 [INFO](2016-07-25 10:18:10,254) in _internal.py:line 87 : 127.0.0.1 - - [25/Jul/2016 10:18:10] "POST /api/goods/ HTTP/1.1" 200 -
+[INFO](2016-07-25 10:21:57,311) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-25 10:21:57,314) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-25 10:21:58,200) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-25 10:21:58,206) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-25 10:21:59,055) in _internal.py:line 87 : 127.0.0.1 - - [25/Jul/2016 10:21:59] "POST /api/good/ HTTP/1.1" 200 -
+[INFO](2016-07-25 10:22:34,634) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-25 10:22:34,636) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-25 10:22:35,652) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-25 10:22:35,657) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-25 10:22:44,999) in _internal.py:line 87 : 127.0.0.1 - - [25/Jul/2016 10:22:44] "POST /api/good/ HTTP/1.1" 500 -
+[INFO](2016-07-25 10:24:33,224) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-25 10:24:33,225) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-25 10:24:34,245) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-25 10:24:34,251) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-25 10:24:35,534) in _internal.py:line 87 : 127.0.0.1 - - [25/Jul/2016 10:24:35] "POST /api/good/ HTTP/1.1" 500 -
+[INFO](2016-07-25 10:24:59,627) in _internal.py:line 87 :  * Detected change in '/Users/JJW/Code/mini/app/api/good.py', reloading
+[INFO](2016-07-25 10:24:59,733) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-25 10:25:00,494) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-25 10:25:00,500) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-25 10:25:02,016) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-25 10:25:02,017) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-25 10:25:02,975) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-25 10:25:02,981) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-25 10:25:07,748) in _internal.py:line 87 : 127.0.0.1 - - [25/Jul/2016 10:25:07] "POST /api/good/ HTTP/1.1" 500 -
+[INFO](2016-07-25 10:25:40,059) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-25 10:25:40,060) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-25 10:25:40,834) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-25 10:25:40,839) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-25 10:25:42,914) in _internal.py:line 87 : 127.0.0.1 - - [25/Jul/2016 10:25:42] "POST /api/good/ HTTP/1.1" 200 -
+[INFO](2016-07-25 10:25:56,134) in _internal.py:line 87 :  * Detected change in '/Users/JJW/Code/mini/app/api/good.py', reloading
+[INFO](2016-07-25 10:25:56,227) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-25 10:25:56,913) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-25 10:25:56,918) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-25 10:26:03,146) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-25 10:26:03,147) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-25 10:26:04,067) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-25 10:26:04,073) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-25 10:26:04,889) in _internal.py:line 87 : 127.0.0.1 - - [25/Jul/2016 10:26:04] "POST /api/good/ HTTP/1.1" 500 -
+[INFO](2016-07-25 10:26:34,896) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-25 10:26:34,897) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-25 10:26:35,824) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-25 10:26:35,831) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-25 10:26:36,150) in _internal.py:line 87 : 127.0.0.1 - - [25/Jul/2016 10:26:36] "POST /api/good/ HTTP/1.1" 200 -
+[INFO](2016-07-25 10:26:56,942) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-25 10:26:56,944) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-25 10:26:57,872) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-25 10:26:57,878) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-25 10:26:58,790) in _internal.py:line 87 : 127.0.0.1 - - [25/Jul/2016 10:26:58] "POST /api/good/ HTTP/1.1" 500 -
+[INFO](2016-07-25 10:27:07,342) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-25 10:27:07,345) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-25 10:27:08,124) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-25 10:27:08,130) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-25 10:27:25,865) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-25 10:27:25,866) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-25 10:27:26,759) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-25 10:27:26,765) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-25 10:27:27,745) in _internal.py:line 87 : 127.0.0.1 - - [25/Jul/2016 10:27:27] "POST /api/good/ HTTP/1.1" 200 -
+[INFO](2016-07-25 10:28:28,445) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-25 10:28:28,447) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-25 10:28:29,376) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-25 10:28:29,382) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-25 10:28:29,854) in _internal.py:line 87 : 127.0.0.1 - - [25/Jul/2016 10:28:29] "POST /api/good/ HTTP/1.1" 200 -
+[INFO](2016-07-25 10:28:45,401) in _internal.py:line 87 : 127.0.0.1 - - [25/Jul/2016 10:28:45] "POST /api/good/ HTTP/1.1" 200 -
+[INFO](2016-07-25 10:32:10,407) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-25 10:32:10,409) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-25 10:32:11,277) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-25 10:32:11,283) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-25 10:32:12,658) in _internal.py:line 87 : 127.0.0.1 - - [25/Jul/2016 10:32:12] "POST /api/good/ HTTP/1.1" 200 -

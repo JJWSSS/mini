@@ -53,10 +53,10 @@ def get_goods():
             else:
                 goods = Good.query.order_by(Good.createDate.desc()).offset(begin).all()
         return jsonify({'status': 1, 'data': {'goods': [good.to_json() for good in goods]}})
-    except KeyError:
-        return jsonify({'status': 0, 'data': ['json参数不对', KeyError.args]})
-    except AttributeError:
-        return jsonify({'status': -1, 'data': ['未查到数据', AttributeError.args]})
+    except KeyError as k:
+        return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
+    except AttributeError as a:
+        return jsonify({'status': -1, 'data': ['未查到数据', a.args]})
     except Exception as e:
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
@@ -66,10 +66,10 @@ def single_good():
     try:
         good = Good.query.get(request.json['good_id'])
         return jsonify({'status': 1, 'data': good.to_json()})
-    except KeyError:
-        return jsonify({'status': 0, 'data': ['json参数不对', KeyError.args]})
-    except AttributeError:
-        return jsonify({'status': -1, 'data': ['未查到数据', AttributeError.args]})
+    except KeyError as k:
+        return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
+    except AttributeError as a:
+        return jsonify({'status': -1, 'data': ['未查到数据', a.args]})
     except Exception as e:
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
@@ -80,10 +80,10 @@ def search():
         search_name = request.json['search_name']
         goods = Good.query.filter(Good.goodName.ilike('%'+search_name+'%')).all()
         return jsonify({'status': 1, 'data': {'result': [good.to_json() for good in goods]}})
-    except KeyError:
-        return jsonify({'status': 0, 'data': ['json参数不对', KeyError.args]})
-    except AttributeError:
-        return jsonify({'status': -1, 'data': ['未查到数据', AttributeError.args]})
+    except KeyError as k:
+        return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
+    except AttributeError as a:
+        return jsonify({'status': -1, 'data': ['未查到数据', a.args]})
     except Exception as e:
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
@@ -102,8 +102,8 @@ def new_good():
         db.session.add(good)
         db.session.commit()
         return jsonify({'status': 1, 'data': good.to_json()})
-    except KeyError:
-        return jsonify({'status': 0, 'data': ['json参数不对', KeyError.args]})
+    except KeyError as k:
+        return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
     except Exception as e:
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
@@ -127,10 +127,10 @@ def new_photo():
             return jsonify({'status': -2, 'data': '文件为空'})
         else:
             return jsonify({'status': -3, 'data': '文件名后缀不符合要求'})
-    except KeyError:
-        return jsonify({'status': 0, 'data': ['json参数不对', KeyError.args]})
-    except FileNotFoundError:
-        return jsonify({'status': -1, 'data': ['文件夹没有创建或路径不对', FileNotFoundError.args]})
+    except KeyError as k:
+        return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
+    except FileNotFoundError as f:
+        return jsonify({'status': -1, 'data': ['文件夹没有创建或路径不对', f.args]})
     except Exception as e:
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
@@ -154,8 +154,8 @@ def edit_good():
         db.session.add(good)
         db.session.commit()
         return jsonify({'status': 1, 'data': good.to_json()})
-    except KeyError:
-        return jsonify({'status': 0, 'data': ['json参数不对', KeyError.args]})
+    except KeyError as k:
+        return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
     except Exception as e:
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
@@ -169,8 +169,8 @@ def delete_good():
             return jsonify({'status': -1, 'data': ['商品没有查到']})
         db.session.delete(good)
         return jsonify({'status': 1, 'data': {}})
-    except KeyError:
-        return jsonify({'status': 0, 'data': ['json参数不对', KeyError.args]})
+    except KeyError as k:
+        return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
     except Exception as e:
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
@@ -184,8 +184,8 @@ def homepage_goods():
             goods = Good.query.filter_by(type=i).order_by(Good.createDate.desc()).limit(objects['limit']).all()
             goods_dict[str(i)] = [good.to_json() for good in goods]
         return jsonify({'status': 1, 'data': goods_dict})
-    except KeyError:
-        return jsonify({'status': 0, 'data': ['json参数不对', KeyError.args]})
+    except KeyError as k:
+        return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
     except Exception as e:
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
@@ -221,10 +221,10 @@ def refresh_goods():
                 goods = Good.query.order_by(Good.createDate.desc()).offset(begin).all()
         if goods:
             return jsonify({'status': 1, 'data': [good.to_json() for good in goods]})
-    except ValueError:
-        return jsonify({'status': -1, 'data': ['日期格式有误', ValueError.args]})
-    except KeyError:
-        return jsonify({'status': 0, 'data': ['json参数不对', KeyError.args]})
+    except ValueError as v:
+        return jsonify({'status': -1, 'data': ['日期格式有误', v.args]})
+    except KeyError as k:
+        return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
     except Exception as e:
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
@@ -260,10 +260,10 @@ def more_goods():
                 goods = Good.query.order_by(Good.createDate.desc()).offset(begin).all()
         if goods:
             return jsonify({'status': 1, 'data': [good.to_json() for good in goods]})
-    except ValueError:
-        return jsonify({'status': -1, 'data': ['日期格式有误', ValueError.args]})
-    except KeyError:
-        return jsonify({'status': 0, 'data': ['json参数不对', KeyError.args]})
+    except ValueError as v:
+        return jsonify({'status': -1, 'data': ['日期格式有误', v.args]})
+    except KeyError as k:
+        return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
     except Exception as e:
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
@@ -277,8 +277,8 @@ def add_times():
         good.times += 1
         db.session.add(good)
         return jsonify({'status': 1, 'data': {}})
-    except KeyError:
-        return jsonify({'status': 0, 'data': ['json参数不对', KeyError.args]})
+    except KeyError as k:
+        return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
     except Exception as e:
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
