@@ -33,7 +33,7 @@ def get_goods():
         begin = objects['begin']
         limit = objects['limit']
         if userid:
-            if type:
+            if type == -1:
                 if limit:
                     goods = Good.query.filter_by(sellerID=userid, type=type).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
                 else:
@@ -42,7 +42,7 @@ def get_goods():
                 goods = Good.query.filter_by(sellerID=userid).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
             else:
                 goods = Good.query.filter_by(sellerID=userid).order_by(Good.createDate.desc()).offset(begin).all()
-        elif type:
+        elif type == -1:
             if limit:
                 goods = Good.query.filter_by(type=type).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
             else:
@@ -109,7 +109,6 @@ def new_good():
 
 
 @api.route('/new_photo', methods=['POST'])
-@login_required
 def new_photo():
     try:
         file = request.files['file']
@@ -200,7 +199,7 @@ def refresh_goods():
         limit = objects['limit']
         day_time = datetime.strptime(objects['datetime'], '%a, %d %b %Y %X GMT')
         if userid:
-            if type:
+            if type == -1:
                 if limit:
                     goods = Good.query.filter(Good.createDate > day_time, Good.sellerID == userid, Good.type == type).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
                 else:
@@ -209,7 +208,7 @@ def refresh_goods():
                 goods = Good.query.filter(Good.createDate > day_time, Good.sellerID == userid).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
             else:
                 goods = Good.query.filter(Good.createDate > day_time, Good.sellerID == userid).order_by(Good.createDate.desc()).offset(begin).all()
-        elif type:
+        elif type == -1:
             if limit:
                 goods = Good.query.filter(Good.createDate > day_time, Good.type == type).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
             else:
@@ -238,7 +237,7 @@ def more_goods():
         limit = objects['limit']
         day_time = datetime.strptime(objects['datetime'], '%a, %d %b %Y %X GMT')
         if userid:
-            if type:
+            if type == -1:
                 if limit:
                     goods = Good.query.filter(Good.createDate < day_time, Good.sellerID == userid, Good.type == type).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
                 else:
@@ -247,7 +246,7 @@ def more_goods():
                 goods = Good.query.filter(Good.createDate < day_time, Good.sellerID == userid).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
             else:
                 goods = Good.query.filter(Good.createDate < day_time, Good.sellerID == userid).order_by(Good.createDate.desc()).offset(begin).all()
-        elif type:
+        elif type == -1:
             if limit:
                 goods = Good.query.filter(Good.createDate < day_time, Good.type == type).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
             else:

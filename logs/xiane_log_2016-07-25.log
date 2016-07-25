@@ -482,3 +482,70 @@
 >>>>>>> Stashed changes
 [INFO](2016-07-25 15:55:17,066) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
 [INFO](2016-07-25 15:55:17,067) in _internal.py:line 87 :  * Restarting with stat
+[INFO](2016-07-25 15:59:49,486) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-25 15:59:49,488) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-25 15:59:50,362) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-25 15:59:50,371) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-25 16:00:14,072) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-25 16:00:14,074) in _internal.py:line 87 :  * Restarting with stat
+[INFO](2016-07-25 16:20:46,744) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-25 16:20:46,745) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-25 16:20:47,565) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-25 16:20:47,574) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-25 16:20:49,700) in _internal.py:line 87 : 127.0.0.1 - - [25/Jul/2016 16:20:49] "POST /api/new_photo HTTP/1.1" 401 -
+[INFO](2016-07-25 16:21:08,088) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-25 16:21:08,090) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-25 16:21:08,854) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-25 16:21:08,862) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-25 16:21:10,663) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-25 16:21:10,664) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-25 16:21:11,647) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-25 16:21:11,654) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-25 16:21:11,856) in _internal.py:line 87 : 127.0.0.1 - - [25/Jul/2016 16:21:11] "POST /api/new_photo HTTP/1.1" 200 -
+[INFO](2016-07-25 16:21:48,208) in _internal.py:line 87 : 127.0.0.1 - - [25/Jul/2016 16:21:48] "POST /api/new_photo HTTP/1.1" 200 -
+[INFO](2016-07-25 16:21:58,555) in _internal.py:line 87 : 127.0.0.1 - - [25/Jul/2016 16:21:58] "POST /api/new_photo HTTP/1.1" 200 -
+[INFO](2016-07-25 16:23:37,883) in _internal.py:line 87 :  * Detected change in '/Users/JJW/Code/mini/app/api/good.py', reloading
+[INFO](2016-07-25 16:23:38,023) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-25 16:23:39,122) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-25 16:23:39,128) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-25 16:26:09,118) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-25 16:26:09,120) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-25 16:26:10,108) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-25 16:26:10,116) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-25 16:26:30,677) in _internal.py:line 87 : 127.0.0.1 - - [25/Jul/2016 16:26:30] "GET /api/ho HTTP/1.1" 404 -
+[INFO](2016-07-25 16:26:48,267) in _internal.py:line 87 : 127.0.0.1 - - [25/Jul/2016 16:26:48] "POST /api/homepage_goods HTTP/1.1" 200 -
+[INFO](2016-07-25 16:27:42,023) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-25 16:27:42,024) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-25 16:27:42,878) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-25 16:27:42,886) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-25 16:27:43,362) in _internal.py:line 87 : 127.0.0.1 - - [25/Jul/2016 16:27:43] "POST /api/homepage_goods HTTP/1.1" 200 -
+[INFO](2016-07-25 16:31:58,228) in _internal.py:line 87 : 127.0.0.1 - - [25/Jul/2016 16:31:58] "POST /api/new_photo HTTP/1.1" 401 -
+[INFO](2016-07-25 16:32:17,912) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-25 16:32:17,913) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-25 16:32:18,674) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-25 16:32:18,682) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-25 16:32:18,844) in _internal.py:line 87 : 127.0.0.1 - - [25/Jul/2016 16:32:18] "POST /api/new_photo HTTP/1.1" 200 -
+[INFO](2016-07-25 16:33:46,070) in _internal.py:line 87 : 127.0.0.1 - - [25/Jul/2016 16:33:46] "POST /api/new_photo HTTP/1.1" 200 -
+[INFO](2016-07-25 16:33:51,170) in _internal.py:line 87 : 127.0.0.1 - - [25/Jul/2016 16:33:51] "POST /api/new_photo HTTP/1.1" 200 -
+[INFO](2016-07-25 16:34:17,491) in _internal.py:line 87 : 127.0.0.1 - - [25/Jul/2016 16:34:17] "POST /api/new_photo HTTP/1.1" 200 -
+[INFO](2016-07-25 16:42:35,879) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-25 16:42:35,880) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-25 16:42:36,916) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-25 16:42:36,924) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-25 16:46:24,951) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-25 16:46:24,952) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-25 16:46:25,711) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-25 16:46:25,719) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-25 16:46:31,832) in _internal.py:line 87 : 127.0.0.1 - - [25/Jul/2016 16:46:31] "POST /api/goods HTTP/1.1" 200 -
+[INFO](2016-07-25 16:46:38,986) in _internal.py:line 87 : 127.0.0.1 - - [25/Jul/2016 16:46:38] "POST /api/goods HTTP/1.1" 200 -
+[INFO](2016-07-25 16:46:46,516) in _internal.py:line 87 : 127.0.0.1 - - [25/Jul/2016 16:46:46] "POST /api/goods HTTP/1.1" 200 -
+[INFO](2016-07-25 16:46:53,742) in _internal.py:line 87 : 127.0.0.1 - - [25/Jul/2016 16:46:53] "POST /api/goods HTTP/1.1" 200 -
+[INFO](2016-07-25 16:47:02,236) in _internal.py:line 87 : 127.0.0.1 - - [25/Jul/2016 16:47:02] "POST /api/goods HTTP/1.1" 200 -
+[INFO](2016-07-25 16:55:25,312) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-25 16:55:25,313) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-25 16:55:26,103) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-25 16:55:26,112) in _internal.py:line 87 :  * Debugger pin code: 277-754-078
+[INFO](2016-07-25 17:22:16,073) in _internal.py:line 87 :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO](2016-07-25 17:22:16,075) in _internal.py:line 87 :  * Restarting with stat
+[WARNING](2016-07-25 17:22:16,738) in _internal.py:line 87 :  * Debugger is active!
+[INFO](2016-07-25 17:22:16,747) in _internal.py:line 87 :  * Debugger pin code: 277-754-078

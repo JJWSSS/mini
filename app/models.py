@@ -22,6 +22,7 @@ class Order(db.Model):
     count = db.Column(db.Integer, nullable=False)
     status = db.Column(db.Integer, nullable=False) # 订单状态：0：未确认， 1：已确认， 2:已完成
 
+
     def get_seller_ordersID(self,sellerID):
         orders = db.session.query(Order).filter(sellerID == Order.sellerID).all()
         return orders
@@ -58,9 +59,14 @@ class User(UserMixin, db.Model):
     isAuthenticated = db.Column(db.Integer, nullable=False, default=0)
     qq = db.Column(db.Integer, nullable=True)
     goods = db.relationship('Good', backref='seller', lazy='dynamic')
-    sellerOrders = db.relationship('Order', foreign_keys=[Order.sellerID], backref='seller', lazy='dynamic')
-    buyerOrders = db.relationship('Order', foreign_keys=[Order.buyerID], backref='buyer', lazy='dynamic')
+    sellerOrders = db.relationship('Order', foreign_keys=[Order.sellerID],
+                                   backref=db.backref('seller', lazy='joined'), lazy='dynamic',
+                                   cascade='all, delete-orphan')
+    buyerOrders = db.relationship('Order', foreign_keys=[Order.buyerID],
+                                  backref=db.backref('buyer', lazy='joined'), lazy='dynamic',
+                                  cascade='all, delete-orphan')
     comments = db.relationship('Comment', backref='commentator', lazy='dynamic')
+
 
     @property
     def password(self):
@@ -222,8 +228,8 @@ class Good(db.Model):
             u = User.query.offset(randint(0, user_count - 1)).first()
             g = Good(goodName=forgery_py.name.full_name(), description=forgery_py.lorem_ipsum.sentences(randint(1, 3)),
                      freeCount=10, image=forgery_py.internet.domain_name(), compressImage=forgery_py.internet.domain_name(),
-                     contact_tel=randint(100000000, 999999999), type=1, price=randint(1, 100), seller=u, contact_qq=randint(100000000, 999999999),
-                     contact_wechat='jjj', address='china', poster='very good')
+                     contact_tel=randint(100000000, 999999999), type=randint(0, 7), price=randint(1, 100), seller=u,
+                     contact_qq=randint(100000000, 999999999), contact_wechat='jjj', address='china', poster='very good')
             db.session.add(g)
             db.session.commit()
 
