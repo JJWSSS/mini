@@ -166,6 +166,8 @@ def delete_good():
         good = Good.query.get(request.json['good_id'])
         if not good:
             return jsonify({'status': -1, 'data': ['商品没有查到']})
+        if good.comments:
+            db.session.delete(good.comments)
         db.session.delete(good)
         return jsonify({'status': 1, 'data': {}})
     except KeyError as k:
