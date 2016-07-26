@@ -157,8 +157,18 @@ class CommentProxy:
         """
         查询函数，通过输入的查询条件查询符合条件的模型
         :param args [dict]:
-            
-        :return:
+            前端输入需要查询的评论之参数，
+            目前包括 commentatorID 评论者的userID       [int, 非必须]
+                    context       评论内容             [string, 非必须]
+                    goodsID       被评论商品的goodsID  [int, 非必须]
+                    commitTime    评论时间             [dataTime, 非必须]
+                    commentID     评论的ID             [int, 非必须]
+        :return  [Json]:
+         {
+            'status' : 成功则为1，失败为0，
+            'message' : 返回结果说明，
+            'data' : {'comments': [ ]}
+         }
         """
         if not args:
             return self.Comment.query.filter_by(status=0)
@@ -169,6 +179,22 @@ class CommentProxy:
         return ret
 
     def insert(self, args, isVailed=None):
+        """
+        插入评论函数，此函数用于将一条评论插入数据库中
+        :param args [dict]:
+            前端输入需要插入的评论之参数，
+            目前包括 commentatorID  评论者的userID     [int, 必须]
+                    context        评论内容           [string, 必须]
+                    goodsID       被评论商品的goodsID  [int, 必须]
+        :param isVailed [function]:
+            用于检查参数是否合法的检查器
+        :return  [Json]:
+         {
+            'status' : 成功则为1，失败为0，
+            'message' : 返回结果说明，
+            'data' : {'comments': [ ]}
+         }
+        """
         message = None
         if isVailed and not isVailed(args):
             return self.makeRetJson(0, 'invailed arguments')
@@ -188,6 +214,20 @@ class CommentProxy:
         return self.makeRetJson(1, message)
 
     def delete(self, args):
+        """
+        删除评论函数，此函数用来将一条评论从数据库中删除
+        :param args [args]:
+            前端输入需要删除的评论之参数，
+            目前包括  commentatorID  评论者的userID     [int, 必须]
+                     goodsID       被评论商品的goodsID  [int, 必须]
+                    commentID     评论的ID             [int, 非必须]
+
+        :return  [Json]:
+         {
+            'status' : 成功则为1，失败为0，
+            'message' : 返回结果说明，
+            'data' : {'comments': [ ]}
+         }        """
         self._filerDict = self.filterArgs(args)
         if len(self._filerDict) <= 0:
             return self.makeRetJson(0, '0 comments have been deleted')
