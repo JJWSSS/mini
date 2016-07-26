@@ -1,11 +1,21 @@
 # -*- coding: utf-8 -*-
 from . import api
-from flask import request, jsonify, g
+from flask import request, jsonify, current_app
 from ..models import User
 from .. import db
 from flask_login import login_user, logout_user, login_required, current_user
 from ..models import generate_password_hash
 import logging
+from werkzeug.utils import secure_filename
+import os
+from PIL import Image
+from random import randint
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in current_app.config['ALLOWED_EXTENSIONS']
+
 
 @api.route('/register', methods=['POST'])
 def register():
@@ -210,7 +220,9 @@ def user_info(userid):
                 "nickname": result.nickName,
                 "email": result.email,
                 "isAuthenticated": result.isAuthenticated,
-                "qq": result.qq
+                "qq": result.qq,
+                "picture":result.picture,
+                "compressPicture":result.compressPicture
             }
         }
     else:
@@ -253,7 +265,9 @@ def get_user_info():
                 "nickname": result.nickName,
                 "email": result.email,
                 "isAuthenticated": result.isAuthenticated,
-                "qq": result.qq
+                "qq": result.qq,
+                "picture":result.picture,
+                "compressPicture":result.compressPicture
             }
         })
     else :
@@ -280,6 +294,8 @@ def update_user_info():
     objects = request.json
     username = current_user.userName
     nickname = objects["nickname"]
+    picture = objects["picture_url"]
+    compressPicture = objects["compressPicture_url"]
     result = User.query.filter_by(userName=username).first()
     if result:
         if result.isAuthenticated is False :
@@ -291,6 +307,8 @@ def update_user_info():
             })
         try:
             result.nickName = nickname
+            result.picture = picture
+            result.compressPicture = compressPicture
             db.session.commit()
         except Exception as e:
             logging.log(logging.ERROR, "Update User Information ({}) Fail: Database or Internal Error".format(username))
@@ -336,5 +354,30 @@ def is_it_active():
                 "isAuth"   : current_user.isAuthenticated
             }
         })
+
+@api.route('/user_picture',methods=['POST'])
+def user_photo():
+    try:
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            url = os.path.join(current_app.config['UPLOAD_FOLDER'], (str(randint(1, 100))+filename))
+            file.save(url)
+            im = Image.open(url)
+            im.thumbnail((200, 200))
+            compress_url = os.path.join(current_app.config['UPLOAD_FOLDER'],
+                                        ('compress_'+str(randint(1, 100))+filename))
+            im.save(compress_url)
+            return jsonify({'status': 1, 'data': {'picture': url, 'compressPicture': compress_url}})
+        elif not file:
+            return jsonify({'status': -2, 'data': '文件为空'})
+        else:
+            return jsonify({'status': -3, 'data': '文件名后缀不符合要求'})
+    except KeyError as k:
+        return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
+    except FileNotFoundError as f:
+        return jsonify({'status': -1, 'data': ['文件夹没有创建或路径不对', f.args]})
+    except Exception as e:
+        return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
 

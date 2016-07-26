@@ -93,6 +93,10 @@ def search():
 def new_good():
     try:
         objects = request.json
+        if objects['price'] < 0:
+            return jsonify({'status': -3, 'data': ['价格为负']})
+        if objects['freeCount'] < 0:
+            return jsonify({'status': -4, 'data': ['剩余数量为负']})
         good = Good(goodName=objects['goodName'], description=objects['description'],
                     freeCount=objects['freeCount'], type=objects['type'],
                     contact_tel=objects['contact_tel'], price=objects['price'], contact_qq=objects['contact_qq'],
@@ -141,6 +145,8 @@ def edit_good():
         good = Good.query.get(objects['good_id'])
         if not good:
             return jsonify({'status': -1, 'data': ['商品没有查到']})
+        if objects['price'] < 0:
+            return jsonify({'status': -3, 'data': ['价格为负']})
         good.description = objects['description']
         good.goodName = objects['goodName']
         good.modifyDate = datetime.utcnow()
