@@ -26,7 +26,7 @@ def list_seller_orders():
     object = request.json
     # sellerID = object['userID']
     sellerID = current_user.userID
-    start = object['start']
+    start = object['begin']
     stop = start + object['count'] - 1
     status = object['status']
 
@@ -64,13 +64,12 @@ def list_seller_orders():
 
     try:
         orderlist = list()
-        print (orderlist)
         for row in ordersID:
             orderID = row.orderID
             orderdetail = Order.query.filter(orderID == Order.orderID).first()
             orderinfo = {
                 'orderID' : orderdetail.orderID,
-                'goodID': orderdetail.goodID,
+                'good_id': orderdetail.goodID,
                 'sellerID': orderdetail.sellerID,
                 'buyerID': orderdetail.buyerID,
                 'createDate': orderdetail.createDate,
@@ -78,8 +77,7 @@ def list_seller_orders():
                 'count': orderdetail.count,
                 'status': orderdetail.status
             }
-            print (orderinfo)
-            good = Good.query.filter(Good.goodID == orderinfo['goodID']).first()
+            good = Good.query.filter(Good.goodID == orderinfo['good_id']).first()
             orderinfo = dict(orderinfo,**{'goodName':good.goodName})
             user = User.query.filter(User.userID == orderinfo['sellerID']).first()
             orderinfo = dict(orderinfo,**{'userName':user.userName})
@@ -121,7 +119,7 @@ def list_buyer_orders():
     '''
     object = request.json
     buyerID = current_user.userID
-    start = object['start']
+    start = object['begin']
     stop = start + object['count'] - 1
     status = object['status']
     if not buyerID:
@@ -162,7 +160,7 @@ def list_buyer_orders():
             orderdetail = Order.query.filter(orderID == Order.orderID).first()
             orderinfo = {
                 'orderID': orderdetail.orderID,
-                'goodID': orderdetail.goodID,
+                'good_id': orderdetail.goodID,
                 'sellerID': orderdetail.sellerID,
                 'buyerID': orderdetail.buyerID,
                 'createDate': orderdetail.createDate,
@@ -211,7 +209,7 @@ def get_order_detail():
     object = request.json
     orderID = object['orderID']
     try:
-        orderDetail = Order.query(Order).filter(Order.orderID == orderID).first()
+        orderDetail = Order.query.filter(Order.orderID == orderID).first()
 
         if not orderDetail:
             logging.log(logging.INFO, "Get Order Detail Fail(No Order): {}".format(current_user.userName))
@@ -228,7 +226,16 @@ def get_order_detail():
             {
                 'status' : 1,
                 'message' : 'Success',
-                'data' : orderDetail
+                'data' : {
+                    'orderID': orderDetail.orderID,
+                    'good_id': orderDetail.goodID,
+                    'sellerID': orderDetail.sellerID,
+                    'buyerID': orderDetail.buyerID,
+                    'createDate': orderDetail.createDate,
+                    'confirmDate': orderDetail.confirmDate,
+                    'count': orderDetail.count,
+                    'status': orderDetail.status
+                }
             }
         )
 
@@ -249,7 +256,7 @@ def create_order():
     '''
     创建新订单
     :param:     [JSON]
-        "goodID"
+        "good_id"
         "buyerID"
         "sellerID"
         "count"
@@ -274,7 +281,7 @@ def create_order():
 
     try:
         neworder = Order(
-            goodID = neworderinfo['goodID'],
+            goodID = neworderinfo['good_id'],
             sellerID = neworderinfo['sellerID'],
             buyerID = neworderinfo['buyerID'],
             createDate = timenow,
