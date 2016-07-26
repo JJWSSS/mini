@@ -168,7 +168,7 @@ def list_buyer_orders():
                 'count': orderdetail.count,
                 'status': orderdetail.status
             }
-            good = Good.query.filter(Good.goodID == orderinfo['goodID']).first()
+            good = Good.query.filter(Good.goodID == orderinfo['good_id']).first()
             orderinfo = dict(orderinfo,**{'goodName':good.goodName})
             user = User.query.filter(User.userID == orderinfo['buyerID']).first()
             orderinfo = dict(orderinfo,**{'userName':user.userName})
