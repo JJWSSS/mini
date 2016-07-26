@@ -210,16 +210,35 @@ def __makeCommentProxy():
 @api.route(app.config.get('COMMENT_GET_URL'),
            methods=app.config.get('COMMENT_GET_METHODS'))
 def getComment():
+    """
+    获取评论接口，通过配置获取到的COMMENT_GET_URL将会被路由到该函数，
+    其接受的URL参数由COMMENT_TABLE_STRUCTS配置获取
+    :return  [Json]:
+         {
+            'status' : 成功则为1，失败为0，
+            'message' : 返回结果说明，
+            'data' : {'comments': [ ]}
+         }
+    """
     proxy = __makeCommentProxy()
     args = request.args
     ret = proxy.query(args)
-    return proxy.makeRetJson(1,
-                             data={'comments': ret})
+    return proxy.makeRetJson(1, data={'comments': ret})
 
 
 @api.route(app.config.get('COMMENT_ADD_URL'),
            methods=app.config.get('COMMENT_ADD_METHODS'))
 def addComment():
+    """
+    添加评论接口，通过配置获取到的COMMENT_ADD_URL将会被路由到该函数，
+    其接受的URL参数由COMMENT_TABLE_STRUCTS配置获取
+    :return  [Json]:
+         {
+            'status' : 成功则为1，失败为0，
+            'message' : 返回结果说明，
+            'data' : {（None）}
+         }
+    """
     proxy = __makeCommentProxy()
     args = request.args
     return proxy.insert(args)
@@ -228,6 +247,16 @@ def addComment():
 @api.route(app.config.get('COMMENT_DELETE_URL'),
            methods=app.config.get('COMMENT_DELETE_METHODS'))
 def deleteComment():
+    """
+    添加评论接口，通过配置获取到的COMMENT_DELETE_URL将会被路由到该函数，
+    其接受的URL参数由COMMENT_TABLE_STRUCTS配置获取
+    :return  [Json]:
+         {
+            'status' : 成功则为1，失败为0，
+            'message' : 返回结果说明，
+            'data' : {（None）}
+         }
+    """
     proxy = __makeCommentProxy()
     args = request.args
     return proxy.delete(args)
