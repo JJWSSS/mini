@@ -17,7 +17,7 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1] in current_app.config['ALLOWED_EXTENSIONS']
 
 
-@api.route('/goods/', methods=['POST'])
+@api.route('/goods', methods=['POST'])
 def get_goods():
     """
     功能: 获取商品列表
@@ -33,59 +33,62 @@ def get_goods():
         begin = objects['begin']
         limit = objects['limit']
         if userid:
-            if type:
-                if begin or limit:
+            if type == -1:
+                if limit:
                     goods = Good.query.filter_by(sellerID=userid, type=type).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
                 else:
-                    goods = Good.query.filter_by(sellerID=userid, type=type).order_by(Good.createDate.desc()).all()
-            elif begin or limit:
+                    goods = Good.query.filter_by(sellerID=userid, type=type).order_by(Good.createDate.desc()).offset(begin).all()
+            elif limit:
                 goods = Good.query.filter_by(sellerID=userid).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
             else:
-                goods = Good.query.filter_by(sellerID=userid).order_by(Good.createDate.desc()).all()
-        elif type:
-            if begin or limit:
+                goods = Good.query.filter_by(sellerID=userid).order_by(Good.createDate.desc()).offset(begin).all()
+        elif type == -1:
+            if limit:
                 goods = Good.query.filter_by(type=type).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
             else:
-                goods = Good.query.filter_by(type=type).order_by(Good.createDate.desc()).all()
+                goods = Good.query.filter_by(type=type).order_by(Good.createDate.desc()).offset(begin).all()
         else:
-            goods = Good.query.offset(begin).limit(limit).order_by(Good.createDate.desc()).all()
+            if limit:
+                goods = Good.query.order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
+            else:
+                goods = Good.query.order_by(Good.createDate.desc()).offset(begin).all()
         return jsonify({'status': 1, 'data': {'goods': [good.to_json() for good in goods]}})
-    except KeyError:
-        return jsonify({'status': 0, 'data': ['json参数不对', KeyError.args]})
-    except AttributeError:
-        return jsonify({'status': -1, 'data': ['未查到数据', AttributeError.args]})
+    except KeyError as k:
+        return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
+    except AttributeError as a:
+        return jsonify({'status': -1, 'data': ['未查到数据', a.args]})
     except Exception as e:
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
 
-@api.route('/good/', methods=['POST'])
+@api.route('/good', methods=['POST'])
 def single_good():
     try:
         good = Good.query.get(request.json['good_id'])
         return jsonify({'status': 1, 'data': good.to_json()})
-    except KeyError:
-        return jsonify({'status': 0, 'data': ['json参数不对', KeyError.args]})
-    except AttributeError:
-        return jsonify({'status': -1, 'data': ['未查到数据', AttributeError.args]})
+    except KeyError as k:
+        return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
+    except AttributeError as a:
+        return jsonify({'status': -1, 'data': ['未查到数据', a.args]})
     except Exception as e:
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
 
-@api.route('/search/', methods=['POST'])
+@api.route('/search', methods=['POST'])
 def search():
     try:
         search_name = request.json['search_name']
         goods = Good.query.filter(Good.goodName.ilike('%'+search_name+'%')).all()
         return jsonify({'status': 1, 'data': {'result': [good.to_json() for good in goods]}})
-    except KeyError:
-        return jsonify({'status': 0, 'data': ['json参数不对', KeyError.args]})
-    except AttributeError:
-        return jsonify({'status': -1, 'data': ['未查到数据', AttributeError.args]})
+    except KeyError as k:
+        return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
+    except AttributeError as a:
+        return jsonify({'status': -1, 'data': ['未查到数据', a.args]})
     except Exception as e:
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
 
-@api.route('/new_good/', methods=['POST'])
+@api.route('/new_good', methods=['POST'])
 @login_required
 def new_good():
     try:
@@ -99,14 +102,13 @@ def new_good():
         db.session.add(good)
         db.session.commit()
         return jsonify({'status': 1, 'data': good.to_json()})
-    except KeyError:
-        return jsonify({'status': 0, 'data': ['json参数不对', KeyError.args]})
+    except KeyError as k:
+        return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
     except Exception as e:
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
 
-@api.route('/new_photo/', methods=['POST'])
-@login_required
+@api.route('/new_photo', methods=['POST'])
 def new_photo():
     try:
         file = request.files['file']
@@ -124,15 +126,15 @@ def new_photo():
             return jsonify({'status': -2, 'data': '文件为空'})
         else:
             return jsonify({'status': -3, 'data': '文件名后缀不符合要求'})
-    except KeyError:
-        return jsonify({'status': 0, 'data': ['json参数不对', KeyError.args]})
-    except FileNotFoundError:
-        return jsonify({'status': -1, 'data': ['文件夹没有创建或路径不对', FileNotFoundError.args]})
+    except KeyError as k:
+        return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
+    except FileNotFoundError as f:
+        return jsonify({'status': -1, 'data': ['文件夹没有创建或路径不对', f.args]})
     except Exception as e:
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
 
-@api.route('/edit_good/', methods=['POST'])
+@api.route('/edit_good', methods=['POST'])
 def edit_good():
     try:
         objects = request.json
@@ -151,28 +153,30 @@ def edit_good():
         db.session.add(good)
         db.session.commit()
         return jsonify({'status': 1, 'data': good.to_json()})
-    except KeyError:
-        return jsonify({'status': 0, 'data': ['json参数不对', KeyError.args]})
+    except KeyError as k:
+        return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
     except Exception as e:
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
 
-@api.route('/delete_good/', methods=['POST'])
+@api.route('/delete_good', methods=['POST'])
 @login_required
 def delete_good():
     try:
         good = Good.query.get(request.json['good_id'])
         if not good:
             return jsonify({'status': -1, 'data': ['商品没有查到']})
+        if good.comments:
+            db.session.delete(good.comments)
         db.session.delete(good)
         return jsonify({'status': 1, 'data': {}})
-    except KeyError:
-        return jsonify({'status': 0, 'data': ['json参数不对', KeyError.args]})
+    except KeyError as k:
+        return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
     except Exception as e:
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
 
-@api.route('/homepage_goods/', methods=['POST'])
+@api.route('/homepage_goods', methods=['POST'])
 def homepage_goods():
     try:
         objects = request.json
@@ -181,13 +185,13 @@ def homepage_goods():
             goods = Good.query.filter_by(type=i).order_by(Good.createDate.desc()).limit(objects['limit']).all()
             goods_dict[str(i)] = [good.to_json() for good in goods]
         return jsonify({'status': 1, 'data': goods_dict})
-    except KeyError:
-        return jsonify({'status': 0, 'data': ['json参数不对', KeyError.args]})
+    except KeyError as k:
+        return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
     except Exception as e:
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
 
-@api.route('/refresh_goods/', methods=['POST'])
+@api.route('/refresh_goods', methods=['POST'])
 def refresh_goods():
     try:
         objects = request.json
@@ -197,33 +201,35 @@ def refresh_goods():
         limit = objects['limit']
         day_time = datetime.strptime(objects['datetime'], '%a, %d %b %Y %X GMT')
         if userid:
-            if type:
-                if begin or limit:
+            if type == -1:
+                if limit:
                     goods = Good.query.filter(Good.createDate > day_time, Good.sellerID == userid, Good.type == type).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
                 else:
-                    goods = Good.query.filter(Good.createDate > day_time, Good.sellerID == userid, Good.type == type).order_by(Good.createDate.desc()).all()
-            elif begin or limit:
+                    goods = Good.query.filter(Good.createDate > day_time, Good.sellerID == userid, Good.type == type).order_by(Good.createDate.desc()).offset(begin).all()
+            elif limit:
                 goods = Good.query.filter(Good.createDate > day_time, Good.sellerID == userid).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
             else:
-                goods = Good.query.filter(Good.createDate > day_time, Good.sellerID == userid).order_by(Good.createDate.desc()).all()
-        elif type:
-            if begin or limit:
+                goods = Good.query.filter(Good.createDate > day_time, Good.sellerID == userid).order_by(Good.createDate.desc()).offset(begin).all()
+        elif type == -1:
+            if limit:
                 goods = Good.query.filter(Good.createDate > day_time, Good.type == type).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
             else:
-                goods = Good.query.filter(Good.createDate > day_time, Good.type == type).order_by(Good.createDate.desc()).all()
+                goods = Good.query.filter(Good.createDate > day_time, Good.type == type).order_by(Good.createDate.desc()).offset(begin).all()
         else:
-            goods = Good.query.offset(begin).limit(limit).order_by(Good.createDate.desc()).all()
-        if goods:
-            return jsonify({'status': 1, 'data': [good.to_json() for good in goods]})
-    except ValueError:
-        return jsonify({'status': -1, 'data': ['日期格式有误', ValueError.args]})
-    except KeyError:
-        return jsonify({'status': 0, 'data': ['json参数不对', KeyError.args]})
+            if limit:
+                goods = Good.query.order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
+            else:
+                goods = Good.query.order_by(Good.createDate.desc()).offset(begin).all()
+        return jsonify({'status': 1, 'data': [good.to_json() for good in goods]})
+    except ValueError as v:
+        return jsonify({'status': -1, 'data': ['日期格式有误', v.args]})
+    except KeyError as k:
+        return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
     except Exception as e:
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
 
-@api.route('/more_goods/', methods=['POST'])
+@api.route('/more_goods', methods=['POST'])
 def more_goods():
     try:
         objects = request.json
@@ -233,43 +239,48 @@ def more_goods():
         limit = objects['limit']
         day_time = datetime.strptime(objects['datetime'], '%a, %d %b %Y %X GMT')
         if userid:
-            if type:
-                if begin or limit:
+            if type == -1:
+                if limit:
                     goods = Good.query.filter(Good.createDate < day_time, Good.sellerID == userid, Good.type == type).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
                 else:
-                    goods = Good.query.filter(Good.createDate < day_time, Good.sellerID == userid, Good.type == type).order_by(Good.createDate.desc()).all()
-            elif begin or limit:
+                    goods = Good.query.filter(Good.createDate < day_time, Good.sellerID == userid, Good.type == type).order_by(Good.createDate.desc()).offset(begin).all()
+            elif limit:
                 goods = Good.query.filter(Good.createDate < day_time, Good.sellerID == userid).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
             else:
-                goods = Good.query.filter(Good.createDate < day_time, Good.sellerID == userid).order_by(Good.createDate.desc()).all()
-        elif type:
-            if begin or limit:
+                goods = Good.query.filter(Good.createDate < day_time, Good.sellerID == userid).order_by(Good.createDate.desc()).offset(begin).all()
+        elif type == -1:
+            if limit:
                 goods = Good.query.filter(Good.createDate < day_time, Good.type == type).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
             else:
-                goods = Good.query.filter(Good.createDate < day_time, Good.type == type).order_by(Good.createDate.desc()).all()
+                goods = Good.query.filter(Good.createDate < day_time, Good.type == type).order_by(Good.createDate.desc()).offset(begin).all()
         else:
-            goods = Good.query.offset(begin).limit(limit).order_by(Good.createDate.desc()).all()
-        if goods:
-            return jsonify({'status': 1, 'data': [good.to_json() for good in goods]})
-    except ValueError:
-        return jsonify({'status': -1, 'data': ['日期格式有误', ValueError.args]})
-    except KeyError:
-        return jsonify({'status': 0, 'data': ['json参数不对', KeyError.args]})
+            if limit:
+                goods = Good.query.order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
+            else:
+                goods = Good.query.order_by(Good.createDate.desc()).offset(begin).all()
+        return jsonify({'status': 1, 'data': [good.to_json() for good in goods]})
+    except ValueError as v:
+        return jsonify({'status': -1, 'data': ['日期格式有误', v.args]})
+    except KeyError as k:
+        return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
     except Exception as e:
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
 
-@api.route('/add_times/', methods=['POST'])
+@api.route('/add_times', methods=['POST'])
 def add_times():
     try:
-        good = Good.query.get(request.json['goodID'])
+        good = Good.query.get(request.json['good_id'])
         if not good:
             return jsonify({'status': -1, 'data': ['商品没有查到']})
-        good.times += 1
+        if not good.times:
+            good.times = 1
+        else:
+            good.times += 1
         db.session.add(good)
         return jsonify({'status': 1, 'data': {}})
-    except KeyError:
-        return jsonify({'status': 0, 'data': ['json参数不对', KeyError.args]})
+    except KeyError as k:
+        return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
     except Exception as e:
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 

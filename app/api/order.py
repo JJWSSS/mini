@@ -6,23 +6,32 @@ from datetime import  datetime
 from flask import request,jsonify
 from ..models import User,Order,Good
 from flask_login import current_user,login_required
+import logging
 
-# 列出作为卖家的订单
-# params[POST]:
-#   'userID' [int]
-#   'start' [int]
-#   'count' [int]
-#   'status' [int]
-# @login_required
+
+@login_required
 @api.route('/list_seller_orders', methods = ['POST'])
 def list_seller_orders():
+    '''
+    列出作为卖家的订单
+    :param:     [JSON]
+        "start"
+        "count"
+        "status"
+    :return:    [JSON]
+        "status":  0, 1, 2, 3
+        "message":
+        "data": {}
+    '''
     object = request.json
-    userID = object['userID']
+    # sellerID = object['userID']
+    sellerID = current_user.userID
     start = object['start']
     stop = start + object['count'] - 1
     status = object['status']
-    sellerID = userID
+
     if not sellerID:
+        logging.log(logging.INFO, "Get Orderlist Fail(Not Login): {}".format(current_user.userName))
         return jsonify(
             {
                 'status' : 0,
@@ -32,11 +41,11 @@ def list_seller_orders():
 
 
     try:
-        ordersID = Order.query(Order.orderID).filter(sellerID == Order.sellerID and status == Order.status).slice(start,stop)
+        ordersID = Order.query.filter(sellerID == Order.sellerID, status == Order.status).slice(start,stop).all()
 
         if not ordersID:
+            logging.log(logging.INFO, "Get Orderlist Fail(No Order): {}".format(current_user.userName))
             return jsonify(
-
                 {
                     'status': 2,
                     'message': 'Fail: No order',
@@ -44,6 +53,7 @@ def list_seller_orders():
                 }
             )
     except:
+        logging.log(logging.INFO, "Get Orderlist Fail(Database): {}".format(current_user.userName))
         return jsonify(
             {
                 'status' : 3,
@@ -54,11 +64,28 @@ def list_seller_orders():
 
     try:
         orderlist = list()
-        for orderID in ordersID:
-            orderinfo = Order.query(Order).filter(orderID == Order.orderID).first()
-            orderinfo = dict(orderinfo,**Good.query(Good.goodName).filter(Good.goodID == orderinfo.goodID).first())
-            orderinfo = dict(orderinfo,**User.query(User.userName).filter(User.userID == orderinfo.buyerID).first())
+        print (orderlist)
+        for row in ordersID:
+            orderID = row.orderID
+            orderdetail = Order.query.filter(orderID == Order.orderID).first()
+            orderinfo = {
+                'orderID' : orderdetail.orderID,
+                'goodID': orderdetail.goodID,
+                'sellerID': orderdetail.sellerID,
+                'buyerID': orderdetail.buyerID,
+                'createDate': orderdetail.createDate,
+                'confirmDate': orderdetail.confirmDate,
+                'count': orderdetail.count,
+                'status': orderdetail.status
+            }
+            print (orderinfo)
+            good = Good.query.filter(Good.goodID == orderinfo['goodID']).first()
+            orderinfo = dict(orderinfo,**{'goodName':good.goodName})
+            user = User.query.filter(User.userID == orderinfo['sellerID']).first()
+            orderinfo = dict(orderinfo,**{'userName':user.userName})
             orderlist.append(orderinfo)
+
+        logging.log(logging.INFO, "Get Orderlist Success: {}".format(current_user.userName))
 
         return jsonify(
             {
@@ -68,6 +95,7 @@ def list_seller_orders():
             }
         )
     except:
+        logging.log(logging.INFO, "Get Orderlist Fail(Database): {}".format(current_user.userName))
         return jsonify(
             {
                 'status': 3,
@@ -76,39 +104,49 @@ def list_seller_orders():
             }
         )
 
-# 列出作为买家的订单
-# params[POST]:
-#   'userID' [int]
-#   'start' [int]
-#   'count' [int]
-#   'status' [int]
-# @login_required
-@api.route('/list_seller_orders', methods = ['POST'])
+
+@login_required
+@api.route('/list_buyer_orders', methods = ['POST'])
 def list_buyer_orders():
+    '''
+    列出作为买家的订单
+    :param:     [JSON]
+        "start"
+        "count"
+        "status"
+    :return:    [JSON]
+        "status":  0, 1, 2, 3
+        "message":
+        "data": {}
+    '''
     object = request.json
-    userID = object['userID']
+    buyerID = current_user.userID
     start = object['start']
     stop = start + object['count'] - 1
     status = object['status']
-    buyerID = userID
     if not buyerID:
+        logging.log(logging.INFO, "Get Orderlist Fail(Not Login): {}".format(current_user.userName))
         return jsonify(
             {
                 'status' : 0,
-                'message' : 'Fail: User Not Login'
+                'message' : 'Fail: User Not Login',
+                'data':{}
             }
         )
 
     try:
-        ordersID = Order.query(Order.orderID).filter(buyerID == Order.buyerID and status == Order.status).slice(start,stop)
+        ordersID = Order.query.filter(buyerID == Order.buyerID and status == Order.status).slice(start,stop).all()
         if not ordersID:
+            logging.log(logging.INFO, "Get Orderlist Fail(No Order): {}".format(current_user.userName))
             return jsonify(
                 {
                     'status' : 2,
-                    'message' : 'Fail: No order'
+                    'message' : 'Fail: No Order',
+                    'data':{}
                 }
             )
     except:
+        logging.log(logging.INFO, "Get Orderlist Fail(Database): {}".format(current_user.userName))
         return jsonify(
             {
                 'status': 3,
@@ -119,18 +157,35 @@ def list_buyer_orders():
 
     try:
         orderlist = list()
-        for orderID in ordersID:
-            orderinfo = Order.query(Order).filter(orderID == Order.orderID).first()
-            orderinfo = dict(orderinfo,**Good.query(Good.goodName).filter(Good.goodID == orderinfo.goodID).first())
-            orderinfo = dict(orderinfo,**User.query(User.userName).filter(User.userID == orderinfo.sellerID).first())
+        for row in ordersID:
+            orderID = row.orderID
+            orderdetail = Order.query.filter(orderID == Order.orderID).first()
+            orderinfo = {
+                'orderID': orderdetail.orderID,
+                'goodID': orderdetail.goodID,
+                'sellerID': orderdetail.sellerID,
+                'buyerID': orderdetail.buyerID,
+                'createDate': orderdetail.createDate,
+                'confirmDate': orderdetail.confirmDate,
+                'count': orderdetail.count,
+                'status': orderdetail.status
+            }
+            good = Good.query.filter(Good.goodID == orderinfo['goodID']).first()
+            orderinfo = dict(orderinfo,**{'goodName':good.goodName})
+            user = User.query.filter(User.userID == orderinfo['buyerID']).first()
+            orderinfo = dict(orderinfo,**{'userName':user.userName})
             orderlist.append(orderinfo)
+
+        logging.log(logging.INFO, "Get Orderlist Success: {}".format(current_user.userName))
         return jsonify(
             {
-                'status' : 'Success',
-                'message' : orderlist
+                'status' : 1,
+                'message' : 'Success',
+                'data': orderlist
             }
         )
     except:
+        logging.log(logging.INFO, "Get Orderlist Fail(Database): {}".format(current_user.userName))
         return jsonify(
             {
                 'status': 3,
@@ -140,18 +195,26 @@ def list_buyer_orders():
         )
 
 
-# 获取订单详情
-# params[POST]:
-#   'orderID' [int]
-# @login_required
+@login_required
 @api.route('/get_order_detail', methods = ['POST'])
 def get_order_detail():
+    '''
+    获取订单详情
+    :param:     [JSON]
+        "orderID"
+    :return:    [JSON]
+        "status":  0, 1, 3
+        "message":
+        "data": {}
+    '''
+
     object = request.json
     orderID = object['orderID']
     try:
         orderDetail = Order.query(Order).filter(Order.orderID == orderID).first()
 
         if not orderDetail:
+            logging.log(logging.INFO, "Get Order Detail Fail(No Order): {}".format(current_user.userName))
             return jsonify(
                 {
                     'status':0,
@@ -160,6 +223,7 @@ def get_order_detail():
                 }
             )
 
+        logging.log(logging.INFO, "Get Order Detail Sucess(): {}".format(current_user.userName))
         return jsonify(
             {
                 'status' : 1,
@@ -167,7 +231,9 @@ def get_order_detail():
                 'data' : orderDetail
             }
         )
+
     except:
+        logging.log(logging.INFO, "Get Order Detail Fail(Database): {}".format(current_user.userName))
         return jsonify(
             {
                 'status': 3,
@@ -176,18 +242,28 @@ def get_order_detail():
             }
         )
 
-# 创建新订单
-# params[POST]:
-#   'goodID' [int]
-#   'buyerID' [int]
-#   'sellerID' [int]
-#   'count' [int]
-# @login_required
+
+@login_required
 @api.route('/create_order',methods = ['POST'])
 def create_order():
+    '''
+    创建新订单
+    :param:     [JSON]
+        "goodID"
+        "buyerID"
+        "sellerID"
+        "count"
+    :return:    [JSON]
+        "status":  1, 2, 3
+        "message":
+        "data": {}
+    '''
+
     neworderinfo = request.json
     timenow = datetime.utcnow()
+
     if neworderinfo['sellerID'] == neworderinfo['buyerID']:
+        logging.log(logging.INFO, "Create Order Fail(Same User): {}".format(current_user.userName))
         return jsonify(
             {
                 'status': 2,
@@ -195,6 +271,7 @@ def create_order():
                 'data': {}
             }
         )
+
     try:
         neworder = Order(
             goodID = neworderinfo['goodID'],
@@ -208,6 +285,7 @@ def create_order():
         db.session.add(neworder)
         db.session.commit()
 
+        logging.log(logging.INFO, "Create Order Success(): {}".format(current_user.userName))
         return jsonify(
             {
                 'status': 1,
@@ -217,6 +295,7 @@ def create_order():
         )
 
     except:
+        logging.log(logging.INFO, "Create Order Fail(Database): {}".format(current_user.userName))
         return jsonify(
             {
                 'status': 3,
@@ -225,70 +304,30 @@ def create_order():
             }
         )
 
-# 确认订单
-# param[POST]:
-#   'orderID' [int]
-# @login_required
+
+@login_required
 @api.route('/confirm_order',methods = ['POST'])
 def confirm_order():
+    '''
+    创建新订单
+    :param:     [JSON]
+        "orderID"
+    :return:    [JSON]
+        "status":  1, 2, 3 ,4 ,5
+        "message":
+        "data": {}
+
+    P.S. 状态 0：未确认  1：买家单方面确认  2：卖家单方面确认 3：已确认
+    '''
+
     object = request.json
+    userID = current_user.userID
     orderID = object['orderID']
-    try:
-        currentStatus = Order.query(Order.status).filter(Order.orderID == orderID).first()
-        if not currentStatus:
-            return (
-                {
-                    'status':2,
-                    'message': 'No Such Order',
-                    'data':{}
-                }
-            )
-    except:
-        return jsonify(
-            {
-                'status':3,
-                'message':'Database Error',
-                'data':{}
-            }
-        )
 
-    if currentStatus == 0:
-        try:
-            Order.query(Order).filter(Order.orderID == orderID).update({'status':1})
-            return jsonify(
-                {
-                    'status': 1,
-                    'message': 'Success',
-                    'data':{}
-                }
-            )
-        except:
-            return jsonify(
-                {
-                    'status': 3,
-                    'message': 'Datebase Error',
-                    'data':{}
-                }
-            )
-    else:
-        return jsonify(
-            {
-                'status': 0,
-                'message': 'Order Has Already Confirmed',
-                'data':{}
-            }
-        )
-
-# 取消订单
-# param[POST]:
-#   'orderID' [int]
-# @login_required
-@api.route('/complete_order',methods = ['POST'])
-def complete_order():
-    orderID = request.form['orderID']
     try:
-        currentStatus = Order.query(Order.status).filter(Order.orderID == orderID).first()
-        if not currentStatus:
+        order = Order.query.filter(Order.orderID == orderID).first()
+        if not order:
+            logging.log(logging.INFO, "Confirm Order Fail(No Order): {}".format(current_user.userName))
             return (
                 {
                     'status':2,
@@ -298,6 +337,7 @@ def complete_order():
             )
 
     except:
+        logging.log(logging.INFO, "Confirm Order Fail(Database): {}".format(current_user.userName))
         return jsonify(
             {
                 'status':3,
@@ -306,29 +346,149 @@ def complete_order():
             }
         )
 
-    if currentStatus == 0:
+    currentStatus = order.status
+    if order.status == 0:
         try:
-            Order.query(Order).filter(Order.orderID == orderID).update({'status': 1})
+            if userID == order.buyerID:
+                Order.query.filter(Order.orderID == orderID).update({'status':1})
+                currentStatus = 1
+            elif userID == order.sellerID:
+                Order.query.filter(Order.orderID == orderID).update({'status':2})
+                currentStatus = 2
+            else:
+                logging.log(logging.INFO, "Confirm Order Fail(No Auth): {}".format(current_user.userName))
+                return jsonify(
+                    {
+                        'status': 4,
+                        'message': 'User Is Not Either Buyer Or Seller',
+                        'data': {'status':currentStatus }
+                    }
+                )
+
+            logging.log(logging.INFO, "Confirm Order Success(): {}".format(current_user.userName))
             return jsonify(
                 {
                     'status': 1,
                     'message': 'Success',
-                    'data':{}
+                    'data':{'status': currentStatus }
                 }
             )
+
         except:
+            logging.log(logging.INFO, "Confirm Order Fail(Database): {}".format(current_user.userName))
             return jsonify(
                 {
                     'status': 3,
                     'message': 'Datebase Error',
-                    'data':{}
+                    'data':{'status': currentStatus }
+                }
+            )
+
+    elif order.status == 1:
+        try:
+            if userID == order.sellerID:
+                Order.query.filter(Order.orderID == orderID).update({'status': 3, 'confirmDate':datetime.utcnow()})
+                currentStatus = 3
+            elif userID == order.buyerID:
+                logging.log(logging.INFO, "Confirm Order Fail(Already Confirmed): {}".format(current_user.userName))
+                return jsonify(
+                    {
+                        'status': 5,
+                        'message': 'You Hava Already Confirmed',
+                        'data': {'status': currentStatus }
+                    }
+                )
+            else:
+                logging.log(logging.INFO, "Confirm Order Fail(No Auth): {}".format(current_user.userName))
+                return jsonify(
+                    {
+                        'status': 4,
+                        'message': 'User Is Not Either Buyer Or Seller',
+                        'data': {'status': currentStatus }
+                    }
+                )
+
+            logging.log(logging.INFO, "Confirm Order Success(): {}".format(current_user.userName))
+            return jsonify(
+                {
+                    'status': 1,
+                    'message': 'Success',
+                    'data':{'status': currentStatus }
+                }
+            )
+
+        except:
+            logging.log(logging.INFO, "Confirm Order Fail(Database): {}".format(current_user.userName))
+            return jsonify(
+                {
+                    'status': 3,
+                    'message': 'Datebase Error',
+                    'data': {'status': currentStatus }
+                }
+            )
+
+    elif order.status == 2:
+        try:
+            if userID == order.buyerID:
+                Order.query.filter(Order.orderID == orderID).update({'status': 3, 'confirmDate':datetime.utcnow()})
+                currentStatus = 3
+            elif userID == order.sellerID:
+                logging.log(logging.INFO, "Confirm Order Fail(Already Confirmed): {}".format(current_user.userName))
+                return jsonify(
+                    {
+                        'status': 5,
+                        'message': 'You Hava Already Confirmed',
+                        'data': {'status': currentStatus }
+                    }
+                )
+            else:
+                logging.log(logging.INFO, "Confirm Order Fail(No Auth): {}".format(current_user.userName))
+                return jsonify(
+                    {
+                        'status': 4,
+                        'message': 'User Is Not Either Buyer Or Seller',
+                        'data': {'status': currentStatus }
+                    }
+                )
+
+            logging.log(logging.INFO, "Confirm Order Success(): {}".format(current_user.userName))
+            return jsonify(
+                {
+                    'status': 1,
+                    'message': 'Success',
+                    'data': {'status': currentStatus }
+                }
+            )
+
+        except:
+            logging.log(logging.INFO, "Confirm Order Fail(Database): {}".format(current_user.userName))
+            return jsonify(
+                {
+                    'status': 3,
+                    'message': 'Datebase Error',
+                    'data': {'status': currentStatus }
                 }
             )
     else:
-        return jsonify(
-            {
-                'status': 0,
-                'message': 'Order Has Already Canceled',
-                'data':{}
-            }
-        )
+        if userID == order.buyerID or userID == order.sellerID:
+            logging.log(logging.INFO, "Confirm Order Fail(Already Confirmed): {}".format(current_user.userName))
+            return jsonify(
+                {
+                    'status': 5,
+                    'message': 'You Hava Already Confirmed',
+                    'data': {'status': currentStatus }
+                }
+            )
+        else:
+            logging.log(logging.INFO, "Confirm Order Fail(No Auth): {}".format(current_user.userName))
+            return jsonify(
+                {
+                    'status': 4,
+                    'message': 'User Is Not Either Buyer Or Seller',
+                    'data': {'status': currentStatus }
+                }
+            )
+
+
+
+
