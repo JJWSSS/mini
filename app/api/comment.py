@@ -11,6 +11,17 @@ from functools import wraps
 from app.api import user
 
 
+# bug 封印，此封印可以将 '插入一条无goodsID无commentatorID的评论' 之bug 封印
+# 用法：作为装饰器装饰CommentProxy.insert方法
+def check_args_for_insert(insertor):
+    @wraps(insertor)
+    def __do_check(self, args):
+        for item in ['context', 'goodsID', 'commentatorID']:
+            if not (item in args):
+                return self.make_ret_json(0, 'argusments error')
+        insertor(self, args)
+    return __do_check
+
 def append_user_info(get_json):
     """
     用于在获取评论列表的返回数据中附上用户信息的装饰器，
@@ -180,6 +191,7 @@ class CommentProxy:
         ret = self.Comment.query.filter_by(**self._filer_dict)
         return ret
 
+    @check_args_for_insert
     def insert(self, args, isVailed=None):
         """
         插入评论函数，此函数用于将一条评论插入数据库中
