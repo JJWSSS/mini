@@ -8,64 +8,64 @@ from app import db
 from manage import app
 import logging
 from functools import wraps
-from app.api.user import user_info
+from app.api import user
 
 
-def appendUserInfo(getJson):
+def append_user_info(get_json):
     """
     用于在获取评论列表的返回数据中附上用户信息的装饰器，
     装饰CommentProxy.query方法用
     """
-    @wraps(getJson)
-    def __doAppendImage(self, args):
-        ret = getJson(self, args)
+    @wraps(get_json)
+    def __do_append_image(self, args):
+        ret = get_json(self, args)
         for item in ret:
-            userInfo = user_info(item['commentatorID'])
-            if userInfo['status']:
+            user_info = user.user_info(item['commentatorID'])
+            if user_info['status']:
                 item['userInfo'] = {
-                    'userNmae': userInfo['data']['username'],
-                    'nickName': userInfo['data']['nickname'],
-                    'id': userInfo['data']['id']
+                    'userNmae': user_info['data']['username'],
+                    'nickName': user_info['data']['nickname'],
+                    'id': user_info['data']['id']
                 }
             else:
                 item['userInfo'] = None
         return ret
 
-    return __doAppendImage
+    return __do_append_image
 
 
-def model2Json(getAll):
+def model_to_json(get_all):
     """
     用于装饰CommentProxy.query方法用的装饰器，
     将查询结果从模型对象转换为Json格式的数据
     """
-    @wraps(getAll)
-    def __doToJson(self, args):
-        ret = getAll(self, args)
-        proxy = __makeCommentProxy()
-        return [proxy.toJson(item) for item in ret]
+    @wraps(get_all)
+    def __do_to_json(self, args):
+        ret = get_all(self, args)
+        proxy = __make_comment_proxy()
+        return [proxy.to_json(item) for item in ret]
 
-    return __doToJson
+    return __do_to_json
 
 
-def getAll(qurey):
+def get_all(qurey):
     """
     用于装饰CommentProxy.query的装饰器，取出查询对象中的所有结果
     """
     @wraps(qurey)
-    def __doGetAll(self, args):
+    def __do_get_all(self, args):
         return qurey(self, args).all()
 
-    return __doGetAll
+    return __do_get_all
 
 
-def limitAndStartAddtion(qurey):
+def limit_and_start_addtion(qurey):
     """
     用于装饰CommentProxy.query的装饰器，可以增加对'limit'和'start'
     参数的支持
     """
     @wraps(qurey)
-    def __doLimitAndStart(self, args):
+    def __do_limit_and_start(self, args):
         ret = qurey(self, args)
         start = 0
         limit = 50
@@ -77,7 +77,7 @@ def limitAndStartAddtion(qurey):
 
         return ret.offset(start).limit(limit)
 
-    return __doLimitAndStart
+    return __do_limit_and_start
 
 
 class CommentProxy:
@@ -96,26 +96,26 @@ class CommentProxy:
         :param fileds: [list]
             该参数储存了所有模型的域(数据库表的列)名称。
         """
-        self._filerDict = {}
+        self._filer_dict = {}
         self._fileds = fileds
-        self.__Comment = Comment
+        self.__comment = Comment
 
     def __getattr__(self, item):
         def _feedBack(filterx):
-            self._filerDict[item] = filterx
+            self._filer_dict[item] = filterx
             return self
 
         return _feedBack
 
     @property
     def Comment(self):
-        return self.__Comment
+        return self.__comment
 
     @Comment.setter
     def setComment(self, _comment):
-        self.__Comment = _comment
+        self.__comment = _comment
 
-    def toJson(self, model):
+    def to_json(self, model):
         """
         将模型对象转换成为字典对象
         :param model  [Comment]:
@@ -124,12 +124,12 @@ class CommentProxy:
             转换后的字典对象，该字典的key是模型对象的属性名,
             value 是模型对象的属性值
         """
-        jsonDict = {}
+        json_dict = {}
         for filed in self._fileds:
-            jsonDict[filed] = model.__getattribute__(filed)
-        return jsonDict
+            json_dict[filed] = model.__getattribute__(filed)
+        return json_dict
 
-    def filterArgs(self, args):
+    def filter_args(self, args):
         """
         参数过滤器，用于过滤前端输入的非法参数
         :param args [dict]:
@@ -146,13 +146,13 @@ class CommentProxy:
         return ret
 
     @staticmethod
-    def makeRetJson(status=0, messages='', data={}):
+    def make_ret_json(status=0, messages='', data={}):
         return jsonify({'status': status, 'messages': messages, 'data': data})
 
-    @appendUserInfo
-    @model2Json
-    @getAll
-    @limitAndStartAddtion
+    @append_user_info
+    @model_to_json
+    @get_all
+    @limit_and_start_addtion
     def query(self, args=None):
         """
         查询函数，通过输入的查询条件查询符合条件的模型
@@ -173,9 +173,9 @@ class CommentProxy:
         if not args:
             return self.Comment.query.filter_by(status=0)
 
-        self._filerDict = self.filterArgs(args)
-        self._filerDict['status'] = 0  # 这里假设了表的结构，依赖于表的结构，需要重构
-        ret = self.Comment.query.filter_by(**self._filerDict)
+        self._filer_dict = self.filter_args(args)
+        self._filer_dict['status'] = 0  # 这里假设了表的结构，依赖于表的结构，需要重构
+        ret = self.Comment.query.filter_by(**self._filer_dict)
         return ret
 
     def insert(self, args, isVailed=None):
@@ -197,9 +197,9 @@ class CommentProxy:
         """
         message = None
         if isVailed and not isVailed(args):
-            return self.makeRetJson(0, 'invailed arguments')
+            return self.make_ret_json(0, 'invailed arguments')
 
-        args = self.filterArgs(args)
+        args = self.filter_args(args)
         db.session.add(self.Comment(**args))
         exp = None
         try:
@@ -210,8 +210,8 @@ class CommentProxy:
             message = str(e)
             logging.log(logging.DEBUG, 'from comments model: ' + message)
         if exp:
-            return self.makeRetJson(0, 'arguments error')
-        return self.makeRetJson(1, message)
+            return self.make_ret_json(0, 'arguments error')
+        return self.make_ret_json(1, message)
 
     def delete(self, args):
         """
@@ -228,28 +228,28 @@ class CommentProxy:
             'message' : 返回结果说明，
             'data' : {'comments': [ ]}
          }        """
-        self._filerDict = self.filterArgs(args)
-        if len(self._filerDict) <= 0:
-            return self.makeRetJson(0, '0 comments have been deleted')
-        self._filerDict['status'] = 0
-        ret = self.Comment.query.filter_by(**self._filerDict).update({'status': 1})
-        return self.makeRetJson(1, str(ret) + ' comments have been deleted')
+        self._filer_dict = self.filter_args(args)
+        if len(self._filer_dict) <= 0:
+            return self.make_ret_json(0, '0 comments have been deleted')
+        self._filer_dict['status'] = 0
+        ret = self.Comment.query.filter_by(**self._filer_dict).update({'status': 1})
+        return self.make_ret_json(1, str(ret) + ' comments have been deleted')
 
 
-def __makeCommentProxy():
-    if hasattr(__makeCommentProxy, 'proxy'):
-        return __makeCommentProxy.proxy
+def __make_comment_proxy():
+    if hasattr(__make_comment_proxy, 'proxy'):
+        return __make_comment_proxy.proxy
     table_structs = app.config.get('COMMENT_TABLE_STRUCTS')
     table_structs = copy.deepcopy(table_structs)
     table_structs.pop('__tablename__')
     proxy = CommentProxy([key for key, value in table_structs.items()])
-    setattr(__makeCommentProxy, 'proxy', proxy)
+    setattr(__make_comment_proxy, 'proxy', proxy)
     return proxy
 
 
 @api.route(app.config.get('COMMENT_GET_URL'),
            methods=app.config.get('COMMENT_GET_METHODS'))
-def getComment():
+def get_comment():
     """
     获取评论接口，通过配置获取到的COMMENT_GET_URL将会被路由到该函数，
     其接受的URL参数由COMMENT_TABLE_STRUCTS配置获取
@@ -260,15 +260,15 @@ def getComment():
             'data' : {'comments': [ ]}
          }
     """
-    proxy = __makeCommentProxy()
+    proxy = __make_comment_proxy()
     args = request.args
     ret = proxy.query(args)
-    return proxy.makeRetJson(1, data={'comments': ret})
+    return proxy.make_ret_json(1, data={'comments': ret})
 
 
 @api.route(app.config.get('COMMENT_ADD_URL'),
            methods=app.config.get('COMMENT_ADD_METHODS'))
-def addComment():
+def add_comment():
     """
     添加评论接口，通过配置获取到的COMMENT_ADD_URL将会被路由到该函数，
     其接受的URL参数由COMMENT_TABLE_STRUCTS配置获取
@@ -279,14 +279,14 @@ def addComment():
             'data' : {（None）}
          }
     """
-    proxy = __makeCommentProxy()
+    proxy = __make_comment_proxy()
     args = request.args
     return proxy.insert(args)
 
 
 @api.route(app.config.get('COMMENT_DELETE_URL'),
            methods=app.config.get('COMMENT_DELETE_METHODS'))
-def deleteComment():
+def delete_comment():
     """
     添加评论接口，通过配置获取到的COMMENT_DELETE_URL将会被路由到该函数，
     其接受的URL参数由COMMENT_TABLE_STRUCTS配置获取
@@ -297,6 +297,6 @@ def deleteComment():
             'data' : {（None）}
          }
     """
-    proxy = __makeCommentProxy()
+    proxy = __make_comment_proxy()
     args = request.args
     return proxy.delete(args)
