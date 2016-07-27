@@ -465,6 +465,10 @@ def is_it_active():
                 "id"       : current_user.userID,
                 "nickname" : current_user.nickName,
                 "isAuth"   : current_user.isAuthenticated
+                "username" : current_user.username,
+                "email"    : current_user.email,
+                "qq"       : current_user.qq,
+                "compressPicture": current_user.compressPicture
             }
         })
 
