@@ -41,7 +41,10 @@ def list_seller_orders():
 
 
     try:
-        ordersID = Order.query.filter(sellerID == Order.sellerID, status == Order.status).slice(start,stop).all()
+        if Order.status == 4:
+            ordersID = Order.query.filter(sellerID == Order.sellerID).slice(start, stop).all()
+        else:
+            ordersID = Order.query.filter(sellerID == Order.sellerID, status == Order.status).slice(start,stop).all()
 
         if not ordersID:
             logging.log(logging.INFO, "Get Orderlist Fail(No Order): {}".format(current_user.userName))
@@ -133,7 +136,10 @@ def list_buyer_orders():
         )
 
     try:
-        ordersID = Order.query.filter(buyerID == Order.buyerID and status == Order.status).slice(start,stop).all()
+        if Order.status == 4:
+            ordersID = Order.query.filter(buyerID == Order.buyerID).slice(start, stop).all()
+        else:
+            ordersID = Order.query.filter(buyerID == Order.buyerID, status == Order.status).slice(start,stop).all()
         if not ordersID:
             logging.log(logging.INFO, "Get Orderlist Fail(No Order): {}".format(current_user.userName))
             return jsonify(
