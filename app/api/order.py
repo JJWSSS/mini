@@ -257,7 +257,6 @@ def create_order():
     创建新订单
     :param:     [JSON]
         "good_id"
-        "buyerID"
         "sellerID"
         "count"
     :return:    [JSON]
@@ -268,6 +267,7 @@ def create_order():
 
     neworderinfo = request.json
     timenow = datetime.utcnow()
+    neworderinfo['buyerID'] = current_user.userID
 
     if neworderinfo['sellerID'] == neworderinfo['buyerID']:
         logging.log(logging.INFO, "Create Order Fail(Same User): {}".format(current_user.userName))
