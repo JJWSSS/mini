@@ -2,7 +2,7 @@
 
 from . import api
 from flask import request, jsonify, g, current_app
-from ..models import User, Good
+from ..models import User, Good, Comment
 from .. import db
 from werkzeug.utils import secure_filename
 import os
@@ -212,9 +212,10 @@ def delete_good():
     """
     try:
         good = Good.query.get(request.json['good_id'])
-        if not good:
+        if not good
             return jsonify({'status': -1, 'data': ['商品没有查到']})
-        db.session.delete(good.comments)
+        comments = Comment.query.filter_by(goodsID=request.json['good_id']).all()
+        db.session.delete(comments)
         db.session.delete(good)
         return jsonify({'status': 1, 'data': ["有comment"]})
     except KeyError as k:
