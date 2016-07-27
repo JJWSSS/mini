@@ -69,11 +69,11 @@ def limit_and_start_addtion(qurey):
         ret = qurey(self, args)
         start = 0
         limit = 50
-
-        if 'start' in args:
-            start = args['start']
-        if 'limit' in args:
-            limit = args['limit']
+        if args:
+            if 'start' in args:
+                start = args['start']
+            if 'limit' in args:
+                limit = args['limit']
 
         return ret.offset(start).limit(limit)
 
