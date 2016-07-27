@@ -214,12 +214,14 @@ def delete_good():
         good = Good.query.get(request.json['good_id'])
         if not good:
             return jsonify({'status': -1, 'data': ['商品没有查到']})
-        comments = Comment.query.filter_by(goodsID=request.json['good_id']).all()
-        db.session.delete(comments)
+        db.session.delete(good.comments)
         db.session.delete(good)
-        return jsonify({'status': 1, 'data': ["有comment"]})
+        return jsonify({'status': 1, 'data': ["没有comment"]})
     except KeyError as k:
         return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
+    except UnmappedInstanceError as u:
+        db.session.delete(good)
+        return jsonify({'status': 1, 'data': ['有comment']})
     except Exception as e:
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
