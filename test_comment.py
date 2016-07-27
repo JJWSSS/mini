@@ -54,6 +54,12 @@ class CommentAPITestCase(unittest.TestCase):
             for goods_item in self.proxy.query({'commentatorID': item['commentatorID']}):
                 self.assertTrue(goods_item['commentatorID'] == item['commentatorID'])
 
-    def test_comment_insert_with_goodsID_only(self):
-        ret = self.proxy.insert({'goodsID': 15})
-        print(ret)
+
+if __name__ == "__main__":
+    # 构造测试集
+    suite = unittest.TestSuite()
+    suite.addTest(CommentAPITestCase)
+
+    # 执行测试
+    runner = unittest.TextTestRunner()
+    runner.run(suite)
