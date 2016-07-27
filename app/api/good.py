@@ -363,3 +363,66 @@ def add_times():
         return jsonify({'status': -2, 'data': ['未知错误', e.args]})
 
 
+@api.route('/app_homepage_goods', methods=['POST'])
+def app_homepage_goods():
+    """
+    功能: 首页商品列表(为app提供)
+    参数类型: json
+    参数: limit(每一个类别的数量), type(商品类型)
+    返回类型: json
+    参数: status(1为成功, 0为json参数不对, -2为未知错误), data(商品列表数据)
+    """
+    try:
+        objects = request.json
+        goods = Good.query.filter_by(type=objects['type']).order_by(Good.createDate.desc()).limit(objects['limit']).all()
+        return jsonify({'status': 1, 'data': [good.to_json() for good in goods]})
+    except KeyError as k:
+        return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
+    except Exception as e:
+        return jsonify({'status': -2, 'data': ['未知错误', e.args]})
+
+
+@api.route('/app_goods', methods=['POST'])
+def get_app_goods():
+    """
+    功能: 获取商品列表(为app提供)
+    参数类型: json
+    参数: userID(卖家的ID), status(商品类型), begin(查询起始位置), limit(查询个数)
+    返回类型: json
+    参数: status(1为成功, 0为json参数不对, -1为未查到数据, -2为未知错误), data(商品列表数据)
+    """
+    try:
+        objects = request.json
+        userid = objects['userID']
+        status = objects['status']
+        begin = objects['begin']
+        limit = objects['limit']
+        if userid:
+            if status:
+                if limit:
+                    goods = Good.query.filter_by(sellerID=userid, status=status).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
+                else:
+                    goods = Good.query.filter_by(sellerID=userid, status=status).order_by(Good.createDate.desc()).offset(begin).all()
+            elif limit:
+                goods = Good.query.filter_by(sellerID=userid).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
+            else:
+                goods = Good.query.filter_by(sellerID=userid).order_by(Good.createDate.desc()).offset(begin).all()
+        elif status:
+            if limit:
+                goods = Good.query.filter_by(status=status).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
+            else:
+                goods = Good.query.filter_by(status=status).order_by(Good.createDate.desc()).offset(begin).all()
+        else:
+            if limit:
+                goods = Good.query.order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
+            else:
+                goods = Good.query.order_by(Good.createDate.desc()).offset(begin).all()
+        return jsonify({'status': 1, 'data': {'goods': [good.to_json() for good in goods]}})
+    except KeyError as k:
+        return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
+    except AttributeError as a:
+        return jsonify({'status': -1, 'data': ['未查到数据', a.args]})
+    except Exception as e:
+        return jsonify({'status': -2, 'data': ['未知错误', e.args]})
+
+
