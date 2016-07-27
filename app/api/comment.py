@@ -19,7 +19,7 @@ def check_args_for_insert(insertor):
         for item in ['context', 'goodsID', 'commentatorID']:
             if not (item in args):
                 return self.make_ret_json(0, 'argusments error')
-        insertor(self, args)
+        return insertor(self, args)
     return __do_check
 
 

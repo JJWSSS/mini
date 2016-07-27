@@ -5,6 +5,7 @@ from app.api.comment import CommentProxy
 import copy
 import itertools
 
+
 class CommentAPITestCase(unittest.TestCase):
     def setUp(self):
         self.app = create_app('comment')
@@ -55,15 +56,16 @@ class CommentAPITestCase(unittest.TestCase):
                 self.assertTrue(goods_item['commentatorID'] == item['commentatorID'])
 
     def test_comment_insert(self):
-        args = {'commentatorID': 10, 'goodsID': 15, 'context' : 'nice look'}
+        args = {'commentatorID': 10, 'goodsID': 15, 'context': 'nice look'}
         for key, value in args.items():
-            print(key, value)
-            ret = self.proxy.insert(**{key: value})
-            print(ret)
+            ret = self.proxy.insert({key: value})
             self.assertTrue(ret['status'] == 0)
         ret2 = list(itertools.combinations(args, 2))
         for item in ret2:
-            ret = self.proxy.insert(**{item[0] : args[item[0]], item[1] : args[item[1]]})
+            ret = self.proxy.insert({item[0]: args[item[0]], item[1] : args[item[1]]})
             self.assertTrue(ret['status'] == 0)
+
+        ret = self.proxy.insert(args)
+        self.assertTrue(ret['status'])
 
 
