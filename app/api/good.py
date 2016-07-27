@@ -10,6 +10,7 @@ from PIL import Image
 from datetime import datetime
 from random import randint
 from flask_login import login_required, current_user
+from sqlalchemy.orm.exc import UnmappedInstanceError
 
 
 def allowed_file(filename):
@@ -24,7 +25,7 @@ def get_goods():
     参数类型: json
     参数: userID(卖家的ID), type(商品类型), begin(查询起始位置), limit(查询个数)
     返回类型: json
-    参数: status(1为成功, 0为失败), data(商品列表数据)
+    参数: status(1为成功, 0为json参数不对, -1为未查到数据, -2为未知错误), data(商品列表数据)
     """
     try:
         objects = request.json
@@ -63,6 +64,13 @@ def get_goods():
 
 @api.route('/good', methods=['POST'])
 def single_good():
+    """
+    功能: 获取商品详情
+    参数类型: json
+    参数: good_id(卖家的ID)
+    返回类型: json
+    参数: status(1为成功, 0为json参数不对, -1为未查到数据, -2为未知错误), data(商品数据)
+    """
     try:
         good = Good.query.get(request.json['good_id'])
         return jsonify({'status': 1, 'data': good.to_json()})
@@ -76,6 +84,13 @@ def single_good():
 
 @api.route('/search', methods=['POST'])
 def search():
+    """
+    功能: 搜索商品(根据商品名称)
+    参数类型: json
+    参数: search_name(搜索名称)
+    返回类型: json
+    参数: status(1为成功, 0为json参数不对, -1为未查到数据, -2为未知错误), data(商品列表数据)
+    """
     try:
         search_name = request.json['search_name']
         goods = Good.query.filter(Good.goodName.ilike('%'+search_name+'%')).all()
@@ -89,13 +104,19 @@ def search():
 
 
 @api.route('/new_good', methods=['POST'])
-@login_required
 def new_good():
+    """
+    功能: 添加新商品
+    参数类型: json
+    参数: 一系列商品信息
+    返回类型: json
+    参数: status(1为成功, 0为json参数不对, -1为未查到数据, -2为未知错误), data(商品列表数据)
+    """
     try:
         objects = request.json
-        if int(objects['price']) < 0:
+        if objects['price'] < 0:
             return jsonify({'status': -3, 'data': ['价格为负']})
-        if int(objects['freeCount']) < 0:
+        if objects['freeCount'] < 0:
             return jsonify({'status': -4, 'data': ['剩余数量为负']})
         good = Good(goodName=objects['goodName'], description=objects['description'],
                     freeCount=objects['freeCount'], type=objects['type'],
@@ -114,6 +135,14 @@ def new_good():
 
 @api.route('/new_photo', methods=['POST'])
 def new_photo():
+    """
+    功能: 添加新的商品图片
+    参数类型: json
+    参数: 图片(二进制信息)
+    返回类型: json
+    参数: status(1为成功, 0为json参数不对, -1为文件夹没创建或路径不对, -2为未知错误, -3为文件为空, -4为文件名后缀不符合),
+        data(商品列表数据)
+    """
     try:
         file = request.files['file']
         if file and allowed_file(file.filename):
@@ -127,9 +156,9 @@ def new_photo():
             im.save(compress_url)
             return jsonify({'status': 1, 'data': {'image': url, 'compress_image': compress_url}})
         elif not file:
-            return jsonify({'status': -2, 'data': '文件为空'})
+            return jsonify({'status': -3, 'data': '文件为空'})
         else:
-            return jsonify({'status': -3, 'data': '文件名后缀不符合要求'})
+            return jsonify({'status': -4, 'data': '文件名后缀不符合要求'})
     except KeyError as k:
         return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
     except FileNotFoundError as f:
@@ -140,12 +169,19 @@ def new_photo():
 
 @api.route('/edit_good', methods=['POST'])
 def edit_good():
+    """
+    功能: 修改商品信息
+    参数类型: json
+    参数: 所需修改的商品信息
+    返回类型: json
+    参数: status(1为成功, 0为json参数不对, -1为未查到数据, -2为未知错误, -3为价格为负), data(商品列表数据)
+    """
     try:
         objects = request.json
         good = Good.query.get(objects['good_id'])
         if not good:
             return jsonify({'status': -1, 'data': ['商品没有查到']})
-        if int(objects['price']) < 0:
+        if objects['price'] < 0:
             return jsonify({'status': -3, 'data': ['价格为负']})
         good.description = objects['description']
         good.goodName = objects['goodName']
@@ -166,16 +202,21 @@ def edit_good():
 
 
 @api.route('/delete_good', methods=['POST'])
-@login_required
 def delete_good():
+    """
+    功能: 删除商品
+    参数类型: json
+    参数: good_id(商品的ID)
+    返回类型: json
+    参数: status(1为成功, 0为json参数不对, -1为未查到数据, -2为未知错误), data(商品列表数据)
+    """
     try:
         good = Good.query.get(request.json['good_id'])
         if not good:
             return jsonify({'status': -1, 'data': ['商品没有查到']})
-        if good.comments:
-            db.session.delete(good.comments)
+        db.session.delete(good.comments)
         db.session.delete(good)
-        return jsonify({'status': 1, 'data': {}})
+        return jsonify({'status': 1, 'data': ["有comment"]})
     except KeyError as k:
         return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
     except Exception as e:
@@ -184,10 +225,17 @@ def delete_good():
 
 @api.route('/homepage_goods', methods=['POST'])
 def homepage_goods():
+    """
+    功能: 首页商品列表
+    参数类型: json
+    参数: limit(每一个类别的数量)
+    返回类型: json
+    参数: status(1为成功, 0为json参数不对, -2为未知错误), data(商品列表数据)
+    """
     try:
         objects = request.json
         goods_dict = dict()
-        for i in range(8):
+        for i in range(10):
             goods = Good.query.filter_by(type=i).order_by(Good.createDate.desc()).limit(objects['limit']).all()
             goods_dict[str(i)] = [good.to_json() for good in goods]
         return jsonify({'status': 1, 'data': goods_dict})
@@ -199,6 +247,13 @@ def homepage_goods():
 
 @api.route('/refresh_goods', methods=['POST'])
 def refresh_goods():
+    """
+    功能: 刷新商品列表
+    参数类型: json
+    参数: userID(卖家的ID), type(商品类型), begin(查询起始位置), limit(查询个数), datetime(日期时间)
+    返回类型: json
+    参数: status(1为成功, 0为json参数不对, -1为未查到数据, -2为未知错误), data(商品列表数据)
+    """
     try:
         objects = request.json
         userid = objects['userID']
@@ -237,6 +292,13 @@ def refresh_goods():
 
 @api.route('/more_goods', methods=['POST'])
 def more_goods():
+    """
+    功能: 加载更多商品
+    参数类型: json
+    参数: userID(卖家的ID), type(商品类型), begin(查询起始位置), limit(查询个数), datetime(日期时间)
+    返回类型: json
+    参数: status(1为成功, 0为json参数不对, -1为未查到数据, -2为未知错误), data(商品列表数据)
+    """
     try:
         objects = request.json
         userid = objects['userID']
@@ -275,6 +337,13 @@ def more_goods():
 
 @api.route('/add_times', methods=['POST'])
 def add_times():
+    """
+    功能: 增加点击次数
+    参数类型: json
+    参数: good_id
+    返回类型: json
+    参数: status(1为成功, 0为json参数不对, -1为未查到数据, -2为未知错误), data(商品列表数据)
+    """
     try:
         good = Good.query.get(request.json['good_id'])
         if not good:
