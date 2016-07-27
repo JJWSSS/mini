@@ -47,7 +47,7 @@ def register():
         })
     head_photo = "default/" + str(randint(1,5)) + ".png"
     try:
-        newuser = User(userName=username, password_hash=generate_password_hash(password), nickName=username, picture=head_photo)
+        newuser = User(userName=username, password_hash=generate_password_hash(password), nickName=username, picture=head_photo, compressPicture=head_photo)
         db.session.add(newuser)
         db.session.commit()
     except Exception as e:
@@ -102,7 +102,6 @@ def login():
             "status": 1,
             "message": "Login Success",
             "data": {
-                "userhead": person.picture,
                 "username": username,
                 "id": person.userID,
                 "nickname": person.nickName,
@@ -361,7 +360,6 @@ def get_user_info():
             "status"   : 1,
             "message"  : "Get user info Success",
             "data": {
-                "userhead": result.picture,
                 "username": username,
                 "id": result.userID,
                 "nickname": result.nickName,
