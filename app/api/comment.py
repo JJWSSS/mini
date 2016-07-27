@@ -69,11 +69,11 @@ def limit_and_start_addtion(qurey):
         ret = qurey(self, args)
         start = 0
         limit = 50
-
-        if 'start' in args:
-            start = args['start']
-        if 'limit' in args:
-            limit = args['limit']
+        if args:
+            if 'start' in args:
+                start = args['start']
+            if 'limit' in args:
+                limit = args['limit']
 
         return ret.offset(start).limit(limit)
 
@@ -262,7 +262,7 @@ def get_comment():
     """
     proxy = __make_comment_proxy()
     # args = request.args
-    args = request.form
+    args = request.json
     ret = proxy.query(args)
     return proxy.make_ret_json(1, data={'comments': ret})
 
@@ -281,7 +281,7 @@ def add_comment():
          }
     """
     proxy = __make_comment_proxy()
-    args = request.form
+    args = request.json
     # args = request.args
     return proxy.insert(args)
 
@@ -300,6 +300,6 @@ def delete_comment():
          }
     """
     proxy = __make_comment_proxy()
-    args = request.form
+    args = request.json
     # args = request.args
     return proxy.delete(args)
