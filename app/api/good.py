@@ -212,7 +212,7 @@ def delete_good():
     """
     try:
         good = Good.query.get(request.json['good_id'])
-        if not good
+        if not good:
             return jsonify({'status': -1, 'data': ['商品没有查到']})
         comments = Comment.query.filter_by(goodsID=request.json['good_id']).all()
         db.session.delete(comments)
