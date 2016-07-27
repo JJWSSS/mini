@@ -17,7 +17,7 @@ def append_user_info(get_json):
     装饰CommentProxy.query方法用
     """
     @wraps(get_json)
-    def __do_append_image(self, args):
+    def __do_append_image(self, **args):
         ret = get_json(self, args)
         for item in ret:
             user_info = user.user_info(item['commentatorID'])
@@ -147,7 +147,7 @@ class CommentProxy:
 
     @staticmethod
     def make_ret_json(status=0, messages='', data={}):
-        return jsonify({'status': status, 'messages': messages, 'data': data})
+        return {'status': status, 'messages': messages, 'data': data}
 
     @append_user_info
     @model_to_json
@@ -178,7 +178,7 @@ class CommentProxy:
         ret = self.Comment.query.filter_by(**self._filer_dict)
         return ret
 
-    def insert(self, args, isVailed=None):
+    def insert(self, isVailed=None, **args):
         """
         插入评论函数，此函数用于将一条评论插入数据库中
         :param args [dict]:
@@ -263,8 +263,11 @@ def get_comment():
     proxy = __make_comment_proxy()
     # args = request.args
     args = request.json
-    ret = proxy.query(args)
-    return proxy.make_ret_json(1, data={'comments': ret})
+    if args:
+        ret = proxy.query(**args)
+    else:
+        ret = proxy.query()
+    return jsonify(proxy.make_ret_json(1, data={'comments': ret}))
 
 
 @api.route(app.config.get('COMMENT_ADD_URL'),
@@ -282,8 +285,12 @@ def add_comment():
     """
     proxy = __make_comment_proxy()
     args = request.json
+    if args:
+        ret = proxy.insert(**args)
+    else:
+        ret = proxy.insert()
     # args = request.args
-    return proxy.insert(args)
+    return jsonify(ret)
 
 
 @api.route(app.config.get('COMMENT_DELETE_URL'),
@@ -302,4 +309,4 @@ def delete_comment():
     proxy = __make_comment_proxy()
     args = request.json
     # args = request.args
-    return proxy.delete(args)
+    return jsonify(proxy.delete(args))
