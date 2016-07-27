@@ -261,7 +261,8 @@ def get_comment():
          }
     """
     proxy = __make_comment_proxy()
-    args = request.args
+    # args = request.args
+    args = request.form
     ret = proxy.query(args)
     return proxy.make_ret_json(1, data={'comments': ret})
 
@@ -280,7 +281,8 @@ def add_comment():
          }
     """
     proxy = __make_comment_proxy()
-    args = request.args
+    args = request.form
+    # args = request.args
     return proxy.insert(args)
 
 
@@ -298,5 +300,6 @@ def delete_comment():
          }
     """
     proxy = __make_comment_proxy()
-    args = request.args
+    args = request.form
+    # args = request.args
     return proxy.delete(args)
