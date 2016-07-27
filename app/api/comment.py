@@ -25,7 +25,9 @@ def append_user_info(get_json):
                 item['userInfo'] = {
                     'userNmae': user_info['data']['username'],
                     'nickName': user_info['data']['nickname'],
-                    'id': user_info['data']['id']
+                    'id': user_info['data']['id'],
+                    'picture': user_info['data']['picture'],
+                    'compressPicture': user_info['data']['compressPicture']
                 }
             else:
                 item['userInfo'] = None
