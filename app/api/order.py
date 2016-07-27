@@ -92,7 +92,7 @@ def list_seller_orders():
             {
                 'status' : 1,
                 'message' : 'Success',
-                'data' : orderlist
+                'data' : {'orders':orderlist}
             }
         )
     except:
@@ -185,7 +185,7 @@ def list_buyer_orders():
             {
                 'status' : 1,
                 'message' : 'Success',
-                'data': orderlist
+                'data' : {'orders':orderlist}
             }
         )
     except:
@@ -338,10 +338,13 @@ def confirm_order():
     orderID = object['orderID']
 
     try:
+        print('aaaaa')
         order = Order.query.filter(Order.orderID == orderID).first()
+        print('aaaa')
         if not order:
             logging.log(logging.INFO, "Confirm Order Fail(No Order): {}".format(current_user.userName))
-            return (
+            print('aaa')
+            return jsonify(
                 {
                     'status':2,
                     'message': 'No Such Order',
