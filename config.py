@@ -2,7 +2,6 @@
 
 import os
 from app import db
-from sqlalchemy import func
 from datetime import datetime
 
 class Config:
