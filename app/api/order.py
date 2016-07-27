@@ -35,7 +35,8 @@ def list_seller_orders():
         return jsonify(
             {
                 'status' : 0,
-                'message' : 'Fail: User Not Login'
+                'message' : 'Fail: User Not Login',
+                'data':{'order':{}}
             }
         )
 
@@ -52,7 +53,7 @@ def list_seller_orders():
                 {
                     'status': 2,
                     'message': 'Fail: No order',
-                    'data': {}
+                'data':{'order':{}}
                 }
             )
     except:
@@ -61,7 +62,7 @@ def list_seller_orders():
             {
                 'status' : 3,
                 'message': 'Fail: Database Error',
-                'data':{}
+                'data':{'order':{}}
             }
         )
 
@@ -101,7 +102,7 @@ def list_seller_orders():
             {
                 'status': 3,
                 'message': 'Fail: Database Error',
-                'data': {}
+                'data':{'order':{}}
             }
         )
 
