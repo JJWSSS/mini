@@ -27,7 +27,7 @@ def list_seller_orders():
     # sellerID = object['userID']
     sellerID = current_user.userID
     start = object['begin']
-    stop = start + object['count'] - 1
+    stop = start + object['limit'] - 1
     status = object['status']
 
     if not sellerID:
@@ -123,7 +123,7 @@ def list_buyer_orders():
     object = request.json
     buyerID = current_user.userID
     start = object['begin']
-    stop = start + object['count'] - 1
+    stop = start + object['limit'] - 1
     status = object['status']
     if not buyerID:
         logging.log(logging.INFO, "Get Orderlist Fail(Not Login): {}".format(current_user.userName))
