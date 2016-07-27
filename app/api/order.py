@@ -36,7 +36,7 @@ def list_seller_orders():
             {
                 'status' : 0,
                 'message' : 'Fail: User Not Login',
-                'data':{'order':{}}
+                'data':{'orders':{}}
             }
         )
 
@@ -53,7 +53,7 @@ def list_seller_orders():
                 {
                     'status': 2,
                     'message': 'Fail: No order',
-                'data':{'order':{}}
+                'data':{'orders':{}}
                 }
             )
     except:
@@ -62,7 +62,7 @@ def list_seller_orders():
             {
                 'status' : 3,
                 'message': 'Fail: Database Error',
-                'data':{'order':{}}
+                'data':{'orders':{}}
             }
         )
 
@@ -102,7 +102,7 @@ def list_seller_orders():
             {
                 'status': 3,
                 'message': 'Fail: Database Error',
-                'data':{'order':{}}
+                'data':{'orders':{}}
             }
         )
 
@@ -132,7 +132,7 @@ def list_buyer_orders():
             {
                 'status' : 0,
                 'message' : 'Fail: User Not Login',
-                'data':{'order':{}}
+                'data':{'orders':{}}
             }
         )
 
@@ -147,7 +147,7 @@ def list_buyer_orders():
                 {
                     'status' : 2,
                     'message' : 'Fail: No Order',
-                'data':{'order':{}}
+                'data':{'orders':{}}
                 }
             )
     except:
@@ -156,7 +156,7 @@ def list_buyer_orders():
             {
                 'status': 3,
                 'message': 'Fail: Database Error',
-                'data':{'order':{}}
+                'data':{'orders':{}}
             }
         )
 
@@ -195,7 +195,7 @@ def list_buyer_orders():
             {
                 'status': 3,
                 'message': 'Fail: Database Error',
-                'data':{'order':{}}
+                'data':{'orders':{}}
             }
         )
 
