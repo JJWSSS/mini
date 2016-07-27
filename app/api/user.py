@@ -4,7 +4,7 @@ from flask import request, jsonify, current_app
 from ..models import User
 from .. import db
 from flask_login import login_user, logout_user, login_required, current_user
-from ..models import generate_password_hash
+from ..models import generate_password_hash, check_password_hash
 import logging
 from werkzeug.utils import secure_filename
 import os
@@ -126,16 +126,75 @@ def logout():
 # reset user's password
 # TODO
 @api.route('/reset', methods=['POST'])
-def reset_passwd():
+def reset_password():
     '''
-    reset password without login
-    :param:    [JSON]
-
-    :return:   [JSON]
-        "status" : 0,
-        "message" : "",
+        logout
+        :param:    [JSON]
+            "username",
+            "oldpasswd",
+            "newpasswd"
+        :return:    [JSON]
+            "status" : 0,
+            "message" : "reset Successful",
+            "data"   : {}
+        '''
+    objects = request.json
+    username = objects['username']
+    oldpasswd = objects['oldpasswd']
+    newpasswd = objects['newpasswd']
+    person = User.query.filter_by(userName=username).first()
+    if person:
+        # Check For Password
+        if check_password_hash(person.password_hash, oldpasswd) :
+            hash_passwd = generate_password_hash(newpasswd)
+            # Exception Solution
+            for i in range(0, 3):
+                try:
+                    person.password_hash = hash_passwd
+                    db.session.commit()
+                    break
+                except:
+                    # logging
+                    return jsonify({
+                        "status": 2,
+                        "message": "Something Error Occur With Database",
+                        "data": {}
+                    })
+        else:
+            # Error : Old PassWord is Wrong
+            return jsonify({
+                "status": 0,
+                "message": "Password Is Error",
+                "data": {}
+            })
+    else:
+        # Error: No such User
+        return jsonify({
+            "status": 0,
+            "message": "Not such User",
+            "data": {}
+        })
+    # Success
+    return jsonify({
+        "status": 1,
+        "message": "Reset Successful",
         "data": {}
+    })
+
+
+@api.route('/forget', methods=['POST'])
+@login_required
+def forget_passwd():
     '''
+        logout
+        :param:    [JSON]
+            "username",
+            "newpasswd"
+        :return:    [JSON]
+            "status" : 0,
+            "message" : "reset Successful",
+            "data"   : {}
+        '''
     objects = request.json
     username  = objects["username"]
     newpasswd = objects["password"]
@@ -145,21 +204,18 @@ def reset_passwd():
             person.password_hash = generate_password_hash(newpasswd)
             db.session.commit()
         except Exception as e:
-            # logging
-            logging.log(logging.ERROR, "reset password({}) Fail: Database or Internal ERROR".format(username))
+            logging.log(logging.WARNING, "Error Occur With Database, [ {} ]".format(e.message))
             return jsonify({
                 "status": 2,
                 "message": "Something Error Occur With Database",
                 "data": {}
             })
     else:
-        logging.log(logging.INFO, "reset password({}) Fail: Not Such username".format(username))
         return jsonify({
             "status": 0,
             "message": "reset Password Fail! Username is Wrong",
             "data": {}
         })
-    logging.log(logging.INFO, "reset password({}): Success".format(username))
     return jsonify({
         "status": 1,
         "message": "reset Success",
@@ -368,16 +424,37 @@ def user_photo():
             compress_url = os.path.join(current_app.config['UPLOAD_FOLDER'],
                                         ('compress_'+str(randint(1, 100))+filename))
             im.save(compress_url)
-            return jsonify({'status': 1, 'data': {'picture': url, 'compressPicture': compress_url}})
+            return jsonify({
+                'status': 1,
+                'data': {
+                    'picture': url,
+                    'compressPicture': compress_url
+                }
+            })
         elif not file:
-            return jsonify({'status': -2, 'data': '文件为空'})
+            return jsonify({
+                'status': -2,
+                'data': '文件为空'
+            })
         else:
-            return jsonify({'status': -3, 'data': '文件名后缀不符合要求'})
+            return jsonify({
+                'status': -3,
+                'data': '文件名后缀不符合要求'
+                })
     except KeyError as k:
-        return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
+        return jsonify({
+            'status': 0,
+            'data': ['json参数不对', k.args]
+        })
     except FileNotFoundError as f:
-        return jsonify({'status': -1, 'data': ['文件夹没有创建或路径不对', f.args]})
+        return jsonify({
+            'status': -1,
+            'data': ['文件夹没有创建或路径不对', f.args]
+        })
     except Exception as e:
-        return jsonify({'status': -2, 'data': ['未知错误', e.args]})
+        return jsonify({
+            'status': -2,
+            'data': ['未知错误', e.args]
+        })
 
 
