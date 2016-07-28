@@ -11,13 +11,25 @@ from functools import wraps
 from app.api import user
 
 
+# bug 封印，此封印可以将 '插入一条无goodsID无commentatorID的评论' 之bug 封印
+# 用法：作为装饰器装饰CommentProxy.insert方法
+def check_args_for_insert(insertor):
+    @wraps(insertor)
+    def __do_check(self, args):
+        for item in ['context', 'goodsID', 'commentatorID']:
+            if not (item in args):
+                return self.make_ret_json(0, 'argusments error')
+        return insertor(self, args)
+    return __do_check
+
+
 def append_user_info(get_json):
     """
     用于在获取评论列表的返回数据中附上用户信息的装饰器，
     装饰CommentProxy.query方法用
     """
     @wraps(get_json)
-    def __do_append_image(self, args):
+    def __do_append_image(self, **args):
         ret = get_json(self, args)
         for item in ret:
             user_info = user.user_info(item['commentatorID'])
@@ -25,7 +37,9 @@ def append_user_info(get_json):
                 item['userInfo'] = {
                     'userNmae': user_info['data']['username'],
                     'nickName': user_info['data']['nickname'],
-                    'id': user_info['data']['id']
+                    'id': user_info['data']['id'],
+                    'picture': user_info['data']['picture'],
+                    'compressPicture': user_info['data']['compressPicture']
                 }
             else:
                 item['userInfo'] = None
@@ -147,7 +161,7 @@ class CommentProxy:
 
     @staticmethod
     def make_ret_json(status=0, messages='', data={}):
-        return jsonify({'status': status, 'messages': messages, 'data': data})
+        return {'status': status, 'messages': messages, 'data': data}
 
     @append_user_info
     @model_to_json
@@ -178,6 +192,8 @@ class CommentProxy:
         ret = self.Comment.query.filter_by(**self._filer_dict)
         return ret
 
+
+    @check_args_for_insert
     def insert(self, args, isVailed=None):
         """
         插入评论函数，此函数用于将一条评论插入数据库中
@@ -263,8 +279,11 @@ def get_comment():
     proxy = __make_comment_proxy()
     # args = request.args
     args = request.json
-    ret = proxy.query(args)
-    return proxy.make_ret_json(1, data={'comments': ret})
+    if args:
+        ret = proxy.query(**args)
+    else:
+        ret = proxy.query()
+    return jsonify(proxy.make_ret_json(1, data={'comments': ret}))
 
 
 @api.route(app.config.get('COMMENT_ADD_URL'),
@@ -282,8 +301,12 @@ def add_comment():
     """
     proxy = __make_comment_proxy()
     args = request.json
+    if args:
+        ret = proxy.insert(**args)
+    else:
+        ret = proxy.insert()
     # args = request.args
-    return proxy.insert(args)
+    return jsonify(ret)
 
 
 @api.route(app.config.get('COMMENT_DELETE_URL'),
@@ -302,4 +325,4 @@ def delete_comment():
     proxy = __make_comment_proxy()
     args = request.json
     # args = request.args
-    return proxy.delete(args)
+    return jsonify(proxy.delete(args))
