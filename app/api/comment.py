@@ -9,6 +9,7 @@ from manage import app
 import logging
 from functools import wraps
 from app.api import user
+from flask_login import current_user
 
 
 # bug 封印，此封印可以将 '插入一条无goodsID无commentatorID的评论' 之bug 封印
@@ -307,6 +308,11 @@ def add_comment():
     """
     proxy = __make_comment_proxy()
     args = request.json
+    if 'commentatorID' not in args:
+        if hasattr(current_user, 'userID'):
+            args['commentatorID'] = current_user.userID
+        else:
+            return jsonify(proxy.make_ret_json(0, 'The current user does not have a userID'))
     if args:
         ret = proxy.insert(args)
     else:
