@@ -7,6 +7,7 @@ from flask import request,jsonify
 from ..models import User,Order,Good
 from flask_login import current_user,login_required
 import logging
+from sqlalchemy import and_,or_
 
 
 @login_required
@@ -41,24 +42,30 @@ def list_seller_orders():
         )
 
 
-    try:
-        if status == 4:
-            ordersID = Order.query.filter(sellerID == Order.sellerID).slice(start, stop).all()
-        else:
-            ordersID = Order.query.filter(sellerID == Order.sellerID, status == Order.status).slice(start,stop).all()
+    # try:
+    if status == 4:
+        ordersID = Order.query.filter(sellerID == Order.sellerID).slice(start, stop).all()
+    elif status == 5:
+        ordersID = Order.query.filter(or_(Order.sellerID == sellerID,Order.buyerID == sellerID)).slice(start,stop).all()
+    elif status == 6:
+        ordersID = Order.query.filter(and_(or_(Order.status == 0,Order.status == 1,Order.status == 2),or_(Order.sellerID == sellerID,Order.buyerID == sellerID))).slice(start, stop).all()
+    elif status == 7:
+        ordersID = Order.query.filter(and_(Order.status == 3, or_(Order.sellerID == sellerID,Order.buyerID == sellerID))).slice(start,stop).all()
+    else:
+        ordersID = Order.query.filter(sellerID == Order.sellerID, status == Order.status).slice(start,stop).all()
 
-        print(Order.query.filter(Order.sellerID == 2).count())
+    print(Order.query.filter(Order.sellerID == 2).count())
 
-        if not ordersID:
-            logging.log(logging.INFO, "Get Orderlist Fail(No Order): {}".format(current_user.userName))
-            return jsonify(
-                {
-                    'status': 2,
-                    'message': 'Fail: No order',
+    if not ordersID:
+        logging.log(logging.INFO, "Get Orderlist Fail(No Order): {}".format(current_user.userName))
+        return jsonify(
+            {
+                'status': 2,
+                'message': 'Fail: No order',
                 'data':{'orders':{}}
-                }
-            )
-    except:
+            }
+        )
+    '''except:
         logging.log(logging.INFO, "Get Orderlist Fail(Database): {}".format(current_user.userName))
         return jsonify(
             {
@@ -66,7 +73,7 @@ def list_seller_orders():
                 'message': 'Fail: Database Error',
                 'data':{'orders':{}}
             }
-        )
+        )'''
 
     try:
         orderlist = list()
@@ -149,7 +156,7 @@ def list_buyer_orders():
                 {
                     'status' : 2,
                     'message' : 'Fail: No Order',
-                'data':{'orders':{}}
+                    'data':{'orders':{}}
                 }
             )
     except:
@@ -200,7 +207,6 @@ def list_buyer_orders():
                 'data':{'orders':{}}
             }
         )
-
 
 @login_required
 @api.route('/get_order_detail', methods = ['POST'])
@@ -325,7 +331,7 @@ def create_order():
 @api.route('/confirm_order',methods = ['POST'])
 def confirm_order():
     '''
-    创建新订单
+    确认订单
     :param:     [JSON]
         "orderID"
     :return:    [JSON]
@@ -341,12 +347,9 @@ def confirm_order():
     orderID = object['orderID']
 
     try:
-        print('aaaaa')
         order = Order.query.filter(Order.orderID == orderID).first()
-        print('aaaa')
         if not order:
             logging.log(logging.INFO, "Confirm Order Fail(No Order): {}".format(current_user.userName))
-            print('aaa')
             return jsonify(
                 {
                     'status':2,
