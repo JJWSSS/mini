@@ -34,7 +34,7 @@ def get_goods():
         begin = objects['begin']
         limit = objects['limit']
         if userid:
-            if type == -1:
+            if type != -1:
                 if limit:
                     goods = Good.query.filter_by(sellerID=userid, type=type).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
                 else:
@@ -43,7 +43,7 @@ def get_goods():
                 goods = Good.query.filter_by(sellerID=userid).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
             else:
                 goods = Good.query.filter_by(sellerID=userid).order_by(Good.createDate.desc()).offset(begin).all()
-        elif type == -1:
+        elif type != -1:
             if limit:
                 goods = Good.query.filter_by(type=type).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
             else:
@@ -265,7 +265,7 @@ def refresh_goods():
         limit = objects['limit']
         day_time = datetime.strptime(objects['datetime'], '%a, %d %b %Y %X GMT')
         if userid:
-            if type == -1:
+            if type != -1:
                 if limit:
                     goods = Good.query.filter(Good.createDate > day_time, Good.sellerID == userid, Good.type == type).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
                 else:
@@ -274,7 +274,7 @@ def refresh_goods():
                 goods = Good.query.filter(Good.createDate > day_time, Good.sellerID == userid).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
             else:
                 goods = Good.query.filter(Good.createDate > day_time, Good.sellerID == userid).order_by(Good.createDate.desc()).offset(begin).all()
-        elif type == -1:
+        elif type != -1:
             if limit:
                 goods = Good.query.filter(Good.createDate > day_time, Good.type == type).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
             else:
@@ -310,7 +310,7 @@ def more_goods():
         limit = objects['limit']
         day_time = datetime.strptime(objects['datetime'], '%a, %d %b %Y %X GMT')
         if userid:
-            if type == -1:
+            if type != -1:
                 if limit:
                     goods = Good.query.filter(Good.createDate < day_time, Good.sellerID == userid, Good.type == type).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
                 else:
@@ -319,7 +319,7 @@ def more_goods():
                 goods = Good.query.filter(Good.createDate < day_time, Good.sellerID == userid).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
             else:
                 goods = Good.query.filter(Good.createDate < day_time, Good.sellerID == userid).order_by(Good.createDate.desc()).offset(begin).all()
-        elif type == -1:
+        elif type != -1:
             if limit:
                 goods = Good.query.filter(Good.createDate < day_time, Good.type == type).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
             else:
@@ -357,25 +357,6 @@ def add_times():
             good.times += 1
         db.session.add(good)
         return jsonify({'status': 1, 'data': {}})
-    except KeyError as k:
-        return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
-    except Exception as e:
-        return jsonify({'status': -2, 'data': ['未知错误', e.args]})
-
-
-@api.route('/app_homepage_goods', methods=['POST'])
-def app_homepage_goods():
-    """
-    功能: 首页商品列表(为app提供)
-    参数类型: json
-    参数: limit(每一个类别的数量), type(商品类型)
-    返回类型: json
-    参数: status(1为成功, 0为json参数不对, -2为未知错误), data(商品列表数据)
-    """
-    try:
-        objects = request.json
-        goods = Good.query.filter_by(type=objects['type']).order_by(Good.createDate.desc()).limit(objects['limit']).all()
-        return jsonify({'status': 1, 'data': [good.to_json() for good in goods]})
     except KeyError as k:
         return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
     except Exception as e:

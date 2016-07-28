@@ -4,6 +4,7 @@ import os
 from app import db
 from datetime import datetime
 
+
 class Config:
     SECRET_KEY = 'mini'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
