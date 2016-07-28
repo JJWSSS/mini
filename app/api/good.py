@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from . import api
-from flask import request, jsonify, g, current_app
-from ..models import User, Good, Comment
+from flask import request, jsonify, current_app
+from ..models import Good
 from .. import db
 from werkzeug.utils import secure_filename
 import os
 from PIL import Image
 from datetime import datetime
 from random import randint
-from flask_login import login_required, current_user
+from flask_login import current_user, login_required
 from sqlalchemy.orm.exc import UnmappedInstanceError
 
 
@@ -53,7 +53,7 @@ def get_goods():
                 goods = Good.query.order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
             else:
                 goods = Good.query.order_by(Good.createDate.desc()).offset(begin).all()
-        return jsonify({'status': 1, 'data': {'goods': [good.to_json() for good in goods]}})
+        return jsonify({'status': 1, 'data': {'goods': [good.to_json() for good in goods if good.freeCount > 0]}})
     except KeyError as k:
         return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
     except AttributeError as a:
@@ -104,6 +104,7 @@ def search():
 
 
 @api.route('/new_good', methods=['POST'])
+@login_required
 def new_good():
     """
     功能: 添加新商品
@@ -134,6 +135,7 @@ def new_good():
 
 
 @api.route('/new_photo', methods=['POST'])
+@login_required
 def new_photo():
     """
     功能: 添加新的商品图片
@@ -168,6 +170,7 @@ def new_photo():
 
 
 @api.route('/edit_good', methods=['POST'])
+@login_required
 def edit_good():
     """
     功能: 修改商品信息
@@ -202,6 +205,7 @@ def edit_good():
 
 
 @api.route('/delete_good', methods=['POST'])
+@login_required
 def delete_good():
     """
     功能: 删除商品
