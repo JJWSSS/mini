@@ -27,8 +27,8 @@ def list_seller_orders():
     object = request.json
     # sellerID = object['userID']
     sellerID = current_user.userID
-    start = object['begin']
-    stop = start + object['limit'] - 1
+    begin = object['begin']
+    limit = object['limit']
     status = object['status']
 
     if not sellerID:
@@ -44,15 +44,15 @@ def list_seller_orders():
 
     try:
         if status == 4:
-            ordersID = Order.query.filter(sellerID == Order.sellerID).slice(start, stop).all()
+            ordersID = Order.query.filter(sellerID == Order.sellerID).offset(begin).limit(limit).all()
         elif status == 5:
-            ordersID = Order.query.filter(or_(Order.sellerID == sellerID,Order.buyerID == sellerID)).slice(start,stop).all()
+            ordersID = Order.query.filter(or_(Order.sellerID == sellerID,Order.buyerID == sellerID)).offset(begin).limit(limit).all()
         elif status == 6:
             ordersID = Order.query.filter(and_(or_(Order.status == 0,Order.status == 1,Order.status == 2),or_(Order.sellerID == sellerID,Order.buyerID == sellerID))).slice(start, stop).all()
         elif status == 7:
-            ordersID = Order.query.filter(and_(Order.status == 3, or_(Order.sellerID == sellerID,Order.buyerID == sellerID))).slice(start,stop).all()
+            ordersID = Order.query.filter(and_(Order.status == 3, or_(Order.sellerID == sellerID,Order.buyerID == sellerID))).offset(begin).limit(limit).all()
         else:
-            ordersID = Order.query.filter(sellerID == Order.sellerID, status == Order.status).slice(start,stop).all()
+            ordersID = Order.query.filter(sellerID == Order.sellerID, status == Order.status).offset(begin).limit(limit).all()
 
         print(Order.query.filter(Order.sellerID == 2).count())
 
@@ -132,8 +132,8 @@ def list_buyer_orders():
     '''
     object = request.json
     buyerID = current_user.userID
-    start = object['begin']
-    stop = start + object['limit'] - 1
+    begin = object['begin']
+    limit = object['limit']
     status = object['status']
     if not buyerID:
         logging.log(logging.INFO, "Get Orderlist Fail(Not Login): {}".format(current_user.userName))
@@ -147,9 +147,9 @@ def list_buyer_orders():
 
     try:
         if status == 4:
-            ordersID = Order.query.filter(buyerID == Order.buyerID).slice(start, stop).all()
+            ordersID = Order.query.filter(buyerID == Order.buyerID).offset(begin).limit(limit).all()
         else:
-            ordersID = Order.query.filter(buyerID == Order.buyerID, status == Order.status).slice(start,stop).all()
+            ordersID = Order.query.filter(buyerID == Order.buyerID, status == Order.status).offset(begin).limit(limit).all()
         if not ordersID:
             logging.log(logging.INFO, "Get Orderlist Fail(No Order): {}".format(current_user.userName))
             return jsonify(
