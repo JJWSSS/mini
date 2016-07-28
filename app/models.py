@@ -237,7 +237,7 @@ class Good(db.Model):
 
 
 class Comment(db.Model):
-    __tablename__= 'comments'
+    __tablename__ = 'comments'
     commentID = db.Column(db.Integer, primary_key=True, index=True)
     goodsID = db.Column(db.Integer, db.ForeignKey('goods.goodID'))
     commentatorID = db.Column(db.Integer, db.ForeignKey('users.userID'))
