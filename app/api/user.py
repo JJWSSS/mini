@@ -45,7 +45,7 @@ def register():
             "message" : "Register Fail, The username has been Used!",
             "data"   : {}
         })
-    head_photo = "img/default/" + str(randint(1,5)) + ".png"
+    head_photo = "/img/default/" + str(randint(1,5)) + ".png"
     try:
         newuser = User(userName=username, password_hash=generate_password_hash(password), nickName=username, picture=head_photo, compressPicture=head_photo)
         db.session.add(newuser)
