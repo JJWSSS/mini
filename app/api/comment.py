@@ -13,6 +13,7 @@ from app.api import user
 
 # bug 封印，此封印可以将 '插入一条无goodsID无commentatorID的评论' 之bug 封印
 # 用法：作为装饰器装饰CommentProxy.insert方法
+# 2016-07-28 brooksli
 def check_args_for_insert(insertor):
     @wraps(insertor)
     def __do_check(self, args):
@@ -20,6 +21,7 @@ def check_args_for_insert(insertor):
             if not (item in args):
                 return self.make_ret_json(0, 'argusments error')
         return insertor(self, args)
+
     return __do_check
 
 
@@ -28,6 +30,7 @@ def append_user_info(get_json):
     用于在获取评论列表的返回数据中附上用户信息的装饰器，
     装饰CommentProxy.query方法用
     """
+
     @wraps(get_json)
     def __do_append_image(self, **args):
         ret = get_json(self, args)
@@ -53,6 +56,7 @@ def model_to_json(get_all):
     用于装饰CommentProxy.query方法用的装饰器，
     将查询结果从模型对象转换为Json格式的数据
     """
+
     @wraps(get_all)
     def __do_to_json(self, args):
         ret = get_all(self, args)
@@ -66,6 +70,7 @@ def get_all(qurey):
     """
     用于装饰CommentProxy.query的装饰器，取出查询对象中的所有结果
     """
+
     @wraps(qurey)
     def __do_get_all(self, args):
         return qurey(self, args).all()
@@ -78,6 +83,7 @@ def limit_and_start_addtion(qurey):
     用于装饰CommentProxy.query的装饰器，可以增加对'limit'和'start'
     参数的支持
     """
+
     @wraps(qurey)
     def __do_limit_and_start(self, args):
         ret = qurey(self, args)
@@ -104,6 +110,7 @@ class CommentProxy:
         之外，还有一些'工具方法'，这些与操作模型无关的方法
         可以提炼成为一个单独的helper类。
     """
+
     def __init__(self, fileds):
         """
         构造函数
@@ -191,7 +198,6 @@ class CommentProxy:
         self._filer_dict['status'] = 0  # 这里假设了表的结构，依赖于表的结构，需要重构
         ret = self.Comment.query.filter_by(**self._filer_dict)
         return ret
-
 
     @check_args_for_insert
     def insert(self, args, isVailed=None):
@@ -302,7 +308,7 @@ def add_comment():
     proxy = __make_comment_proxy()
     args = request.json
     if args:
-        ret = proxy.insert(**args)
+        ret = proxy.insert(args)
     else:
         ret = proxy.insert()
     # args = request.args
