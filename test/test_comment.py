@@ -62,7 +62,7 @@ class CommentAPITestCase(unittest.TestCase):
             self.assertTrue(ret['status'] == 0)
         ret2 = list(itertools.combinations(args, 2))
         for item in ret2:
-            ret = self.proxy.insert({item[0]: args[item[0]], item[1] : args[item[1]]})
+            ret = self.proxy.insert({item[0]: args[item[0]], item[1]: args[item[1]]})
             self.assertTrue(ret['status'] == 0)
 
         ret = self.proxy.insert(args)
