@@ -48,7 +48,7 @@ def list_seller_orders():
         elif status == 5:
             ordersID = Order.query.filter(or_(Order.sellerID == sellerID,Order.buyerID == sellerID)).offset(begin).limit(limit).all()
         elif status == 6:
-            ordersID = Order.query.filter(and_(or_(Order.status == 0,Order.status == 1,Order.status == 2),or_(Order.sellerID == sellerID,Order.buyerID == sellerID))).slice(start, stop).all()
+            ordersID = Order.query.filter(and_(or_(Order.status == 0,Order.status == 1,Order.status == 2),or_(Order.sellerID == sellerID,Order.buyerID == sellerID))).offset(begin).limit(limit).all()
         elif status == 7:
             ordersID = Order.query.filter(and_(Order.status == 3, or_(Order.sellerID == sellerID,Order.buyerID == sellerID))).offset(begin).limit(limit).all()
         else:
@@ -91,7 +91,7 @@ def list_seller_orders():
                 'status': orderdetail.status
             }
             good = Good.query.filter(Good.goodID == orderinfo['good_id']).first()
-            orderinfo = dict(orderinfo,**{'goodName':good.goodName})
+            orderinfo = dict(orderinfo,**{'goodName':good.goodName, 'compressImage':good.compressImage})
             user = User.query.filter(User.userID == orderinfo['sellerID']).first()
             orderinfo = dict(orderinfo,**{'userName':user.userName})
             orderlist.append(orderinfo)
@@ -185,7 +185,7 @@ def list_buyer_orders():
                 'status': orderdetail.status
             }
             good = Good.query.filter(Good.goodID == orderinfo['good_id']).first()
-            orderinfo = dict(orderinfo,**{'goodName':good.goodName})
+            orderinfo = dict(orderinfo,**{'goodName':good.goodName, 'compressImage':good.compressImage})
             user = User.query.filter(User.userID == orderinfo['buyerID']).first()
             orderinfo = dict(orderinfo,**{'userName':user.userName})
             orderlist.append(orderinfo)
