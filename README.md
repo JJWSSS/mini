@@ -1,4 +1,6 @@
 # mini
+## STRUCTURE
+- ![](empty.png)
 ## 模块划分
 1.user
  - runtimewu(吴生鑫)
