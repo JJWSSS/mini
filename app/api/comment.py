@@ -1,104 +1,11 @@
 # coding=utf-8
 from app.api import api
 from app.models import Comment
-from flask import request
-from flask import jsonify
 import copy
 from app import db
 from manage import app
 import logging
-from functools import wraps
-from app.api import user
-from flask_login import current_user
-
-
-# bug 封印，此封印可以将 '插入一条无goodsID无commentatorID的评论' 之bug 封印
-# 用法：作为装饰器装饰CommentProxy.insert方法
-# 2016-07-28 brooksli
-def check_args_for_insert(insertor):
-    @wraps(insertor)
-    def __do_check(self, args):
-        for item in ['context', 'goodsID', 'commentatorID']:
-            if not (item in args):
-                return self.make_ret_json(0, 'argusments error')
-        return insertor(self, args)
-
-    return __do_check
-
-
-def append_user_info(get_json):
-    """
-    用于在获取评论列表的返回数据中附上用户信息的装饰器，
-    装饰CommentProxy.query方法用
-    """
-
-    @wraps(get_json)
-    def __do_append_image(self, **args):
-        ret = get_json(self, args)
-        for item in ret:
-            user_info = user.user_info(item['commentatorID'])
-            if user_info['status']:
-                item['userInfo'] = {
-                    'userNmae': user_info['data']['username'],
-                    'nickName': user_info['data']['nickname'],
-                    'id': user_info['data']['id'],
-                    'picture': user_info['data']['picture'],
-                    'compressPicture': user_info['data']['compressPicture']
-                }
-            else:
-                item['userInfo'] = None
-        return ret
-
-    return __do_append_image
-
-
-def model_to_json(get_all):
-    """
-    用于装饰CommentProxy.query方法用的装饰器，
-    将查询结果从模型对象转换为Json格式的数据
-    """
-
-    @wraps(get_all)
-    def __do_to_json(self, args):
-        ret = get_all(self, args)
-        proxy = __make_comment_proxy()
-        return [proxy.to_json(item) for item in ret]
-
-    return __do_to_json
-
-
-def get_all(qurey):
-    """
-    用于装饰CommentProxy.query的装饰器，取出查询对象中的所有结果
-    """
-
-    @wraps(qurey)
-    def __do_get_all(self, args):
-        return qurey(self, args).all()
-
-    return __do_get_all
-
-
-def limit_and_start_addtion(qurey):
-    """
-    用于装饰CommentProxy.query的装饰器，可以增加对'limit'和'start'
-    参数的支持
-    """
-
-    @wraps(qurey)
-    def __do_limit_and_start(self, args):
-        ret = qurey(self, args)
-        start = 0
-        limit = 50
-        if args:
-            if 'start' in args:
-                start = args['start']
-            if 'limit' in args:
-                limit = args['limit']
-
-        return ret.offset(start).limit(limit)
-
-    return __do_limit_and_start
+from app.api.CommentDecorator import *
 
 
 class CommentProxy:
@@ -126,7 +33,6 @@ class CommentProxy:
         def _feedBack(filterx):
             self._filer_dict[item] = filterx
             return self
-
         return _feedBack
 
     @property
@@ -259,14 +165,14 @@ class CommentProxy:
         return self.make_ret_json(1, str(ret) + ' comments have been deleted')
 
 
-def __make_comment_proxy():
-    if hasattr(__make_comment_proxy, 'proxy'):
-        return __make_comment_proxy.proxy
+def make_comment_proxy():
+    if hasattr(make_comment_proxy, 'proxy'):
+        return make_comment_proxy.proxy
     table_structs = app.config.get('COMMENT_TABLE_STRUCTS')
     table_structs = copy.deepcopy(table_structs)
     table_structs.pop('__tablename__')
     proxy = CommentProxy([key for key, value in table_structs.items()])
-    setattr(__make_comment_proxy, 'proxy', proxy)
+    setattr(make_comment_proxy, 'proxy', proxy)
     return proxy
 
 
@@ -283,7 +189,7 @@ def get_comment():
             'data' : {'comments': [ ]}
          }
     """
-    proxy = __make_comment_proxy()
+    proxy = make_comment_proxy()
     # args = request.args
     args = request.json
     if args:
@@ -295,6 +201,7 @@ def get_comment():
 
 @api.route(app.config.get('COMMENT_ADD_URL'),
            methods=app.config.get('COMMENT_ADD_METHODS'))
+@check_commentator_for_add_comment
 def add_comment():
     """
     添加评论接口，通过配置获取到的COMMENT_ADD_URL将会被路由到该函数，
@@ -306,13 +213,8 @@ def add_comment():
             'data' : {（None）}
          }
     """
-    proxy = __make_comment_proxy()
+    proxy = make_comment_proxy()
     args = request.json
-    if 'commentatorID' not in args:
-        if hasattr(current_user, 'userID'):
-            args['commentatorID'] = current_user.userID
-        else:
-            return jsonify(proxy.make_ret_json(0, 'The current user does not have a userID'))
     if args:
         ret = proxy.insert(args)
     else:
@@ -334,7 +236,7 @@ def delete_comment():
             'data' : {（None）}
          }
     """
-    proxy = __make_comment_proxy()
+    proxy = make_comment_proxy()
     args = request.json
     # args = request.args
     return jsonify(proxy.delete(args))
