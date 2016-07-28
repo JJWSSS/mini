@@ -39,7 +39,7 @@ class CommentAPITestCase(unittest.TestCase):
         for start_num in range(0, len(ret) + 100):
             result = self.proxy.query(start=start_num)
             if start_num < len(ret):
-                self.assertTrue(result[0]['commentID'] == (start_id + start_num))
+                self.assertTrue(result[0]['commentID'] == (ret[start_num]['commentID']))
             else:
                 self.assertFalse(len(result))
 
@@ -68,4 +68,16 @@ class CommentAPITestCase(unittest.TestCase):
         ret = self.proxy.insert(args)
         self.assertTrue(ret['status'])
 
+    def test_comment_delete(self):
+        args = {'commentatorID': 10, 'goodsID': 15, 'context': 'greate', 'commentID': 3}
+        combine_list = []
+        for num in range(1, len(args)):
+            combine_list.append(list(itertools.combinations(args, num)))
 
+        for list_args in combine_list:
+            for item in list_args:
+                delete_args = {}
+                for itemx in item:
+                    delete_args[itemx] = args[itemx]
+                ret = self.proxy.delete(delete_args)
+                self.assertTrue(ret['status'])
