@@ -233,7 +233,7 @@ class CommentProxy:
             message = str(e)
             logging.log(logging.DEBUG, 'from comments model: ' + message)
         if exp:
-            return self.make_ret_json(0, 'arguments error')
+            return self.make_ret_json(0, 'arguments error : ' + message)
         return self.make_ret_json(1, message)
 
     def delete(self, args):
