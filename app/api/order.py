@@ -25,7 +25,6 @@ def list_seller_orders():
         "data": {}
     '''
     object = request.json
-    # sellerID = object['userID']
     sellerID = current_user.userID
     begin = object['begin']
     limit = object['limit']
@@ -114,7 +113,6 @@ def list_seller_orders():
                 'data':{'orders':{}}
             }
         )
-
 
 @login_required
 @api.route('/list_buyer_orders', methods = ['POST'])
@@ -294,6 +292,17 @@ def create_order():
             }
         )
 
+    good = Good.query.filter(Good.goodID == neworderinfo['good_id']).first()
+    goodCount = good.freeCount
+    if neworderinfo['count'] > goodCount:
+        return jsonify(
+            {
+                'status': 4,
+                'message': 'Count Overflow',
+                'data': {}
+            }
+        )
+
     try:
         neworder = Order(
             goodID = neworderinfo['good_id'],
@@ -306,6 +315,7 @@ def create_order():
         )
         db.session.add(neworder)
         db.session.commit()
+        Good.query.filter(Good.goodID == neworderinfo['good_id']).update({'freeCount':goodCount-neworderinfo['count']})
 
         logging.log(logging.INFO, "Create Order Success(): {}".format(current_user.userName))
         return jsonify(
