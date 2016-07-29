@@ -107,7 +107,7 @@ def check_commentator_for_add_comment(add_comment_func):
         if 'commentatorID' not in args:
             if hasattr(current_user, 'userID'):
                 args['commentatorID'] = current_user.userID
-                add_comment_func()
+                return add_comment_func()
             else:
                 ret = proxy.make_ret_json(0, 'The current user does not have a userID')
                 return jsonify(ret)
