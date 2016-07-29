@@ -218,7 +218,7 @@ def delete_good():
         good = Good.query.get(request.json['good_id'])
         if not good:
             return jsonify({'status': -1, 'data': ['商品没有查到']})
-        #db.session.delete(good.comments)
+        # db.session.delete(good.comments)
         db.session.delete(good)
         return jsonify({'status': 1, 'data': ["没有comment"]})
     except KeyError as k:
@@ -243,7 +243,7 @@ def homepage_goods():
         objects = request.json
         goods_dict = dict()
         for i in range(10):
-            goods = Good.query.filter_by(type=i).order_by(Good.createDate.desc()).limit(objects['limit']).all()
+            goods = Good.query.filter(Good.type == i, Good.freeCount > 0).order_by(Good.createDate.desc()).limit(objects['limit']).all()
             goods_dict[str(i)] = [good.to_json() for good in goods]
         return jsonify({'status': 1, 'data': goods_dict})
     except KeyError as k:
