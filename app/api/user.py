@@ -4,7 +4,7 @@ from flask import request, jsonify, current_app
 from ..models import User
 from .. import db
 from flask_login import login_user, logout_user, login_required, current_user
-from ..models import generate_password_hash
+from ..models import generate_password_hash, check_password_hash
 import logging
 from werkzeug.utils import secure_filename
 import os
@@ -31,8 +31,11 @@ def register():
        "data"   : {}
     '''
     objects = request.json
-    password = objects["password"]
-    username = str(objects['username'])
+    try:
+        password = objects["password"]
+        username = str(objects['username'])
+    except KeyError as k:
+        return jsonify({'status': 0, 'data': ['JSON Param Not Match', k.args]})
     # Query if it exist
     beseen = db.session.query(User).filter_by(userName=username).first()
     # If The phone number had been Used, return failure
@@ -42,9 +45,11 @@ def register():
             "message" : "Register Fail, The username has been Used!",
             "data"   : {}
         })
+    head_photo = "/img/default/" + str(randint(1,5)) + ".png"
     try:
-        newuser = User(userName=username, password_hash=generate_password_hash(password), nickName=username)
+        newuser = User(userName=username, password_hash=generate_password_hash(password), nickName=username, picture=head_photo, compressPicture=head_photo)
         db.session.add(newuser)
+        db.session.commit()
     except Exception as e:
         # Database Or Internal Error
         logging.log(logging.ERROR, "Database Error Occure, details: {}".format(e.message))
@@ -53,7 +58,6 @@ def register():
             "message": "Unknown Error Occur in the Database Manage",
             "data": {}
         })
-    db.session.commit()
     logging.log(logging.INFO, "Register Success: username{}".format(username))
     return jsonify({
         "status" : 1,
@@ -74,8 +78,11 @@ def login():
         "data": {}
     '''
     objects = request.json
-    username = objects["username"]
-    password = objects["password"]
+    try:
+        username = objects["username"]
+        password = objects["password"]
+    except KeyError as k:
+        return jsonify({'status': 0, 'data': ['JSON Param Not Match', k.args]})
     # Fetch User's information From database
     person = User.query.filter_by(userName=username).first()
     if person :
@@ -94,10 +101,19 @@ def login():
         return jsonify({
             "status": 1,
             "message": "Login Success",
-            "data": {}
+            "data": {
+                "username": username,
+                "id": person.userID,
+                "nickname": person.nickName,
+                "email": person.email,
+                "isAuthenticated": person.isAuthenticated,
+                "qq": person.qq,
+                "picture": person.picture,
+                "compressPicture": person.compressPicture
+            }
         })
     else :
-        logging.log(logging.INFO, "Login Fail(Password): {}".format(username))
+        logging.log(logging.DEBUG, "Login Fail(Password): {}".format(username))
         return jsonify({
             "status": 2,
             "message": "Login Failure, Password is Wrong",
@@ -126,40 +142,111 @@ def logout():
 # reset user's password
 # TODO
 @api.route('/reset', methods=['POST'])
-def reset_passwd():
+def reset_password():
     '''
-    reset password without login
-    :param:    [JSON]
-
-    :return:   [JSON]
-        "status" : 0,
-        "message" : "",
-        "data": {}
-    '''
+        logout
+        :param:    [JSON]
+            "username",
+            "oldpasswd",
+            "newpasswd"
+        :return:    [JSON]
+            "status" : 0,
+            "message" : "reset Successful",
+            "data"   : {}
+        '''
     objects = request.json
-    username  = objects["username"]
-    newpasswd = objects["password"]
+    try:
+        username = objects['username']
+        oldpasswd = objects['oldpasswd']
+        newpasswd = objects['newpasswd']
+    except KeyError as k:
+        return jsonify({'status': 0, 'data': ['JSON Param Not Match', k.args]})
     person = User.query.filter_by(userName=username).first()
-    if person :
-        try:
-            person.password_hash = generate_password_hash(newpasswd)
-            db.session.commit()
-        except Exception as e:
-            # logging
-            logging.log(logging.ERROR, "reset password({}) Fail: Database or Internal ERROR".format(username))
+    if person:
+        # Check For Password
+        if check_password_hash(person.password_hash, oldpasswd) :
+            hash_passwd = generate_password_hash(newpasswd)
+            # Exception Solution
+            for i in range(0, 3):
+                try:
+                    person.password_hash = hash_passwd
+                    db.session.commit()
+                    break
+                except:
+                    # logging
+                    db.session.rollback()
+                    db.session.remove()
+                    if i is 2 :
+                        return jsonify({
+                            "status": 2,
+                            "message": "Something Error Occur With Database",
+                            "data": {}
+                        })
+        else:
+            # Error : Old PassWord is Wrong
             return jsonify({
-                "status": 2,
-                "message": "Something Error Occur With Database",
+                "status": 0,
+                "message": "Password Is Error",
                 "data": {}
             })
     else:
-        logging.log(logging.INFO, "reset password({}) Fail: Not Such username".format(username))
+        # Error: No such User
+        return jsonify({
+            "status": 0,
+            "message": "Not such User",
+            "data": {}
+        })
+    # Success
+    return jsonify({
+        "status": 1,
+        "message": "Reset Successful",
+        "data": {}
+    })
+
+
+@api.route('/forget', methods=['POST'])
+@login_required
+def forget_passwd():
+    '''
+        logout
+        :param:    [JSON]
+            "username",
+            "newpasswd"
+        :return:    [JSON]
+            "status" : 0,
+            "message" : "reset Successful",
+            "data"   : {}
+        '''
+    objects = request.json
+    try:
+        username  = objects["username"]
+        newpasswd = objects["password"]
+    except KeyError as k:
+        return jsonify({'status': 0, 'data': ['JSON Param Not Match', k.args]})
+    person = User.query.filter_by(userName=username).first()
+    if person :
+        for i in range(0, 3):
+            try:
+                person.password_hash = generate_password_hash(newpasswd)
+                db.session.commit()
+                break
+            except Exception as e:
+                logging.log(logging.WARNING, "Error Occur With Database, [ {} ]".format(e.message))
+                db.session.rollback()
+                db.session.remove()
+                if i is 2 :
+                    return jsonify({
+                        "status": 2,
+                        "message": "Something Error Occur With Database",
+                        "data": {}
+                    })
+    # No such USer
+    else:
         return jsonify({
             "status": 0,
             "message": "reset Password Fail! Username is Wrong",
             "data": {}
         })
-    logging.log(logging.INFO, "reset password({}): Success".format(username))
     return jsonify({
         "status": 1,
         "message": "reset Success",
@@ -181,7 +268,10 @@ def comfirm():
     '''
     objects = request.json
     username  = current_user.userName
-    email = objects['email']
+    try:
+        email = objects['email']
+    except KeyError as k:
+        return jsonify({'status': 0, 'data': ['JSON Param Not Match', k.args]})
     # Fetch User's Information From database
     user = User.query.filter_by(userName=username).first()
     if user :
@@ -195,16 +285,26 @@ def comfirm():
         })
     #db.session.commit()
     # TODO Send Active E-amil
-    try:
-        user.isAuthenticated = True
-        db.session.commit()
-    except:
-        logging.log(logging.ERROR, "comfirm ({}) Fail: Database or Internal Error".format(username))
+    user.isAuthenticated = True
+    for i in range(0,3):
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
+            db.session.remove()
+            logging.log(logging.ERROR, "comfirm ({}) Fail: Database or Internal Error".format(username))
+            if i is 2:
+                return jsonify({
+                    "status": 2,
+                    "message": "Something Error Occur With Database",
+                    "data": {}
+                })
+
     logging.log(logging.INFO, "comfirm({}): Success".format(username))
     return jsonify({
-            "status" : 1,
-            "message" : "Confirm Success",
-            "data": {}
+        "status" : 1,
+        "message" : "Confirm Success",
+        "data": {}
     })
 
 def user_info(userid):
@@ -293,9 +393,12 @@ def update_user_info():
     '''
     objects = request.json
     username = current_user.userName
-    nickname = objects["nickname"]
-    picture = objects["picture_url"]
-    compressPicture = objects["compressPicture_url"]
+    try:
+        nickname = objects["nickname"]
+        picture = objects["picture_url"]
+        compressPicture = objects["compressPicture_url"]
+    except KeyError as k:
+        return jsonify({'status': 0, 'data': ['JSON Param Not Match', k.args]})
     result = User.query.filter_by(userName=username).first()
     if result:
         if result.isAuthenticated is False :
@@ -305,13 +408,23 @@ def update_user_info():
                 "message": "Update User Fail!, The user has no Auth",
                 "data" : {}
             })
-        try:
-            result.nickName = nickname
-            result.picture = picture
-            result.compressPicture = compressPicture
-            db.session.commit()
-        except Exception as e:
-            logging.log(logging.ERROR, "Update User Information ({}) Fail: Database or Internal Error".format(username))
+        for i in range(0, 3):
+            try:
+                result.nickName = nickname
+                result.picture = picture
+                result.compressPicture = compressPicture
+                db.session.commit()
+            except Exception as e:
+                db.session.rollback()
+                db.session.remove()
+                logging.log(logging.ERROR, "Update User Information ({}) Fail: Database or Internal Error".format(username))
+                if i is 2:
+                    return jsonify({
+                        "status": 2,
+                        "message": "Something Error Occur With Database",
+                        "data": {}
+                    })
+    # No Such User
     else :
         logging.log(logging.INFO, "Update User Information ({}) Fail: No such User".format(username))
         return jsonify({
@@ -319,13 +432,13 @@ def update_user_info():
             "message": "Update User Fail!, Not such User",
             "data" : {}
         })
-    logging.log(logging.INFO, "Update User Information ({}): Success".format(username))
+
+    logging.log(logging.DEBUG, "Update User Information ({}): Success".format(username))
     return jsonify({
         "status" : 1,
         "message" : "Update User Success!",
         "data" : {}
     })
-
 
 @api.route('/active', methods=['GET'])
 def is_it_active():
@@ -351,7 +464,11 @@ def is_it_active():
             "data": {
                 "id"       : current_user.userID,
                 "nickname" : current_user.nickName,
-                "isAuth"   : current_user.isAuthenticated
+                "isAuth"   : current_user.isAuthenticated,
+                "username" : current_user.userName,
+                "email"    : current_user.email,
+                "qq"       : current_user.qq,
+                "compressPicture": current_user.compressPicture
             }
         })
 
@@ -368,16 +485,37 @@ def user_photo():
             compress_url = os.path.join(current_app.config['UPLOAD_FOLDER'],
                                         ('compress_'+str(randint(1, 100))+filename))
             im.save(compress_url)
-            return jsonify({'status': 1, 'data': {'picture': url, 'compressPicture': compress_url}})
+            return jsonify({
+                'status': 1,
+                'data': {
+                    'picture': url,
+                    'compressPicture': compress_url
+                }
+            })
         elif not file:
-            return jsonify({'status': -2, 'data': '文件为空'})
+            return jsonify({
+                'status': -2,
+                'data': '文件为空'
+            })
         else:
-            return jsonify({'status': -3, 'data': '文件名后缀不符合要求'})
+            return jsonify({
+                'status': -3,
+                'data': '文件名后缀不符合要求'
+                })
     except KeyError as k:
-        return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
+        return jsonify({
+            'status': 0,
+            'data': ['json参数不对', k.args]
+        })
     except FileNotFoundError as f:
-        return jsonify({'status': -1, 'data': ['文件夹没有创建或路径不对', f.args]})
+        return jsonify({
+            'status': -1,
+            'data': ['文件夹没有创建或路径不对', f.args]
+        })
     except Exception as e:
-        return jsonify({'status': -2, 'data': ['未知错误', e.args]})
+        return jsonify({
+            'status': -2,
+            'data': ['未知错误', e.args]
+        })
 
 

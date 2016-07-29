@@ -7,6 +7,7 @@ from flask import request,jsonify
 from ..models import User,Order,Good
 from flask_login import current_user,login_required
 import logging
+from sqlalchemy import and_,or_
 
 
 @login_required
@@ -24,10 +25,9 @@ def list_seller_orders():
         "data": {}
     '''
     object = request.json
-    # sellerID = object['userID']
     sellerID = current_user.userID
-    start = object['begin']
-    stop = start + object['count'] - 1
+    begin = object['begin']
+    limit = object['limit']
     status = object['status']
 
     if not sellerID:
@@ -35,13 +35,25 @@ def list_seller_orders():
         return jsonify(
             {
                 'status' : 0,
-                'message' : 'Fail: User Not Login'
+                'message' : 'Fail: User Not Login',
+                'data':{'orders':{}}
             }
         )
 
 
     try:
-        ordersID = Order.query.filter(sellerID == Order.sellerID, status == Order.status).slice(start,stop).all()
+        if status == 4:
+            ordersID = Order.query.filter(sellerID == Order.sellerID).offset(begin).limit(limit).all()
+        elif status == 5:
+            ordersID = Order.query.filter(or_(Order.sellerID == sellerID,Order.buyerID == sellerID)).offset(begin).limit(limit).all()
+        elif status == 6:
+            ordersID = Order.query.filter(and_(or_(Order.status == 0,Order.status == 1,Order.status == 2),or_(Order.sellerID == sellerID,Order.buyerID == sellerID))).offset(begin).limit(limit).all()
+        elif status == 7:
+            ordersID = Order.query.filter(and_(Order.status == 3, or_(Order.sellerID == sellerID,Order.buyerID == sellerID))).offset(begin).limit(limit).all()
+        else:
+            ordersID = Order.query.filter(sellerID == Order.sellerID, status == Order.status).offset(begin).limit(limit).all()
+
+        print(Order.query.filter(Order.sellerID == 2).count())
 
         if not ordersID:
             logging.log(logging.INFO, "Get Orderlist Fail(No Order): {}".format(current_user.userName))
@@ -49,7 +61,7 @@ def list_seller_orders():
                 {
                     'status': 2,
                     'message': 'Fail: No order',
-                    'data': {}
+                    'data':{'orders':{}}
                 }
             )
     except:
@@ -58,7 +70,7 @@ def list_seller_orders():
             {
                 'status' : 3,
                 'message': 'Fail: Database Error',
-                'data':{}
+                'data':{'orders':{}}
             }
         )
 
@@ -78,7 +90,7 @@ def list_seller_orders():
                 'status': orderdetail.status
             }
             good = Good.query.filter(Good.goodID == orderinfo['good_id']).first()
-            orderinfo = dict(orderinfo,**{'goodName':good.goodName})
+            orderinfo = dict(orderinfo,**{'goodName':good.goodName, 'compressImage':good.compressImage})
             user = User.query.filter(User.userID == orderinfo['sellerID']).first()
             orderinfo = dict(orderinfo,**{'userName':user.userName})
             orderlist.append(orderinfo)
@@ -89,7 +101,7 @@ def list_seller_orders():
             {
                 'status' : 1,
                 'message' : 'Success',
-                'data' : orderlist
+                'data' : {'orders':orderlist}
             }
         )
     except:
@@ -98,10 +110,9 @@ def list_seller_orders():
             {
                 'status': 3,
                 'message': 'Fail: Database Error',
-                'data': {}
+                'data':{'orders':{}}
             }
         )
-
 
 @login_required
 @api.route('/list_buyer_orders', methods = ['POST'])
@@ -119,8 +130,8 @@ def list_buyer_orders():
     '''
     object = request.json
     buyerID = current_user.userID
-    start = object['begin']
-    stop = start + object['count'] - 1
+    begin = object['begin']
+    limit = object['limit']
     status = object['status']
     if not buyerID:
         logging.log(logging.INFO, "Get Orderlist Fail(Not Login): {}".format(current_user.userName))
@@ -128,19 +139,22 @@ def list_buyer_orders():
             {
                 'status' : 0,
                 'message' : 'Fail: User Not Login',
-                'data':{}
+                'data':{'orders':{}}
             }
         )
 
     try:
-        ordersID = Order.query.filter(buyerID == Order.buyerID and status == Order.status).slice(start,stop).all()
+        if status == 4:
+            ordersID = Order.query.filter(buyerID == Order.buyerID).offset(begin).limit(limit).all()
+        else:
+            ordersID = Order.query.filter(buyerID == Order.buyerID, status == Order.status).offset(begin).limit(limit).all()
         if not ordersID:
             logging.log(logging.INFO, "Get Orderlist Fail(No Order): {}".format(current_user.userName))
             return jsonify(
                 {
                     'status' : 2,
                     'message' : 'Fail: No Order',
-                    'data':{}
+                    'data':{'orders':{}}
                 }
             )
     except:
@@ -149,7 +163,7 @@ def list_buyer_orders():
             {
                 'status': 3,
                 'message': 'Fail: Database Error',
-                'data': {}
+                'data':{'orders':{}}
             }
         )
 
@@ -169,7 +183,7 @@ def list_buyer_orders():
                 'status': orderdetail.status
             }
             good = Good.query.filter(Good.goodID == orderinfo['good_id']).first()
-            orderinfo = dict(orderinfo,**{'goodName':good.goodName})
+            orderinfo = dict(orderinfo,**{'goodName':good.goodName, 'compressImage':good.compressImage})
             user = User.query.filter(User.userID == orderinfo['buyerID']).first()
             orderinfo = dict(orderinfo,**{'userName':user.userName})
             orderlist.append(orderinfo)
@@ -179,7 +193,7 @@ def list_buyer_orders():
             {
                 'status' : 1,
                 'message' : 'Success',
-                'data': orderlist
+                'data' : {'orders':orderlist}
             }
         )
     except:
@@ -188,10 +202,9 @@ def list_buyer_orders():
             {
                 'status': 3,
                 'message': 'Fail: Database Error',
-                'data': {}
+                'data':{'orders':{}}
             }
         )
-
 
 @login_required
 @api.route('/get_order_detail', methods = ['POST'])
@@ -257,7 +270,6 @@ def create_order():
     创建新订单
     :param:     [JSON]
         "good_id"
-        "buyerID"
         "sellerID"
         "count"
     :return:    [JSON]
@@ -268,6 +280,7 @@ def create_order():
 
     neworderinfo = request.json
     timenow = datetime.utcnow()
+    neworderinfo['buyerID'] = current_user.userID
 
     if neworderinfo['sellerID'] == neworderinfo['buyerID']:
         logging.log(logging.INFO, "Create Order Fail(Same User): {}".format(current_user.userName))
@@ -275,6 +288,17 @@ def create_order():
             {
                 'status': 2,
                 'message': 'Same Seller and Buyer',
+                'data': {}
+            }
+        )
+
+    good = Good.query.filter(Good.goodID == neworderinfo['good_id']).first()
+    goodCount = good.freeCount
+    if neworderinfo['count'] > goodCount:
+        return jsonify(
+            {
+                'status': 4,
+                'message': 'Count Overflow',
                 'data': {}
             }
         )
@@ -291,13 +315,14 @@ def create_order():
         )
         db.session.add(neworder)
         db.session.commit()
+        Good.query.filter(Good.goodID == neworderinfo['good_id']).update({'freeCount':goodCount-neworderinfo['count']})
 
         logging.log(logging.INFO, "Create Order Success(): {}".format(current_user.userName))
         return jsonify(
             {
                 'status': 1,
                 'message': 'Success',
-                'data':{}
+                'data':{'orderID':neworder.orderID}
             }
         )
 
@@ -316,7 +341,7 @@ def create_order():
 @api.route('/confirm_order',methods = ['POST'])
 def confirm_order():
     '''
-    创建新订单
+    确认订单
     :param:     [JSON]
         "orderID"
     :return:    [JSON]
@@ -335,7 +360,7 @@ def confirm_order():
         order = Order.query.filter(Order.orderID == orderID).first()
         if not order:
             logging.log(logging.INFO, "Confirm Order Fail(No Order): {}".format(current_user.userName))
-            return (
+            return jsonify(
                 {
                     'status':2,
                     'message': 'No Such Order',
