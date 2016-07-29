@@ -36,24 +36,24 @@ def get_goods():
         if userid:
             if type != -1:
                 if limit:
-                    goods = Good.query.filter_by(sellerID=userid, type=type).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
+                    goods = Good.query.filter(Good.sellerID == userid, Good.type == type, Good.freeCount > 0).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
                 else:
-                    goods = Good.query.filter_by(sellerID=userid, type=type).order_by(Good.createDate.desc()).offset(begin).all()
+                    goods = Good.query.filter(Good.sellerID == userid, Good.type == type, Good.freeCount > 0).order_by(Good.createDate.desc()).offset(begin).all()
             elif limit:
-                goods = Good.query.filter_by(sellerID=userid).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
+                goods = Good.query.filter(Good.sellerID == userid, Good.freeCount > 0).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
             else:
-                goods = Good.query.filter_by(sellerID=userid).order_by(Good.createDate.desc()).offset(begin).all()
+                goods = Good.query.filter(Good.sellerID == userid, Good.freeCount > 0).order_by(Good.createDate.desc()).offset(begin).all()
         elif type != -1:
             if limit:
-                goods = Good.query.filter_by(type=type).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
+                goods = Good.query.filter(Good.type == type, Good.freeCount > 0).order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
             else:
-                goods = Good.query.filter_by(type=type).order_by(Good.createDate.desc()).offset(begin).all()
+                goods = Good.query.filter_by(Good.type == type, Good.freeCount > 0).order_by(Good.createDate.desc()).offset(begin).all()
         else:
             if limit:
                 goods = Good.query.order_by(Good.createDate.desc()).offset(begin).limit(limit).all()
             else:
                 goods = Good.query.order_by(Good.createDate.desc()).offset(begin).all()
-        return jsonify({'status': 1, 'data': {'goods': [good.to_json() for good in goods if good.freeCount > 0]}})
+        return jsonify({'status': 1, 'data': {'goods': [good.to_json() for good in goods]}})
     except KeyError as k:
         return jsonify({'status': 0, 'data': ['json参数不对', k.args]})
     except AttributeError as a:
@@ -152,7 +152,7 @@ def new_photo():
             url = os.path.join(current_app.config['UPLOAD_FOLDER'], (str(randint(1, 100))+filename))
             file.save(url)
             im = Image.open(url)
-            im.thumbnail((200, 200))
+            im.thumbnail((300, 300))
             compress_url = os.path.join(current_app.config['UPLOAD_FOLDER'],
                                         ('compress_'+str(randint(1, 100))+filename))
             im.save(compress_url)
@@ -218,7 +218,7 @@ def delete_good():
         good = Good.query.get(request.json['good_id'])
         if not good:
             return jsonify({'status': -1, 'data': ['商品没有查到']})
-        db.session.delete(good.comments)
+        #db.session.delete(good.comments)
         db.session.delete(good)
         return jsonify({'status': 1, 'data': ["没有comment"]})
     except KeyError as k:

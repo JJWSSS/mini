@@ -186,13 +186,13 @@ class Good(db.Model):
     description = db.Column(db.Text, nullable=False)
     image = db.Column(db.Text, nullable=False)
     compressImage = db.Column(db.Text, nullable=False)
-    contact_tel = db.Column(db.String(16), nullable=False)
+    contact_tel = db.Column(db.Integer, nullable=False)
     contact_qq = db.Column(db.Integer, nullable=False)
     contact_wechat = db.Column(db.String(64), nullable=False)
     type = db.Column(db.Integer, nullable=False)
     orders = db.relationship('Order', backref='good', lazy='dynamic')
     comments = db.relationship('Comment', backref='good', lazy='dynamic')
-    price = db.Column(db.Float, nullable=False)
+    price = db.Column(db.Integer, nullable=False)
     poster = db.Column(db.String(128), nullable=False)
     address = db.Column(db.String(128), nullable=False)
     times = db.Column(db.Integer, default=0)
@@ -237,7 +237,7 @@ class Good(db.Model):
 
 
 class Comment(db.Model):
-    __tablename__= 'comments'
+    __tablename__ = 'comments'
     commentID = db.Column(db.Integer, primary_key=True, index=True)
     goodsID = db.Column(db.Integer, db.ForeignKey('goods.goodID'))
     commentatorID = db.Column(db.Integer, db.ForeignKey('users.userID'))
@@ -245,13 +245,13 @@ class Comment(db.Model):
     status = db.Column(db.Integer, default=0)
     commitTime = db.Column(db.DateTime, default=datetime.utcnow)
 
-
 """
 class DescOfQurey:
     def __get__(self, instance, owner):
         if hasattr(owner, 'Model'):
             return owner.Model.query
-        Model = type('Comment', (db.Model,), current_app.config.get('COMMENT_TABLE_STRUCTS'))
+        Model = type('Comment', (db.Model,),
+                     current_app.config.get('COMMENT_TABLE_STRUCTS'))
         setattr(owner, 'Model', Model)
         setattr(owner, 'query', Model.query)
         return Model.query
@@ -264,7 +264,8 @@ class Comment:
         if hasattr(cls, 'Model'):
             return cls.Model(*args, **kwargs)
 
-        Model = type('Comment', (db.Model,), current_app.config.get('COMMENT_TABLE_STRUCTS'))
+        Model = type('Comment', (db.Model,),
+                     current_app.config.get('COMMENT_TABLE_STRUCTS'))
         setattr(cls, 'Model', Model)
         return Model(*args,  **kwargs)
 """
