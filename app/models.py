@@ -235,7 +235,7 @@ class Good(db.Model):
             db.session.add(g)
             db.session.commit()
 
-"""
+
 class Comment(db.Model):
     __tablename__ = 'comments'
     commentID = db.Column(db.Integer, primary_key=True, index=True)
@@ -244,9 +244,8 @@ class Comment(db.Model):
     context = db.Column(db.String(512), nullable=False)
     status = db.Column(db.Integer, default=0)
     commitTime = db.Column(db.DateTime, default=datetime.utcnow)
+
 """
-
-
 class DescOfQurey:
     def __get__(self, instance, owner):
         if hasattr(owner, 'Model'):
@@ -269,6 +268,7 @@ class Comment:
                      current_app.config.get('COMMENT_TABLE_STRUCTS'))
         setattr(cls, 'Model', Model)
         return Model(*args,  **kwargs)
+"""
 
 
 class AnonymousUser(AnonymousUserMixin):
