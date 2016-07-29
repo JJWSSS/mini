@@ -33,7 +33,11 @@ class DevelopmentConfig(Config):
 class CommentTestConfig(Config):
     DEBUG = True
 <<<<<<< HEAD
+<<<<<<< HEAD
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://jjw:101023@localhost/mini'
+=======
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:lee@localhost/TEST'
+>>>>>>> origin/master
 =======
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:lee@localhost/TEST'
 >>>>>>> origin/master
