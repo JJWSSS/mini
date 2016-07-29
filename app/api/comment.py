@@ -14,7 +14,7 @@ from flask_login import current_user
 
 # bug 封印，此封印可以将 '插入一条无goodsID无commentatorID的评论' 之bug 封印
 # 用法：作为装饰器装饰CommentProxy.insert方法
-# 2016-07-28 brooksli
+# 2016-07-28 
 def check_args_for_insert(insertor):
     @wraps(insertor)
     def __do_check(self, args):
